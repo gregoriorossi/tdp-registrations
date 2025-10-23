@@ -1,5 +1,7 @@
-﻿using TDPRegistrations.Core.Interfaces;
+﻿using TDPRegistrations.Core.Interfaces.Repositories;
+using TDPRegistrations.Core.Interfaces.Services;
 using TDPRegistrations.Infrastracture.Repositories;
+using TDPRegistrations.Infrastracture.Services;
 
 namespace TDPRegistrationsAPI.Web.Extensions
 {
@@ -8,6 +10,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
         public static IServiceCollection RegisterService(this IServiceCollection services)
         {
             #region Services
+            services.AddScoped<IFormService, FormServices>();
             #endregion
 
             #region Repositories

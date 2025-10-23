@@ -1,4 +1,6 @@
-﻿using TDPRegistrations.Core.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Threading;
+using TDPRegistrations.Core.Interfaces.Repositories;
 using TDPRegistrations.Core.Models;
 using TDPRegistrations.Infrastracture.Data;
 
@@ -13,37 +15,43 @@ namespace TDPRegistrations.Infrastracture.Repositories
             _appDbContext = dbContext;
         }
 
-        public Task<Form> Create(Form model)
+        public async Task<Form> Create(Form model, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _appDbContext.Forms.AddAsync(model);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+            return model;
         }
 
-        public Task Delete(Form model)
+        public async Task Delete(Form model, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            _appDbContext.Forms.Remove(model);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public Task<IEnumerable<Form>> GetAllAsync()
+        public async Task<IEnumerable<FormLight>> GetAllAsync(CancellationToken cancellationToken)
         {
-            // solo i campi di base
-            //return _appDbContext.Forms
-            //        .Select(f => f.)
-            throw new NotImplementedException();
+            return await _appDbContext.Forms
+                    .Select(f => new FormLight
+                    {
+                        Id = f.Id,
+                        Title = f.Title,
+                        DateCreated = f.DateCreated
+
+                    })
+                    .OrderByDescending(f => f.DateCreated)
+                    .ToListAsync(cancellationToken);
         }
 
-        public Task<Form> GetByIdAsync(Guid id)
+        public async Task<Form?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var result = await _appDbContext.Forms.FirstOrDefaultAsync(f => f.Id == id);
+            return result;
         }
 
-        public Task SaveChange(Form model)
+        public async Task Update(Form model, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task Update(Form model)
-        {
-            throw new NotImplementedException();
+            _appDbContext.Forms.Update(model);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }
