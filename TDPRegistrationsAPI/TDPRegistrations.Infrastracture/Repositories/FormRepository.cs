@@ -35,8 +35,8 @@ namespace TDPRegistrations.Infrastracture.Repositories
                     {
                         Id = f.Id,
                         Title = f.Title,
-                        DateCreated = f.DateCreated
-
+                        DateCreated = f.DateCreated,
+                        Slug = f.Slug,
                     })
                     .OrderByDescending(f => f.DateCreated)
                     .ToListAsync(cancellationToken);

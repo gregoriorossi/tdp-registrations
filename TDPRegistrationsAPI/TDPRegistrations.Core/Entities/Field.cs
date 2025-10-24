@@ -10,6 +10,7 @@ namespace TDPRegistrations.Core.Models
         public string Description { get; set; } = string.Empty;
         public FieldTypes Type {  get; set; }
         public bool IsMandatory  { get; set; }
+        public int Order { get; set; }
         public List<FieldOption> Options { get; set; } = [];
     }
 }

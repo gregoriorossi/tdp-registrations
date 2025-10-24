@@ -5,7 +5,7 @@ namespace TDPRegistrations.Core.Models
     public class BaseModel<T>
     {
         [Key]
-        public required T Id { get; set; }
+        public T Id { get; set; }
 
         public DateTime DateCreated { get; set; }
 
