@@ -2,6 +2,7 @@
 using TDPRegistrations.Core.Errors;
 using TDPRegistrations.Core.Interfaces.Services;
 using TDPRegistrations.Core.Models;
+using TDPRegistrationsAPI.Web.Constants;
 using TDPRegistrationsAPI.Web.Mappers;
 using TDPRegistrationsAPI.Web.ViewModels;
 using TDPRegistrationsAPI.Web.ViewModels.Requests;
@@ -10,7 +11,7 @@ namespace TDPRegistrationsAPI.Web.Controllers
 {
     // solo per admin
     [ApiController]
-    [Route("[controller]")]
+    [Route(Consts.DefaultApiRoute)]
     public class FormsController : ControllerBase
     {
         private readonly IFormService _formService;
@@ -48,13 +49,13 @@ namespace TDPRegistrationsAPI.Web.Controllers
             }
 
             Form form = ViewModelToEntity.AddFormVMToForm(model);
-            bool isSlugAvailable = await _formService.IsSlugAvailable(form, cancellationToken);
+            bool isSlugAvailable = await _formService.IsSlugAvailableAsync(form, cancellationToken);
             if (!isSlugAvailable)
             {
                 return Ok(Result<Form>.Failure(FormErrors.SlugNotAvailable));
             }
 
-            var result = await _formService.Create(form, cancellationToken);
+            var result = await _formService.CreateAsync(form, cancellationToken);
             return Ok(Result<Form>.Success(form));
         }
 
@@ -68,21 +69,19 @@ namespace TDPRegistrationsAPI.Web.Controllers
 
             Form form = ViewModelToEntity.UpdateFormVMToForm(model);
 
-            var formResult = await _formService.GetByIdAsync(form.Id, cancellationToken);
-            bool formExists = formResult != null;
-
+            bool formExists = await _formService.FormExists(form.Id, cancellationToken);
             if (!formExists)
             {
                 return Ok(Result<Form>.Failure(FormErrors.NotFound));
             }
 
-            bool isSlugAvailable = await _formService.IsSlugAvailable(form, cancellationToken);
+            bool isSlugAvailable = await _formService.IsSlugAvailableAsync(form, cancellationToken);
             if (!isSlugAvailable)
             {
                 return Ok(Result<Form>.Failure(FormErrors.SlugNotAvailable));
             }
 
-            var result = await _formService.Update(form, cancellationToken);
+            var result = await _formService.UpdateAsync(form, cancellationToken);
             return Ok(Result<Form>.Success(form));
         }
     }

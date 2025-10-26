@@ -13,9 +13,9 @@ namespace TDPRegistrations.Infrastracture.Services
             _formRepository = formRepository;
         }
 
-        public async Task<Form> Create(Form form, CancellationToken cancellationToken)
+        public async Task<Form> CreateAsync(Form form, CancellationToken cancellationToken)
         {
-            var result = await _formRepository.Create(form, cancellationToken);
+            var result = await _formRepository.CreateAsync(form, cancellationToken);
             return result;
         }
 
@@ -29,24 +29,45 @@ namespace TDPRegistrations.Infrastracture.Services
             return await _formRepository.GetByIdAsync(id, cancellationToken);
         }
 
-        public async Task<bool> IsSlugAvailable(Form form, CancellationToken cancellationToken)
+        public async Task<bool> IsSlugAvailableAsync(Form form, CancellationToken cancellationToken)
         {
             var forms = await _formRepository.GetAllAsync(cancellationToken);
             bool slugExists = forms.Any(f => f.Slug == form.Slug && f.Id != form.Id);
             return !slugExists;
         }
 
-        public async Task<Form> Update(Form form, CancellationToken cancellationToken)
+        public async Task<Form> UpdateAsync(Form form, CancellationToken cancellationToken)
         {
-            await _formRepository.Update(form, cancellationToken);
+            await _formRepository.UpdateAsync(form, cancellationToken);
             return form;
         }
 
-
-        public Task<Field> AddField(Field field, Guid formId, CancellationToken cancellationToken)
+        public async Task<Field> AddFieldAsync(Field field, Guid formId, CancellationToken cancellationToken)
         {
-            // calcolare l'ordine del campo
-            throw new NotImplementedException();
+            var formFields = await GetFieldsAsync(formId, cancellationToken);
+            var lastFormField = formFields.OrderByDescending(f => f.Order).FirstOrDefault();
+
+            int order = lastFormField == null ? 1 : lastFormField.Order + 1;
+            field.Order = order;
+
+            Form form = await _formRepository.GetByIdAsync(formId, cancellationToken);
+            form.Fields.Add(field);
+
+            await _formRepository.SaveChangeAsync(cancellationToken);
+
+            return field;
+        }
+
+        public async Task<IEnumerable<Field>> GetFieldsAsync(Guid formId, CancellationToken cancellationToken)
+        {
+            var fields = await _formRepository.GetFieldsAsync(formId, cancellationToken);
+            return fields;
+        }
+
+        public async Task<bool> FormExists(Guid id, CancellationToken cancellationToken)
+        {
+            Form? result = await _formRepository.GetByIdAsync(id, cancellationToken);
+            return result != null;
         }
     }
 }

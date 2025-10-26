@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Threading;
 using TDPRegistrations.Core.Interfaces.Repositories;
 using TDPRegistrations.Core.Models;
 using TDPRegistrations.Infrastracture.Data;
@@ -15,14 +14,14 @@ namespace TDPRegistrations.Infrastracture.Repositories
             _appDbContext = dbContext;
         }
 
-        public async Task<Form> Create(Form model, CancellationToken cancellationToken)
+        public async Task<Form> CreateAsync(Form model, CancellationToken cancellationToken)
         {
             await _appDbContext.Forms.AddAsync(model);
             await _appDbContext.SaveChangesAsync(cancellationToken);
             return model;
         }
 
-        public async Task Delete(Form model, CancellationToken cancellationToken)
+        public async Task DeleteAsync(Form model, CancellationToken cancellationToken)
         {
             _appDbContext.Forms.Remove(model);
             await _appDbContext.SaveChangesAsync(cancellationToken);
@@ -48,9 +47,22 @@ namespace TDPRegistrations.Infrastracture.Repositories
             return result;
         }
 
-        public async Task Update(Form model, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Field>> GetFieldsAsync(Guid formId, CancellationToken cancellationToken)
+        {
+            var result = await _appDbContext.Fields
+                .Where(f => f.Id == formId)
+                .ToListAsync();
+            return result;
+        }
+
+        public async Task UpdateAsync(Form model, CancellationToken cancellationToken)
         {
             _appDbContext.Forms.Update(model);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task SaveChangeAsync(CancellationToken cancellationToken)
+        {
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
     }

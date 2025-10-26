@@ -6,6 +6,8 @@
         NUMBER,
         DATETIME,
         SINGLE_CHOICE,
-        MULTIPLE_CHOICE
+        MULTIPLE_CHOICE,
+        EMAIL,
+        TELEPHONE_NUMBER
     }
 }

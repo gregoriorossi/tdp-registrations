@@ -1,4 +1,5 @@
-﻿using TDPRegistrations.Core.Models;
+﻿using TDPRegistrations.Core.Enums;
+using TDPRegistrations.Core.Models;
 using TDPRegistrationsAPI.Web.Helpers;
 using TDPRegistrationsAPI.Web.ViewModels.Requests;
 
@@ -42,8 +43,31 @@ namespace TDPRegistrationsAPI.Web.Mappers
                 Label = model.Label,
                 Description = model.Description,
                 IsMandatory = model.IsMandatory,
-                //Type = model.Type // TODO fare il mapping
+                Type = ToFieldType(model.Type)
             };
+        }
+
+        private static FieldTypes ToFieldType(string type)
+        {
+            switch (type)
+            {
+                case "TEXT":
+                    return FieldTypes.TEXT;
+                case "NUMBER":
+                    return FieldTypes.NUMBER;
+                case "DATETIME":
+                    return FieldTypes.DATETIME;
+                case "SINGLE_CHOICE":
+                    return FieldTypes.SINGLE_CHOICE;
+                case "MULTIPLE_CHOICE":
+                    return FieldTypes.MULTIPLE_CHOICE;
+                case "EMAIL":
+                    return FieldTypes.EMAIL;
+                case "TELEPHONE_NUMBER":
+                    return FieldTypes.TELEPHONE_NUMBER;
+                default:
+                    return FieldTypes.TEXT;
+            }
         }
     }
 }
