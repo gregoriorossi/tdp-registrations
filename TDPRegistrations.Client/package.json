@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "scss:types": "typed-scss-modules src --exportType default --camelCase"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -28,6 +29,8 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
+    "sass-embedded": "^1.93.2",
+    "typed-scss-modules": "^8.1.1",
     "vite": "^7.1.7"
   }
 }
