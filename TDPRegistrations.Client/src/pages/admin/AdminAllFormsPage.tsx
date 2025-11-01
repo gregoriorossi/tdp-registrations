@@ -8,6 +8,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import styles from "../../App.module.scss";
+import { Link } from "react-router-dom";
+import api from "../../api/axios";
+import { TDPEndpoints } from "../../consts/api.consts";
 
 const forms = [
 	{
@@ -47,7 +50,7 @@ export function AdminAllFormsPage() {
 	}
 
 	const onDeleteClick = (): void => {
-
+		api.post(TDPEndpoints.Forms.Delete('test'));
 	}
 
 	return (
@@ -72,8 +75,8 @@ export function AdminAllFormsPage() {
 					</TableHead>
 					<TableBody>
 						{
-							forms.map((form) => (
-								<TableRow>
+							forms.map((form, idx) => (
+								<TableRow key={idx}>
 									<TableCell>{form.Title}</TableCell>
 									<TableCell>{form.Date}</TableCell>
 									<TableCell>{form.IsActive
@@ -82,7 +85,10 @@ export function AdminAllFormsPage() {
 									</TableCell>
 									<TableCell>
 										<ButtonGroup variant="contained" aria-label="Azioni form">
-											<Button title="Dettagli" onClick={onViewButtonClick}><CreateIcon /></Button>
+											<Link to={form.Slug}>
+												<Button title="Dettagli"><CreateIcon /></Button>
+											</Link>
+											
 											<Button title="Cancella" onClick={onDeleteClick}><DeleteIcon /></Button>
 										</ButtonGroup>
 									</TableCell>
