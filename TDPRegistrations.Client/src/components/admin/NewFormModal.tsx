@@ -3,23 +3,12 @@ import Box from '@mui/material/Box';
 import * as React from "react";
 import Typography from '@mui/material/Typography';
 import { ChangeEvent, FormEvent, useState } from "react";
+import styles from "../../App.module.scss";
 
 interface INewFormModalProps {
     open: boolean;
-    onClose: () => {};
+    onClose: () => void;
 }
-
-const style = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-};
 
 export function NewFormModal(props: INewFormModalProps) {
     const [formData, setFormData] = useState({
@@ -40,7 +29,7 @@ export function NewFormModal(props: INewFormModalProps) {
     }
 
     return <Modal open={props.open} onClose={props.onClose}>
-        <Box sx={style}
+        <Box className={styles.newFormModal}
             component="form"
             onSubmit={handleSubmit}>
             <Typography variant="h6" component="h2">Nuova form</Typography>
