@@ -1,16 +1,17 @@
 import { Grid } from "@mui/material";
 import styles from "../../App.module.scss";
-import { Footer } from "../../components/admin/Footer";
 import { Header } from "../../components/admin/Header";
+import { Box } from "@mui/system";
 
 export function AdminPageWrapper(props: any) {
 	return (
-		<div className={styles.adminPageWrapper}>
+		<Grid container className={styles.adminPageWrapper}>
 			<Header />
-			<Grid container className={styles.adminPageContainer}>
-				{props.children}
+			<Grid className={`${styles.adminPageContainer} ${props.className}`}>
+				<Grid className={styles.content }>
+					{props.children}
+				</Grid>
 			</Grid>
-			<Footer />
-		</div>
+		</Grid>
 	);
 } 

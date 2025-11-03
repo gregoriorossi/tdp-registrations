@@ -11,31 +11,26 @@ import styles from "../../App.module.scss";
 import { Link } from "react-router-dom";
 import api from "../../api/axios";
 import { TDPEndpoints } from "../../consts/api.consts";
-
-const forms = [
-	{
-		Title: 'Form 1',
-		Date: '12/12/2025',
-		IsActive: true,
-		Slug: "/admin/form/Form-1"
-	},
-	{
-		Title: 'Form 2',
-		Date: '24/12/2025',
-		IsActive: false,
-		Slug: "/admin/form/Form-2"
-	},
-	{
-		Title: 'Form 3',
-		Date: '12/12/2026',
-		IsActive: true,
-		Slug: "/admin/form/Form-3"
-	}
-];
-
+import { useEffect } from "react";
+import { getAllForms } from "../../services/forms.service";
+import ConfirmationDialog from "../../components/admin/ConfirmationDialog";
+import { IFormBasicDTO } from "../../models/form.models";
 
 export function AdminAllFormsPage() {
 	const [modalOpen, setModalOpen] = React.useState(false);
+	const [deleteFormDialogOpen, setDeleteFormDialogOpen] = React.useState(false);
+
+	const [forms, setForms] = React.useState<IFormBasicDTO[]>([]);
+
+	useEffect(() => {
+		const fetchForms = async () => {
+			const result = await getAllForms();
+			setForms(result.value);
+		}
+
+		fetchForms();
+
+	}, []);
 
 	const onNewFormClick = () => {
 		setModalOpen(true);
@@ -50,13 +45,18 @@ export function AdminAllFormsPage() {
 	}
 
 	const onDeleteClick = (): void => {
+		setDeleteFormDialogOpen(true);
+	}
+
+	const onDeleteFormHandler = (): void => {
+		setDeleteFormDialogOpen(false);
 		api.post(TDPEndpoints.Forms.Delete('test'));
 	}
 
 	return (
-		<AdminPageWrapper>
+		<AdminPageWrapper className={styles.adminAllFormsPage}>
 			<h1>Form di registrazione</h1>
-			<div>
+			<div className={styles.subheaderContainer}>
 				<Button onClick={onNewFormClick}
 					variant="contained"
 					endIcon={<AddIcon />}>
@@ -67,28 +67,28 @@ export function AdminAllFormsPage() {
 				<Table>
 					<TableHead>
 						<TableRow>
-							<TableCell>Titolo</TableCell>
-							<TableCell>Data</TableCell>
-							<TableCell>Attivo</TableCell>
-							<TableCell />
+							<TableCell colSpan={5}>Titolo</TableCell>
+							<TableCell colSpan={3}>Data</TableCell>
+							<TableCell colSpan={2}>Attivo</TableCell>
+							<TableCell colSpan={2} />
 						</TableRow>
 					</TableHead>
 					<TableBody>
 						{
 							forms.map((form, idx) => (
 								<TableRow key={idx}>
-									<TableCell>{form.Title}</TableCell>
-									<TableCell>{form.Date}</TableCell>
-									<TableCell>{form.IsActive
+									<TableCell colSpan={5}>{form.title}</TableCell>
+									<TableCell colSpan={3}>{form.dateCreated}</TableCell>
+									<TableCell colSpan={2}>{form.isActive
 										? <CheckIcon className={styles.greenIcon} />
 										: <DoNotDisturbIcon className={styles.redIcon} />}
 									</TableCell>
-									<TableCell>
+									<TableCell colSpan={2} align="right">
 										<ButtonGroup variant="contained" aria-label="Azioni form">
-											<Link to={form.Slug}>
+											<Link to={form.slug}>
 												<Button title="Dettagli"><CreateIcon /></Button>
 											</Link>
-											
+
 											<Button title="Cancella" onClick={onDeleteClick}><DeleteIcon /></Button>
 										</ButtonGroup>
 									</TableCell>
@@ -99,6 +99,16 @@ export function AdminAllFormsPage() {
 				</Table>
 			</TableContainer>
 			<NewFormModal open={modalOpen} onClose={onModalClose} />
+			<ConfirmationDialog
+				isOpen={deleteFormDialogOpen}
+				title="Vuoi eliminare la form?"
+				cancelBtnLabel="Cancella"
+				confirmBtnLabel="Elimina"
+				content="Una volta eliminata la form non sarà più accedibile e i dati saranno persi"
+				onCancel={() => { setDeleteFormDialogOpen(false) }}
+				onClose={() => { setDeleteFormDialogOpen(false) }}
+				onConfirm={onDeleteFormHandler}
+			/>
 		</AdminPageWrapper>
 	);
 }
