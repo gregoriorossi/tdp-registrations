@@ -34,6 +34,7 @@ namespace TDPRegistrations.Infrastracture.Repositories
                     {
                         Id = f.Id,
                         Title = f.Title,
+                        IsActive = f.IsActive,
                         DateCreated = f.DateCreated,
                         Slug = f.Slug,
                     })
