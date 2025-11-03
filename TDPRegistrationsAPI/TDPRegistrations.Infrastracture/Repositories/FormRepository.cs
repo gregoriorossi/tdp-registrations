@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using TDPRegistrations.Core.Interfaces.Repositories;
 using TDPRegistrations.Core.Models;
 using TDPRegistrations.Infrastracture.Data;
@@ -27,18 +28,16 @@ namespace TDPRegistrations.Infrastracture.Repositories
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<FormLight>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Form>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _appDbContext.Forms
-                    .Select(f => new FormLight
-                    {
-                        Id = f.Id,
-                        Title = f.Title,
-                        IsActive = f.IsActive,
-                        DateCreated = f.DateCreated,
-                        Slug = f.Slug,
-                    })
-                    .OrderByDescending(f => f.DateCreated)
+                    .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<Form>> GetAllAsync(Expression<Func<Form, bool>> where, CancellationToken cancellationToken)
+        {
+            return await _appDbContext.Forms
+                    .Where(where)
                     .ToListAsync(cancellationToken);
         }
 

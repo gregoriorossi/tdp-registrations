@@ -7,6 +7,7 @@ export const TDPEndpoints = {
 		Add: '/Forms',
 		Update: '/Forms',
 		Delete: (formId: string) => `/Forms/${formId}`,
-		Get: (formId: string) => `/Forms/${formId}`
+		Get: (formId: string) => `/Forms/${formId}`,
+		GetBySlug: (slug: string) => `/Forms/getBySlug/${slug}`
 	}
 }

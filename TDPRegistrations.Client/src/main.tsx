@@ -13,6 +13,8 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { AdminAllFormsPage } from './pages/admin/AdminAllFormsPage';
+import { createTheme } from '@mui/material';
+import { ThemeProvider } from '@mui/system';
 
 
 const router = createBrowserRouter([
@@ -38,8 +40,21 @@ const router = createBrowserRouter([
   }
 ]);
 
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: "#ff8f00"
+        },
+        secondary: {
+            main: '#ffcc80'
+        }
+    }
+});
+
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <RouterProvider router={router} />
+    <StrictMode>
+        <ThemeProvider theme={theme}>
+            <RouterProvider router={router} />
+        </ThemeProvider>
   </StrictMode>,
 )

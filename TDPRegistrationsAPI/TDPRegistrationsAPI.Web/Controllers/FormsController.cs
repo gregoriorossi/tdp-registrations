@@ -25,7 +25,18 @@ namespace TDPRegistrationsAPI.Web.Controllers
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken)
         {
             var forms = await _formService.GetAllAsync(cancellationToken);
-            return Ok(Result<IEnumerable<FormLight>>.Success(forms));
+            var formsList = forms
+               .Select(f => new FormLight
+               {
+                   Id = f.Id,
+                   Title = f.Title,
+                   IsActive = f.IsActive,
+                   DateCreated = f.DateCreated,
+                   Slug = f.Slug,
+               })
+                .OrderByDescending(f => f.DateCreated);
+
+            return Ok(Result<IEnumerable<FormLight>>.Success(formsList));
         }
 
         [HttpGet]
@@ -33,6 +44,18 @@ namespace TDPRegistrationsAPI.Web.Controllers
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
             Form? form = await _formService.GetByIdAsync(id, cancellationToken);
+            var result = form == null
+                ? Result<Form>.Failure(FormErrors.NotFound)
+                : Result<Form>.Success(form);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("getbyslug/{slug}")]
+        public async Task<IActionResult> GetBySlug(string slug, CancellationToken cancellationToken)
+        {
+            Form? form = await _formService.GetBySlugAsync(slug, cancellationToken);
             var result = form == null
                 ? Result<Form>.Failure(FormErrors.NotFound)
                 : Result<Form>.Success(form);

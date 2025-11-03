@@ -4,9 +4,12 @@ namespace TDPRegistrations.Core.Interfaces.Services
 {
     public interface IFormService
     {
-        Task<IEnumerable<FormLight>> GetAllAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<Form>> GetAllAsync(CancellationToken cancellationToken);
 
         Task<Form?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        Task<Form?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
+
         Task<bool> FormExists(Guid id, CancellationToken cancellationToken);
 
         Task<bool> IsSlugAvailableAsync(Form form, CancellationToken cancellationToken);

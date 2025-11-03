@@ -19,20 +19,29 @@ namespace TDPRegistrations.Infrastracture.Services
             return result;
         }
 
-        public async Task<IEnumerable<FormLight>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Form>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _formRepository.GetAllAsync(cancellationToken);
         }
 
+        public async Task<Form?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
+        {
+            System.Linq.Expressions.Expression<Func<Form, bool>> whereFn = (Form f) => slug == f.Slug;
+            var forms = await _formRepository.GetAllAsync(whereFn, cancellationToken);
+            return forms.FirstOrDefault();
+        }
+
         public async Task<Form?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            return await _formRepository.GetByIdAsync(id, cancellationToken);
+            System.Linq.Expressions.Expression<Func<Form, bool>> whereFn = (Form f) => id == f.Id;
+            var forms = await _formRepository.GetAllAsync(whereFn, cancellationToken);
+            return forms.FirstOrDefault();
         }
 
         public async Task<bool> IsSlugAvailableAsync(Form form, CancellationToken cancellationToken)
         {
-            var forms = await _formRepository.GetAllAsync(cancellationToken);
-            bool slugExists = forms.Any(f => f.Slug == form.Slug && f.Id != form.Id);
+            var result = await GetBySlugAsync(form.Slug, cancellationToken);
+            bool slugExists = result != null;
             return !slugExists;
         }
 
@@ -50,7 +59,7 @@ namespace TDPRegistrations.Infrastracture.Services
             int order = lastFormField == null ? 1 : lastFormField.Order + 1;
             field.Order = order;
 
-            Form form = await _formRepository.GetByIdAsync(formId, cancellationToken);
+            Form form = await GetByIdAsync(formId, cancellationToken);
             form.Fields.Add(field);
 
             await _formRepository.SaveChangeAsync(cancellationToken);
@@ -66,7 +75,7 @@ namespace TDPRegistrations.Infrastracture.Services
 
         public async Task<bool> FormExists(Guid id, CancellationToken cancellationToken)
         {
-            Form? result = await _formRepository.GetByIdAsync(id, cancellationToken);
+            Form? result = await GetByIdAsync(id, cancellationToken);
             return result != null;
         }
     }

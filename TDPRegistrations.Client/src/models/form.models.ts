@@ -3,5 +3,5 @@ export interface IFormBasicDTO {
     title: string;
     isActive: boolean;
     slug: string,
-    dateCreated: Date;
+    dateCreated: string;
 }

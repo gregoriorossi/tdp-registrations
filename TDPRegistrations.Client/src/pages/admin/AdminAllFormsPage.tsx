@@ -15,6 +15,8 @@ import { useEffect } from "react";
 import { getAllForms } from "../../services/forms.service";
 import ConfirmationDialog from "../../components/admin/ConfirmationDialog";
 import { IFormBasicDTO } from "../../models/form.models";
+import DateFormatter from "../../components/admin/DateFormatter";
+import { LinkUtils } from "../../utils/link.utils";
 
 export function AdminAllFormsPage() {
 	const [modalOpen, setModalOpen] = React.useState(false);
@@ -78,14 +80,16 @@ export function AdminAllFormsPage() {
 							forms.map((form, idx) => (
 								<TableRow key={idx}>
 									<TableCell colSpan={5}>{form.title}</TableCell>
-									<TableCell colSpan={3}>{form.dateCreated}</TableCell>
+									<TableCell colSpan={3}>
+										<DateFormatter dateStr={form.dateCreated} />
+									</TableCell>
 									<TableCell colSpan={2}>{form.isActive
 										? <CheckIcon className={styles.greenIcon} />
 										: <DoNotDisturbIcon className={styles.redIcon} />}
 									</TableCell>
 									<TableCell colSpan={2} align="right">
 										<ButtonGroup variant="contained" aria-label="Azioni form">
-											<Link to={form.slug}>
+											<Link to={LinkUtils.SlugToRelativeUrl(form.slug)}>
 												<Button title="Dettagli"><CreateIcon /></Button>
 											</Link>
 
