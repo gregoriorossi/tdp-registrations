@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TDPRegistrations.Core.Errors;
-using TDPRegistrations.Core.Interfaces.Services;
+using TDPRegistrations.Core.Interfaces.Managers;
 using TDPRegistrations.Core.Models;
 using TDPRegistrationsAPI.Web.Constants;
 using TDPRegistrationsAPI.Web.Mappers;
@@ -14,9 +14,9 @@ namespace TDPRegistrationsAPI.Web.Controllers
     [Route(Consts.DefaultApiRoute)]
     public class FieldsController : ControllerBase
     {
-        private readonly IFormService _formService;
+        private readonly IFormManager _formService;
 
-        public FieldsController(IFormService formService)
+        public FieldsController(IFormManager formService)
         { 
             _formService = formService;
         }

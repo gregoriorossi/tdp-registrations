@@ -1,14 +1,14 @@
-﻿using TDPRegistrations.Core.Interfaces.Repositories;
-using TDPRegistrations.Core.Interfaces.Services;
+﻿using TDPRegistrations.Core.Interfaces.Managers;
+using TDPRegistrations.Core.Interfaces.Repositories;
 using TDPRegistrations.Core.Models;
 
-namespace TDPRegistrations.Infrastracture.Services
+namespace TDPRegistrations.Infrastracture.Managers
 {
-    public class FormServices : IFormService
+    public class FormManager : IFormManager
     {
         private IFormRepository _formRepository;
 
-        public FormServices(IFormRepository formRepository)
+        public FormManager(IFormRepository formRepository)
         {
             _formRepository = formRepository;
         }
@@ -26,14 +26,14 @@ namespace TDPRegistrations.Infrastracture.Services
 
         public async Task<Form?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
         {
-            System.Linq.Expressions.Expression<Func<Form, bool>> whereFn = (Form f) => slug == f.Slug;
+            System.Linq.Expressions.Expression<Func<Form, bool>> whereFn = (f) => slug == f.Slug;
             var forms = await _formRepository.GetAllAsync(whereFn, cancellationToken);
             return forms.FirstOrDefault();
         }
 
         public async Task<Form?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            System.Linq.Expressions.Expression<Func<Form, bool>> whereFn = (Form f) => id == f.Id;
+            System.Linq.Expressions.Expression<Func<Form, bool>> whereFn = (f) => id == f.Id;
             var forms = await _formRepository.GetAllAsync(whereFn, cancellationToken);
             return forms.FirstOrDefault();
         }

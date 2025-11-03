@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TDPRegistrations.Core.Errors;
-using TDPRegistrations.Core.Interfaces.Services;
+using TDPRegistrations.Core.Interfaces.Managers;
 using TDPRegistrations.Core.Models;
 using TDPRegistrationsAPI.Web.Constants;
 using TDPRegistrationsAPI.Web.Mappers;
 using TDPRegistrationsAPI.Web.ViewModels;
 using TDPRegistrationsAPI.Web.ViewModels.Requests;
+using TDPRegistrationsAPI.Web.ViewModels.Responses;
 
 namespace TDPRegistrationsAPI.Web.Controllers
 {
@@ -14,9 +15,9 @@ namespace TDPRegistrationsAPI.Web.Controllers
     [Route(Consts.DefaultApiRoute)]
     public class FormsController : ControllerBase
     {
-        private readonly IFormService _formService;
+        private readonly IFormManager _formService;
 
-        public FormsController(IFormService formService)
+        public FormsController(IFormManager formService)
         {
             _formService = formService;
         }
@@ -26,7 +27,7 @@ namespace TDPRegistrationsAPI.Web.Controllers
         {
             var forms = await _formService.GetAllAsync(cancellationToken);
             var formsList = forms
-               .Select(f => new FormLight
+               .Select(f => new FormLightVM
                {
                    Id = f.Id,
                    Title = f.Title,
@@ -36,7 +37,7 @@ namespace TDPRegistrationsAPI.Web.Controllers
                })
                 .OrderByDescending(f => f.DateCreated);
 
-            return Ok(Result<IEnumerable<FormLight>>.Success(formsList));
+            return Ok(Result<IEnumerable<FormLightVM>>.Success(formsList));
         }
 
         [HttpGet]

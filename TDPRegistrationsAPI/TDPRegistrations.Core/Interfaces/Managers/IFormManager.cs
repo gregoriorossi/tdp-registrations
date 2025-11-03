@@ -1,8 +1,8 @@
 ﻿using TDPRegistrations.Core.Models;
 
-namespace TDPRegistrations.Core.Interfaces.Services
+namespace TDPRegistrations.Core.Interfaces.Managers
 {
-    public interface IFormService
+    public interface IFormManager
     {
         Task<IEnumerable<Form>> GetAllAsync(CancellationToken cancellationToken);
 
@@ -19,7 +19,7 @@ namespace TDPRegistrations.Core.Interfaces.Services
         Task<Form> UpdateAsync(Form form, CancellationToken cancellationToken);
 
         Task<Field> AddFieldAsync(Field field, Guid formId, CancellationToken cancellationToken);
-        
+
         Task<IEnumerable<Field>> GetFieldsAsync(Guid formId, CancellationToken cancellationToken);
     }
 }
