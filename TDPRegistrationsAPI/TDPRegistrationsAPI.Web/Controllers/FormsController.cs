@@ -31,7 +31,7 @@ namespace TDPRegistrationsAPI.Web.Controllers
                {
                    Id = f.Id,
                    Title = f.Title,
-                   IsActive = f.IsActive,
+                   IsOpen = f.IsOpen,
                    DateCreated = f.DateCreated,
                    Slug = f.Slug,
                })

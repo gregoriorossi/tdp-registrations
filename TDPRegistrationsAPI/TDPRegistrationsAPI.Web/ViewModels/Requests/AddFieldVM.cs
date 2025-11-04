@@ -10,7 +10,7 @@ namespace TDPRegistrationsAPI.Web.ViewModels.Requests
         public string Description { get; set; } = string.Empty;
 
         [Required]
-        public string Type { get; set; }
+        public string Type { get; set; } = string.Empty;
 
         public bool IsMandatory { get; set; }
 

@@ -30,13 +30,21 @@ namespace TDPRegistrationsAPI.Web.Controllers
                 return BadRequest();
             }
 
-            Field field = ViewModelToEntity.AddFieldVMToField(model);
             bool formExists = await _formService.FormExists(formId, cancellationToken);
             if (!formExists)
             {
                 return Ok(Result<Form>.Failure(FormErrors.NotFound));
             }
 
+            Field field = ViewModelToEntity.AddFieldVMToField(model);
+            bool isValid;
+            string result = field.IsValid(out isValid);
+            
+            if (!isValid)
+            {
+                return Ok(Result<Field>.Failure(FieldErrors.NotValid(result)));
+            }
+            
             Field fieldResult = await _formService.AddFieldAsync(field, formId, cancellationToken);
             
             return Ok(Result<Field>.Success(fieldResult));

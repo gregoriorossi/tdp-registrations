@@ -1,7 +1,15 @@
 export interface IFormBasicDTO {
     id: string;
     title: string;
-    isActive: boolean;
+    isOpen: boolean;
+    slug: string,
+    dateCreated: string;
+}
+
+export interface IForm {
+    id: string;
+    title: string;
+    isOpen: boolean;
     slug: string,
     dateCreated: string;
 }

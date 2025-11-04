@@ -83,7 +83,7 @@ export function AdminAllFormsPage() {
 									<TableCell colSpan={3}>
 										<DateFormatter dateStr={form.dateCreated} />
 									</TableCell>
-									<TableCell colSpan={2}>{form.isActive
+									<TableCell colSpan={2}>{form.isOpen
 										? <CheckIcon className={styles.greenIcon} />
 										: <DoNotDisturbIcon className={styles.redIcon} />}
 									</TableCell>

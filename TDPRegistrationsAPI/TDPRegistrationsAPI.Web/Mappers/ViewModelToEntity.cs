@@ -43,7 +43,8 @@ namespace TDPRegistrationsAPI.Web.Mappers
                 Label = model.Label,
                 Description = model.Description,
                 IsMandatory = model.IsMandatory,
-                Type = ToFieldType(model.Type)
+                Type = ToFieldType(model.Type),
+                Options = model.Options.Select(o => new FieldOption(o)).ToList()
             };
         }
 
