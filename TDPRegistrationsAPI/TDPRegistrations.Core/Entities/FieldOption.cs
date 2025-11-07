@@ -6,12 +6,18 @@ namespace TDPRegistrations.Core.Models
     public class FieldOption : BaseModel<Guid>
     {
         public string Label { get; set; } = string.Empty;
+        public int Order { get; set; } = 0;
 
-        public FieldOption(string label)
+        public FieldOption()
+        {
+        }
+
+        public FieldOption(string label, int order)
         {
             Label = label;
             DateCreated = DateTime.Now;
             DateUpdated = DateTime.Now;
+            Order = order;
         }
     }
 }

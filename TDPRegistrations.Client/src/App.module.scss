@@ -38,9 +38,23 @@
                 margin: 1rem 0;
             }
         }
+
+        &.adminFormPage {
+            .formEditor {
+                .formEditorField {
+                    .actionContainer {
+                        display: flex;
+                        flex-direction: row;
+                    }
+                }
+            }
+        }
     }
 }
 
+.draggable {
+    cursor: grab;
+}
 
 .newFormModal {
     position: absolute;

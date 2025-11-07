@@ -5,7 +5,10 @@ import { getFormBySlug } from "../../services/forms.service";
 import { Errors } from "../../consts/errors.consts";
 import React from "react";
 import { IForm } from "../../models/form.models";
-import { Box, Chip } from "@mui/material";
+import { Box, Chip, Grid, Typography } from "@mui/material";
+import { Routes } from "../../consts/routes.consts";
+import { FormEditor } from "../../components/admin/form/FormEditor";
+import styles from "../../App.module.scss";
 
 export function AdminFormPage() {
 	const params = useParams();
@@ -17,7 +20,10 @@ export function AdminFormPage() {
 		id: '',
 		isOpen: false,
 		slug: '',
-		title: ''
+		title: '',
+		fields: [],
+		dateUpdated: '',
+		description: ''
 	});
 
 	useEffect(() => {
@@ -26,7 +32,7 @@ export function AdminFormPage() {
 			const result = await getFormBySlug(params.slug!);
 
 			if (result.error && result.error.code === Errors.Form.NotFound) {
-				navigate('/not-found');
+				navigate(Routes.NotFound);
 				return;
 			}
 
@@ -37,18 +43,32 @@ export function AdminFormPage() {
 	}, []);
 
 	return (
-		<AdminPageWrapper>
+		<AdminPageWrapper className={styles.adminFormPage}>
 			<Box component="h1">{form.title}</Box>
-			<Box component="div">
-				{
-					form.isOpen
-						? <Chip label="Aperte" color="success" variant="filled" />
-						: <Chip label="Chiuse" color="error" variant="filled" />
-				}
-			</Box>
-			<Box component="section">
-				
-			</Box>
+			<h2>Mettere bottone apertura/chiusura iscrizioni</h2>
+			<Grid container spacing={2}>
+				<Grid size={{ xs: 12, md: 6 }}>
+					<h2>Informazioni</h2>
+					<Typography component="h3">
+						<b>Stato&nbsp;</b>{
+							form.isOpen
+								? <Chip label="Aperte" color="success" variant="filled" />
+								: <Chip label="Chiuse" color="error" variant="filled" />
+						}
+					</Typography>
+					
+					
+					<Typography component="h3">
+						<b>Descrizione</b>
+					</Typography>
+					<Typography component="p">
+						{form.description}
+					</Typography>
+				</Grid>
+				<Grid size={{ xs: 12, md: 6 }}>
+					<FormEditor fields={form.fields} />
+				</Grid>
+			</Grid>
 		</AdminPageWrapper>
 	);
 }

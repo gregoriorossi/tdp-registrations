@@ -111,8 +111,7 @@ export function AdminAllFormsPage() {
 				content="Una volta eliminata la form non sarà più accedibile e i dati saranno persi"
 				onCancel={() => { setDeleteFormDialogOpen(false) }}
 				onClose={() => { setDeleteFormDialogOpen(false) }}
-				onConfirm={onDeleteFormHandler}
-			/>
+				onConfirm={onDeleteFormHandler} />
 		</AdminPageWrapper>
 	);
 }

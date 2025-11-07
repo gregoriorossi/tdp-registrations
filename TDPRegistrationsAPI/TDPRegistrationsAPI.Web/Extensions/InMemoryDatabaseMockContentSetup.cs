@@ -18,7 +18,101 @@ namespace TDPRegistrationsAPI.Web.Extensions
                 IsOpen = true,
                 Slug = "iscrizioni-2023",
                 Id = Guid.NewGuid(),
-                Title = "Iscrizioni 2023"
+                Title = "Iscrizioni 2023",
+                Fields = new List<Field>()
+                {
+                    new Field()
+                    {
+                        Id = Guid.NewGuid(),
+                        DateCreated = new DateTime(2023,10,12),
+                        DateUpdated=new DateTime(2023,10 ,12),
+                        Type = TDPRegistrations.Core.Enums.FieldTypes.TEXT,
+                        Label = "Nome",
+                        Description = "Inserisci il tuo nome",
+                        IsMandatory = true,
+                        Order = 1
+                    },
+                    new Field()
+                    {
+                        Id = Guid.NewGuid(),
+                        DateCreated = new DateTime(2023,10,12),
+                        DateUpdated=new DateTime(2023,10 ,12),
+                        Type = TDPRegistrations.Core.Enums.FieldTypes.TEXT,
+                        Label = "Cognome",
+                        Description = "Inserisci il tuo cognome",
+                        IsMandatory = true,
+                        Order = 2
+                    },
+                     new Field()
+                    {
+                        Id = Guid.NewGuid(),
+                        DateCreated = new DateTime(2023,10,12),
+                        DateUpdated=new DateTime(2023,10 ,12),
+                        Type = TDPRegistrations.Core.Enums.FieldTypes.DATETIME,
+                        Label = "Data di nascita",
+                        Description = "Inserisci la tua data di nascita",
+                        IsMandatory = true,
+                        Order = 3
+                    },
+                     new Field()
+                    {
+                        Id = Guid.NewGuid(),
+                        DateCreated = new DateTime(2023,10,12),
+                        DateUpdated=new DateTime(2023,10 ,12),
+                        Type = TDPRegistrations.Core.Enums.FieldTypes.EMAIL,
+                        Label = "Email",
+                        Description = "Inserisci la tua email",
+                        IsMandatory = true,
+                        Order = 4
+                    },
+                      new Field()
+                    {
+                        Id = Guid.NewGuid(),
+                        DateCreated = new DateTime(2023,10,12),
+                        DateUpdated=new DateTime(2023,10 ,12),
+                        Type = TDPRegistrations.Core.Enums.FieldTypes.TELEPHONE_NUMBER,
+                        Label = "Telefono",
+                        Description = "Inserisci il tuo numero di telefono",
+                        IsMandatory = false,
+                        Order = 5
+                    },
+                    new Field()
+                    {
+                        Id = Guid.NewGuid(),
+                        DateCreated = new DateTime(2023,10,12),
+                        DateUpdated=new DateTime(2023,10 ,12),
+                        Type = TDPRegistrations.Core.Enums.FieldTypes.SINGLE_CHOICE,
+                        Label = "Fascia d'età",
+                        Description = "Inserisci la fascia d'età",
+                        Options = new List<FieldOption>
+                        {
+                            new FieldOption("0-20", 1),
+                            new FieldOption("21-40", 2),
+                            new FieldOption("41-60", 3),
+                            new FieldOption("60+", 4)
+                        },
+                        IsMandatory = false,
+                        Order = 6
+                    },
+                    new Field()
+                    {
+                        Id = Guid.NewGuid(),
+                        DateCreated = new DateTime(2023,10,12),
+                        DateUpdated=new DateTime(2023,10 ,12),
+                        Type = TDPRegistrations.Core.Enums.FieldTypes.MULTIPLE_CHOICE,
+                        Label = "Interessi",
+                        Description = "Inserire gli interessi",
+                        Options = new List<FieldOption>
+                        {
+                            new FieldOption("Pesca", 1),
+                            new FieldOption("Cucina", 2),
+                            new FieldOption("Equitazione", 3),
+                            new FieldOption("Corsa", 4)
+                        },
+                        IsMandatory = false,
+                        Order = 7
+                    },
+                }
             };
 
             var form2 = new Form

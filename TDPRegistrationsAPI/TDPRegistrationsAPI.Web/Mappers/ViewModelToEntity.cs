@@ -44,7 +44,7 @@ namespace TDPRegistrationsAPI.Web.Mappers
                 Description = model.Description,
                 IsMandatory = model.IsMandatory,
                 Type = ToFieldType(model.Type),
-                Options = model.Options.Select(o => new FieldOption(o)).ToList()
+                Options = model.Options.Select((o, idx) => new FieldOption(o, idx + 1)).ToList()
             };
         }
 

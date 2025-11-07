@@ -37,6 +37,7 @@ namespace TDPRegistrations.Infrastracture.Repositories
         public async Task<IEnumerable<Form>> GetAllAsync(Expression<Func<Form, bool>> where, CancellationToken cancellationToken)
         {
             return await _appDbContext.Forms
+                    .Include(f => f.Fields)
                     .Where(where)
                     .ToListAsync(cancellationToken);
         }
