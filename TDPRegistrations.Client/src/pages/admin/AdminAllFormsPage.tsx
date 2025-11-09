@@ -42,10 +42,6 @@ export function AdminAllFormsPage() {
 		setModalOpen(false);
 	}
 
-	const onViewButtonClick = (): void => {
-
-	}
-
 	const onDeleteClick = (): void => {
 		setDeleteFormDialogOpen(true);
 	}

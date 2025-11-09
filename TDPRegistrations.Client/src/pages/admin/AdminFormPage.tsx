@@ -7,7 +7,7 @@ import React from "react";
 import { IForm } from "../../models/form.models";
 import { Box, Chip, Grid, Typography } from "@mui/material";
 import { Routes } from "../../consts/routes.consts";
-import { FormEditor } from "../../components/admin/form/FormEditor";
+import { FieldsEditor } from "../../components/admin/form/FieldsEditor";
 import styles from "../../App.module.scss";
 
 export function AdminFormPage() {
@@ -46,7 +46,7 @@ export function AdminFormPage() {
 		<AdminPageWrapper className={styles.adminFormPage}>
 			<Box component="h1">{form.title}</Box>
 			<h2>Mettere bottone apertura/chiusura iscrizioni</h2>
-			<Grid container spacing={2}>
+			<Grid container spacing={2} className={styles.leftColumn }>
 				<Grid size={{ xs: 12, md: 6 }}>
 					<h2>Informazioni</h2>
 					<Typography component="h3">
@@ -66,7 +66,7 @@ export function AdminFormPage() {
 					</Typography>
 				</Grid>
 				<Grid size={{ xs: 12, md: 6 }}>
-					<FormEditor fields={form.fields} />
+					<FieldsEditor fields={form.fields} />
 				</Grid>
 			</Grid>
 		</AdminPageWrapper>

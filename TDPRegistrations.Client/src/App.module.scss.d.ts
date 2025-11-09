@@ -5,17 +5,22 @@ export type Styles = {
   'adminHeader': string;
   'adminPageContainer': string;
   'adminPageWrapper': string;
+  'button': string;
   'card': string;
   'content': string;
   'draggable': string;
+  'fieldEditor': string;
+  'firstRow': string;
   'formEditor': string;
-  'formEditorField': string;
   'greenIcon': string;
+  'leftColumn': string;
   'logo': string;
   'logoSpin': string;
   'newFormModal': string;
+  'option': string;
   'readTheDocs': string;
   'redIcon': string;
+  'secondRow': string;
   'subheaderContainer': string;
 };
 

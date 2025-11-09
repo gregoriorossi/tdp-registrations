@@ -1,18 +1,25 @@
 import { Alert, Button, List, ListItem } from "@mui/material";
 import { IField } from "../../../models/form.models";
-import { FormEditorField } from "./FormEditorField";
+import { FieldEditor } from "./FieldEditor";
 import styles from "../../../App.module.scss";
 import AddIcon from '@mui/icons-material/Add';
+import { useState } from "react";
+import { NewFieldModal } from "./NewFieldModal";
 
 export interface IFormEditorProps {
 	fields: IField[];
 }
 
-export function FormEditor(props: IFormEditorProps) {
+export function FieldsEditor(props: IFormEditorProps) {
 	const { fields } = props;
+	const [newFieldModalOpen, setNewFieldModalOpen] = useState(false);
 
 	const onNewFieldClick = () => {
+		setNewFieldModalOpen(true);
+	}
 
+	const onNewFieldModalClose = (): void => {
+		setNewFieldModalOpen(false);
 	}
 
 	return (
@@ -23,17 +30,18 @@ export function FormEditor(props: IFormEditorProps) {
 					variant="contained"><AddIcon /></Button>
 			</h2>
 			<div>
-
 			</div>
 			{
 				fields.length === 0
 					? <Alert severity="info">Nessun campo definito per questa form</Alert >
 					: <List className={styles.formEditor}>
 						{
-							fields.map((f, idx) => <FormEditorField field={f} key={idx} />)
+							fields.map((f, idx) => <FieldEditor field={f} key={idx} />)
 						}
 					</List>
 			}
+
+			<NewFieldModal open={newFieldModalOpen} onClose={onNewFieldModalClose} />
 		</>
 	);
 }

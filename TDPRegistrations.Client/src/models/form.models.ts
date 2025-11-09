@@ -23,7 +23,7 @@ export interface IField {
 	type: FieldType;
 	isMandatory: boolean;
 	order: number;
-	options: any[];
+	options: IFieldOption[];
 	id: string;
 	dateCreated: string;
 	dateUpdated: string;
@@ -37,4 +37,9 @@ export enum FieldType {
 	MULTIPLE_CHOICE,
 	EMAIL,
 	TELEPHONE_NUMBER
+}
+
+export interface IFieldOption {
+	id: string;
+	label: string;
 }

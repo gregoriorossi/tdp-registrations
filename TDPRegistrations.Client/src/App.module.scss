@@ -40,11 +40,38 @@
         }
 
         &.adminFormPage {
+
+            .leftColumn {
+                text-align: left;
+            }
+
             .formEditor {
-                .formEditorField {
-                    .actionContainer {
+
+                .fieldEditor {
+                    display: block;
+                    width: 100%;
+                    margin-bottom: 1rem;
+
+                    .firstRow {
                         display: flex;
-                        flex-direction: row;
+                        width: 100%;
+
+                        .actionContainer {
+                            display: flex;
+                            flex-direction: row;
+
+                            .button {
+                                min-width: auto;
+                            }
+                        }
+                    }
+
+                    .secondRow {
+                        display: flex;
+
+                        .option {
+                            margin-right: 5px;
+                        }
                     }
                 }
             }

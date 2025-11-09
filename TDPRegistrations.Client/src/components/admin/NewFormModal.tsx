@@ -46,5 +46,5 @@ export function NewFormModal(props: INewFormModalProps) {
                 Crea
             </Button>
         </Box>
-    </Modal>
+    </Modal>;
 }
