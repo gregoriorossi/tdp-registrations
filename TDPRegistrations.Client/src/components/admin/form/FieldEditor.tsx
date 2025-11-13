@@ -9,6 +9,7 @@ import React from "react";
 import api from "../../../api/axios";
 import { TDPEndpoints } from "../../../consts/api.consts";
 import ConfirmationDialog from "../ConfirmationDialog";
+import { EditFieldModal } from "../modals/EditFieldModal";
 
 export interface IFormEditorFieldProps {
 	field: IField;
@@ -16,6 +17,7 @@ export interface IFormEditorFieldProps {
 export function FieldEditor(props: IFormEditorFieldProps) {
 	const { field } = props;
 	const [deleteFormDialogOpen, setDeleteFormDialogOpen] = React.useState(false);
+	const [editFieldModalOpen, setEditFieldModalOpen] = React.useState(false);
 
 	const onDeleteClick = (): void => {
 		setDeleteFormDialogOpen(true);
@@ -26,6 +28,13 @@ export function FieldEditor(props: IFormEditorFieldProps) {
 		api.post(TDPEndpoints.Forms.Delete('test'));
 	}
 
+	const onEditClick = (): void => {
+		setEditFieldModalOpen(true);
+	}
+
+	const onEditModalClose = (): void => {
+		setEditFieldModalOpen(false);
+	}
 
 
 	return <ListItem draggable={true} className={styles.fieldEditor}>
@@ -34,7 +43,7 @@ export function FieldEditor(props: IFormEditorFieldProps) {
 			<FieldIcon fieldType={field.type} />&nbsp;
 			<ListItemText primary={field.label} />
 			<div className={styles.actionContainer}>
-				<ListItemButton>
+				<ListItemButton onClick={onEditClick}>
 					<ListItemIcon className={styles.button}>
 						<CreateIcon />
 					</ListItemIcon>
@@ -47,9 +56,12 @@ export function FieldEditor(props: IFormEditorFieldProps) {
 			</div>
 		</div>
 		<div className={styles.secondRow}>
-			{field.options.map((o) =>
-				<Chip label={o.label} color="info" variant="filled" className={styles.option} />)}
+			{field.options.map((o, idx) =>
+				<Chip label={o.label} color="info" variant="filled" className={styles.option} key={idx} />)}
 		</div>
+
+		<EditFieldModal field={field} onClose={onEditModalClose} open={editFieldModalOpen} />
+
 		<ConfirmationDialog
 			isOpen={deleteFormDialogOpen}
 			title="Vuoi eliminare il campo?"

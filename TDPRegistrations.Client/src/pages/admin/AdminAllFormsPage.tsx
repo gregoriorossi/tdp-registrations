@@ -2,7 +2,6 @@ import { Paper, TableBody, Table, TableCell, TableContainer, TableHead, TableRow
 import { AdminPageWrapper } from "./AdminPageWrapper";
 import AddIcon from '@mui/icons-material/Add';
 import * as React from "react";
-import { NewFormModal } from "../../components/admin/NewFormModal";
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
@@ -17,6 +16,10 @@ import ConfirmationDialog from "../../components/admin/ConfirmationDialog";
 import { IFormBasicDTO } from "../../models/form.models";
 import DateFormatter from "../../components/admin/DateFormatter";
 import { LinkUtils } from "../../utils/link.utils";
+import { NewFormModal } from "../../components/admin/modals/NewFormModal";
+import { STRINGS } from "../../consts/strngs.consts";
+
+const PAGE_STRINGS = STRINGS.Pages.AdminAllForms;
 
 export function AdminAllFormsPage() {
 	const [modalOpen, setModalOpen] = React.useState(false);
@@ -53,21 +56,21 @@ export function AdminAllFormsPage() {
 
 	return (
 		<AdminPageWrapper className={styles.adminAllFormsPage}>
-			<h1>Form di registrazione</h1>
+			<h1>{PAGE_STRINGS.Title}</h1>
 			<div className={styles.subheaderContainer}>
 				<Button onClick={onNewFormClick}
 					variant="contained"
 					endIcon={<AddIcon />}>
-					Nuova form
+					{PAGE_STRINGS.NewForm}
 				</Button>
 			</div>
 			<TableContainer component={Paper}>
 				<Table>
 					<TableHead>
 						<TableRow>
-							<TableCell colSpan={5}>Titolo</TableCell>
-							<TableCell colSpan={3}>Data</TableCell>
-							<TableCell colSpan={2}>Attivo</TableCell>
+							<TableCell colSpan={5}>{PAGE_STRINGS.Table.TitleColumn}</TableCell>
+							<TableCell colSpan={3}>{PAGE_STRINGS.Table.DateColumn}</TableCell>
+							<TableCell colSpan={2}>{PAGE_STRINGS.Table.ActiveColumn}</TableCell>
 							<TableCell colSpan={2} />
 						</TableRow>
 					</TableHead>
@@ -101,10 +104,10 @@ export function AdminAllFormsPage() {
 			<NewFormModal open={modalOpen} onClose={onModalClose} />
 			<ConfirmationDialog
 				isOpen={deleteFormDialogOpen}
-				title="Vuoi eliminare la form?"
-				cancelBtnLabel="Cancella"
-				confirmBtnLabel="Elimina"
-				content="Una volta eliminata la form non sarà più accedibile e i dati saranno persi"
+				title={PAGE_STRINGS.ConfirmationModal.Title}
+				cancelBtnLabel={STRINGS.Cancel}
+				confirmBtnLabel={STRINGS.Delete}
+				content={PAGE_STRINGS.ConfirmationModal.Content}
 				onCancel={() => { setDeleteFormDialogOpen(false) }}
 				onClose={() => { setDeleteFormDialogOpen(false) }}
 				onConfirm={onDeleteFormHandler} />

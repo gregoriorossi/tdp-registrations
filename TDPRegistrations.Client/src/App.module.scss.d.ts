@@ -11,12 +11,13 @@ export type Styles = {
   'draggable': string;
   'fieldEditor': string;
   'firstRow': string;
+  'form': string;
   'formEditor': string;
   'greenIcon': string;
   'leftColumn': string;
   'logo': string;
   'logoSpin': string;
-  'newFormModal': string;
+  'modal': string;
   'option': string;
   'readTheDocs': string;
   'redIcon': string;

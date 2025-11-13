@@ -1,20 +1,24 @@
 import { Modal } from "@mui/material";
 import styles from "../../../App.module.scss";
+import { IField } from "../../../models/form.models";
 import { FieldForm } from "../forms/FieldForm";
 
-interface INewFieldModalProps {
+interface IEditFieldModalProps {
 	open: boolean;
+	field: IField;
 	onClose: () => void;
 }
 
-export function NewFieldModal(props: INewFieldModalProps) {
+
+export function EditFieldModal(props: IEditFieldModalProps) {
 
 	const onSubmit = (data: any) => console.log(data);
 
 	return <Modal open={props.open} onClose={props.onClose}>
 		<div className={styles.modal}>
 			<FieldForm
-				onSubmit={onSubmit} />
+				onSubmit={onSubmit}
+				currentField={props.field} />
 		</div>
 	</Modal>;
 }

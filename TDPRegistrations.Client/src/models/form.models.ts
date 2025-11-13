@@ -30,13 +30,14 @@ export interface IField {
 }
 
 export enum FieldType {
-	TEXT,
-	NUMBER,
-	DATETIME,
-	SINGLE_CHOICE,
-	MULTIPLE_CHOICE,
-	EMAIL,
-	TELEPHONE_NUMBER
+	EMPTY = -1,
+	TEXT = 0,
+	NUMBER = 1,
+	DATETIME = 2,
+	SINGLE_CHOICE = 3,
+	MULTIPLE_CHOICE = 4,
+	EMAIL = 5,
+	TELEPHONE_NUMBER = 6
 }
 
 export interface IFieldOption {

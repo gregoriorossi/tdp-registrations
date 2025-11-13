@@ -83,7 +83,7 @@
     cursor: grab;
 }
 
-.newFormModal {
+.modal {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -101,6 +101,12 @@
 
 .redIcon {
     color: #ff0000;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 @keyframes logo-spin {
