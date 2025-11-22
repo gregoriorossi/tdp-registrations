@@ -8,7 +8,7 @@ import { Alert, Box, Chip, CircularProgress, Grid, Typography } from "@mui/mater
 import { Routes } from "../../consts/routes.consts";
 import { FieldsEditor } from "../../components/admin/form/FieldsEditor";
 import styles from "../../App.module.scss";
-import { useFormBySlug } from "../../queries/forms.queries"; 
+import { useFormBySlug } from "../../queries/forms.queries";
 import { ErrorMessage } from "../../components/ErrorMessage";
 
 export function AdminFormPage() {
@@ -42,10 +42,12 @@ export function AdminFormPage() {
 	}
 
 	return (
-		<AdminPageWrapper className={styles.adminFormPage}>
-			<Box component="h1">{form.title}</Box>
+		<AdminPageWrapper
+			className={styles.adminFormPage}
+			title={form.title}>
+			<Box component="h1"></Box>
 			<h2>Mettere bottone apertura/chiusura iscrizioni</h2>
-			<Grid container spacing={2} className={styles.leftColumn }>
+			<Grid container spacing={2} className={styles.leftColumn}>
 				<Grid size={{ xs: 12, md: 6 }}>
 					<h2>Informazioni</h2>
 					<Typography component="h3">
@@ -55,8 +57,8 @@ export function AdminFormPage() {
 								: <Chip label="Chiuse" color="error" variant="filled" />
 						}
 					</Typography>
-					
-					
+
+
 					<Typography component="h3">
 						<b>Descrizione</b>
 					</Typography>

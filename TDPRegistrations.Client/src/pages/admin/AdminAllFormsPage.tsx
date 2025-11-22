@@ -49,8 +49,9 @@ export function AdminAllFormsPage() {
 	}
 
 	return (
-		<AdminPageWrapper className={styles.adminAllFormsPage}>
-			<h1>{PAGE_STRINGS.Title}</h1>
+		<AdminPageWrapper
+			className={styles.adminAllFormsPage}
+			title={PAGE_STRINGS.Title}>
 			<div className={styles.subheaderContainer}>
 				<Button onClick={onNewFormClick}
 					variant="contained"
@@ -61,12 +62,12 @@ export function AdminAllFormsPage() {
 
 			{
 				(response?.isSuccess && response?.value.length === 0) &&
-					<Alert severity="info">{STRINGS.Pages.AdminAllForms.NoFormsAvailable}</Alert>
+				<Alert severity="info">{STRINGS.Pages.AdminAllForms.NoFormsAvailable}</Alert>
 			}
 
 			{
 				(!response?.isSuccess && !isLoading) &&
-					<Alert severity="error"><ErrorMessage errorCode={response?.error?.code!} /></Alert>
+				<Alert severity="error"><ErrorMessage errorCode={response?.error?.code!} /></Alert>
 			}
 
 			{
