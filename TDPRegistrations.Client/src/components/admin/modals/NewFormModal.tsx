@@ -8,18 +8,14 @@ import { NewFormForm } from "../forms/NewFormForm";
 
 interface INewFormModalProps {
 	open: boolean;
+	onFormCreated: () => void;
 	onClose: () => void;
 }
 
 export function NewFormModal(props: INewFormModalProps) {
-
-	const handleSubmit = (data: any) => {
-		console.log(data);
-	}
-
 	return <Modal open={props.open} onClose={props.onClose}>
 		<div className={styles.modal}>
-			<NewFormForm onSubmit={handleSubmit} />
+			<NewFormForm onSubmit={props.onFormCreated} />
 		</div>
 	</Modal>;
 }

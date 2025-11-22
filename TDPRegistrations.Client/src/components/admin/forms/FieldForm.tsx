@@ -6,7 +6,7 @@ import { Box, Typography, TextField, FormControl, InputLabel, Select, MenuItem, 
 import { useForm, Controller } from "react-hook-form";
 import styles from "../../../App.module.scss";
 import { FieldIcon } from "../FieldIcon";
-import { STRINGS } from "../../../consts/strngs.consts";
+import { STRINGS } from "../../../consts/strings.consts";
 export interface IFieldFormProps {
 	onSubmit: (data: IField) => void;
 	currentField?: IField;

@@ -6,8 +6,7 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import styles from "../../../App.module.scss";
 import { FieldIcon } from "../FieldIcon";
 import React from "react";
-import api from "../../../api/axios";
-import { TDPEndpoints } from "../../../consts/api.consts";
+import axiosClient from "../../../api/axios";
 import ConfirmationDialog from "../ConfirmationDialog";
 import { EditFieldModal } from "../modals/EditFieldModal";
 
@@ -25,7 +24,7 @@ export function FieldEditor(props: IFormEditorFieldProps) {
 
 	const onDeleteFormHandler = (): void => {
 		setDeleteFormDialogOpen(false);
-		api.post(TDPEndpoints.Forms.Delete('test'));
+		//axiosClient.post(TDPEndpoints.Forms.Delete('test'));
 	}
 
 	const onEditClick = (): void => {

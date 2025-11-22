@@ -1,9 +1,13 @@
 export interface IResponse<T> {
 	value: T;
-	isSuccessful: boolean;
+	isSuccess: boolean;
 	isFailure: boolean;
 	error?: {
 		code: string;
 		description: string;
 	}
+}
+
+export interface IAddFormRequest {
+	title: string;
 }

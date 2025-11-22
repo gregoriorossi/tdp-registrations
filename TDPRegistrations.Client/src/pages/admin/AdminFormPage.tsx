@@ -1,46 +1,45 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { AdminPageWrapper } from "./AdminPageWrapper";
 import { useEffect } from "react";
-import { getFormBySlug } from "../../services/forms.service";
 import { Errors } from "../../consts/errors.consts";
 import React from "react";
 import { IForm } from "../../models/form.models";
-import { Box, Chip, Grid, Typography } from "@mui/material";
+import { Alert, Box, Chip, CircularProgress, Grid, Typography } from "@mui/material";
 import { Routes } from "../../consts/routes.consts";
 import { FieldsEditor } from "../../components/admin/form/FieldsEditor";
 import styles from "../../App.module.scss";
+import { useFormBySlug } from "../../queries/forms.queries"; 
+import { ErrorMessage } from "../../components/ErrorMessage";
 
 export function AdminFormPage() {
 	const params = useParams();
 	const navigate = useNavigate();
 	const slug: string | undefined = params.slug;
 
-	const [form, setForm] = React.useState<IForm>({
-		dateCreated: '',
-		id: '',
-		isOpen: false,
-		slug: '',
-		title: '',
-		fields: [],
-		dateUpdated: '',
-		description: ''
-	});
+	if (!slug) {
+		navigate(Routes.NotFound);
+		return;
+	}
 
-	useEffect(() => {
-		// se vuoto andare in 404
-		const fetchForm = async () => {
-			const result = await getFormBySlug(params.slug!);
+	const { data: response, isLoading, error } = useFormBySlug(slug);
 
-			if (result.error && result.error.code === Errors.Form.NotFound) {
-				navigate(Routes.NotFound);
-				return;
-			}
+	if (response?.error && response.error.code === Errors.Form.NotFound) {
+		navigate(Routes.NotFound);
+		return;
+	}
 
-			setForm(result.value);
-		}
+	const form = response?.value;
 
-		fetchForm();
-	}, []);
+	if (!form) {
+		return <CircularProgress />;
+	}
+
+	{
+		response?.error?.description &&
+			<Alert severity="error">
+				<ErrorMessage errorCode={response?.error?.code} />
+			</Alert>
+	}
 
 	return (
 		<AdminPageWrapper className={styles.adminFormPage}>

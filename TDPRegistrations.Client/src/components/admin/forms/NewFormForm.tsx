@@ -2,9 +2,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import *  as yup from "yup";
 import styles from "../../../App.module.scss";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, TextField, Typography } from "@mui/material";
+import { useCreateForm } from "../../../queries/forms.queries";
+import { ERROR_STRINGS, STRINGS } from "../../../consts/strings.consts";
+import { ErrorMessage } from "../../ErrorMessage";
+
 interface INewFormFormProps {
-	onSubmit: (data: any) => void;
+	onSubmit: () => void;
+}
+
+interface INewFormFields {
+	name: string;
 }
 
 const schema = yup.object({
@@ -15,10 +23,15 @@ export function NewFormForm(props: INewFormFormProps) {
 	const { handleSubmit, register, formState: { errors } } = useForm({
 		resolver: yupResolver(schema)
 	});
+	const addForm = useCreateForm();
 
-	const onSubmit = (data: any) => {
+	const onSubmit = async (data: INewFormFields): Promise<void> => {
 		console.log(data);
-		props.onSubmit(data);
+		await addForm.mutateAsync(data.name);
+
+		if (!addForm.data?.error?.description?.length) {
+			props.onSubmit();
+		}
 	}
 
 	return <Box className={styles.form}
@@ -32,7 +45,18 @@ export function NewFormForm(props: INewFormFormProps) {
 			error={!!errors.name}
 			helperText={errors.name?.message} />
 
-		<Button type="submit" variant="contained">
+		{
+			addForm.isPending && <CircularProgress />
+		}
+
+		{
+			addForm.data?.error?.description &&
+			<Alert severity="error">
+				<ErrorMessage errorCode={addForm?.data?.error?.code} />
+			</Alert>
+		}
+
+		<Button type="submit" variant="contained" disabled={addForm.isPending}>
 			Crea
 		</Button>
 	</Box>;

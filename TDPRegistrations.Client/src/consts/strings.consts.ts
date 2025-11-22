@@ -1,4 +1,6 @@
-﻿export const STRINGS = {
+﻿import { Errors } from "./errors.consts";
+
+export const STRINGS = {
 	Forms: {
 
 	},
@@ -21,6 +23,7 @@
 		AdminAllForms: {
 			Title: 'Form di registrazione',
 			NewForm: 'Nuova form',
+			NoFormsAvailable: 'Non sono presenti form di registrazione.',
 			Table: {
 				TitleColumn: 'Titolo',
 				DateColumn: 'Data',
@@ -36,6 +39,12 @@
 	Cancel: 'Cancella',
 	Create: 'Crea',
 	Delete: 'Elimina',
-	Save: 'Salva'
-
+	Save: 'Salva',
+	GenericError: 'C\'è stato un errore, riprovare più tardi.',
 } 
+
+interface IErrorStrings {
+	[key: string]: string;
+}
+export const ERROR_STRINGS: IErrorStrings = {};
+ERROR_STRINGS[Errors.Form.SlugNotAvailable] = 'Esiste già una form con lo stesso nome';
