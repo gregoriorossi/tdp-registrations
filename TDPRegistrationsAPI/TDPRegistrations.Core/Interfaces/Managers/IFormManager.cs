@@ -16,10 +16,14 @@ namespace TDPRegistrations.Core.Interfaces.Managers
 
         Task<Form> CreateAsync(Form form, CancellationToken cancellationToken);
 
+        Task DeleteAsync(Form form, CancellationToken cancellationToken);
+
         Task<Form> UpdateAsync(Form form, CancellationToken cancellationToken);
 
         Task<Field> AddFieldAsync(Field field, Guid formId, CancellationToken cancellationToken);
 
         Task<IEnumerable<Field>> GetFieldsAsync(Guid formId, CancellationToken cancellationToken);
+
+        Task SetRegistrationsStatus(Guid formId, bool status, CancellationToken cancellationToken);
     }
 }

@@ -1,5 +1,6 @@
 export type Styles = {
   'actionContainer': string;
+  'actionsBar': string;
   'adminAllFormsPage': string;
   'adminFormPage': string;
   'adminHeader': string;
@@ -13,6 +14,7 @@ export type Styles = {
   'firstRow': string;
   'form': string;
   'formEditor': string;
+  'fullWidth': string;
   'greenIcon': string;
   'leftColumn': string;
   'logo': string;
@@ -22,6 +24,7 @@ export type Styles = {
   'readTheDocs': string;
   'redIcon': string;
   'secondRow': string;
+  'section': string;
   'subheaderContainer': string;
 };
 

@@ -1,27 +1,68 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { AdminPageWrapper } from "./AdminPageWrapper";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Errors } from "../../consts/errors.consts";
 import React from "react";
 import { IForm } from "../../models/form.models";
-import { Alert, Box, Chip, CircularProgress, Grid, Typography } from "@mui/material";
+import { Alert, Box, Button, Chip, CircularProgress, Grid, Icon, TextField, Typography } from "@mui/material";
 import { Routes } from "../../consts/routes.consts";
 import { FieldsEditor } from "../../components/admin/form/FieldsEditor";
 import styles from "../../App.module.scss";
-import { useFormBySlug } from "../../queries/forms.queries";
+import { useFormById, useUpdateForm } from "../../queries/forms.queries";
 import { ErrorMessage } from "../../components/ErrorMessage";
+import {
+	MenuButtonBold,
+	MenuButtonBulletedList,
+	MenuButtonItalic,
+	MenuControlsContainer,
+	MenuDivider,
+	MenuSelectHeading,
+	RichTextEditor,
+	type RichTextEditorRef,
+} from "mui-tiptap";
+import *  as yup from "yup";
+import StarterKit from "@tiptap/starter-kit";
+import { STRINGS } from "../../consts/strings.consts";
+import { Controller, useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import SaveIcon from '@mui/icons-material/Save';
+const FormPage = STRINGS.Pages.AdminForm;
+
+const schema = yup.object({
+	title: yup.string().required(STRINGS.Pages.AdminForm.Form.ErrorMessages.TitleMandatory),
+	description: yup.string()
+});
+
+interface IFormData {
+	title: string;
+	description?: string | undefined;
+}
 
 export function AdminFormPage() {
 	const params = useParams();
 	const navigate = useNavigate();
-	const slug: string | undefined = params.slug;
+	const id: string | undefined = params.id;
+	const updateForm = useUpdateForm();
+	const rteRef = useRef<RichTextEditorRef>(null);
+	const { handleSubmit, control, register, formState: { errors } } = useForm({
+		resolver: yupResolver(schema)
+	});
 
-	if (!slug) {
+	const onSubmit = async (data: IFormData, form: IForm): Promise<void> => { 
+		console.log(data);
+
+		const updatedForm = JSON.parse(JSON.stringify(form)) as IForm;
+		updatedForm.title = data.title;
+		updatedForm.description = data?.description ?? '';
+		await updateForm.mutateAsync(updatedForm);
+	}
+
+	if (!id) {
 		navigate(Routes.NotFound);
 		return;
 	}
 
-	const { data: response, isLoading, error } = useFormBySlug(slug);
+	const { data: response, isLoading, error } = useFormById(id);
 
 	if (response?.error && response.error.code === Errors.Form.NotFound) {
 		navigate(Routes.NotFound);
@@ -30,7 +71,7 @@ export function AdminFormPage() {
 
 	const form = response?.value;
 
-	if (!form) {
+	if (!form || updateForm.isPending) {
 		return <CircularProgress />;
 	}
 
@@ -45,31 +86,75 @@ export function AdminFormPage() {
 		<AdminPageWrapper
 			className={styles.adminFormPage}
 			title={form.title}>
-			<Box component="h1"></Box>
-			<h2>Mettere bottone apertura/chiusura iscrizioni</h2>
-			<Grid container spacing={2} className={styles.leftColumn}>
-				<Grid size={{ xs: 12, md: 6 }}>
-					<h2>Informazioni</h2>
-					<Typography component="h3">
-						<b>Stato&nbsp;</b>{
+			<Box component="form"
+				onSubmit={handleSubmit((data) => onSubmit(data, form))}>
+				<Box component="div" className={styles.actionsBar}>
+					<Typography component="h3" className={styles.section}>
+						<b>{FormPage.Registrations} &nbsp;</b>{
 							form.isOpen
-								? <Chip label="Aperte" color="success" variant="filled" />
-								: <Chip label="Chiuse" color="error" variant="filled" />
+								? <Chip label={STRINGS.OpenPlural} color="success" variant="filled" />
+								: <Chip label={STRINGS.ClosedPlural} color="error" variant="filled" />
 						}
 					</Typography>
 
+					<Box>
+						<Button
+							variant="contained"
+							type="submit"
+							disabled={updateForm.isPending}>
+							<SaveIcon />&nbsp;{STRINGS.Save}
+						</Button>
+					</Box>
+				</Box>
+				<Box>
+					{
+						updateForm?.data?.isFailure &&
+						<Alert severity="error">
+							<ErrorMessage errorCode={updateForm?.data?.error?.code!} />
+						</Alert>
+					}
+				</Box>
+				<Grid container spacing={2} className={styles.leftColumn}>
+					<Grid size={{ xs: 12, md: 6 }}>
 
-					<Typography component="h3">
-						<b>Descrizione</b>
-					</Typography>
-					<Typography component="p">
-						{form.description}
-					</Typography>
+						<TextField
+							label={STRINGS.Pages.AdminForm.Form.TitleLabel}
+							{...register("title")}
+							error={!!errors.title}
+							className={`${styles.section} ${styles.fullWidth}`}
+							helperText={errors.title?.message}
+							defaultValue={form.title} />
+						<Controller
+							name="description"
+							control={control}
+							defaultValue={form.description}
+							render={({ field: { value, onChange } }) => (
+								<RichTextEditor
+									ref={rteRef}
+									className={styles.section}
+									extensions={[StarterKit]}
+									content={value}
+									onUpdate={({ editor }) => {
+										onChange(editor.getHTML())
+									}}
+									renderControls={() => (
+										<MenuControlsContainer>
+											<MenuSelectHeading />
+											<MenuDivider />
+											<MenuButtonBold />
+											<MenuButtonItalic />
+											<MenuButtonBulletedList />
+										</MenuControlsContainer>
+									)} />
+							)}
+						/>
+
+					</Grid>
+					<Grid size={{ xs: 12, md: 6 }}>
+						<FieldsEditor fields={form.fields} />
+					</Grid>
 				</Grid>
-				<Grid size={{ xs: 12, md: 6 }}>
-					<FieldsEditor fields={form.fields} />
-				</Grid>
-			</Grid>
+			</Box>
 		</AdminPageWrapper>
 	);
 }

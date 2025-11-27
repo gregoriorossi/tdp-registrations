@@ -22,8 +22,18 @@ export default class FormsService {
 		return data.data as IResponse<boolean>;
 	}
 
+	public static getFormById = async (slug: string): Promise<IResponse<IForm>> => {
+		const data = await axiosClient.get(FormsEndpoints.getById(slug));
+		return data.data as IResponse<IForm>;
+	}
+
 	public static getFormBySlug = async (slug: string): Promise<IResponse<IForm>> => {
 		const data = await axiosClient.get(FormsEndpoints.getBySlug(slug));
+		return data.data as IResponse<IForm>;
+	}
+
+	public static update = async (form: IForm): Promise<IResponse<IForm>> => {
+		const data = await axiosClient.patch(FormsEndpoints.update(), form);
 		return data.data as IResponse<IForm>;
 	}
 }

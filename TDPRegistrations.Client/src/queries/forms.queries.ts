@@ -11,6 +11,13 @@ export const useForms = (): UseQueryResult<IResponse<IFormBasicDTO[]>> => {
 	});
 }
 
+export const useFormById = (id: string): UseQueryResult<IResponse<IForm>> => {
+	return useQuery({
+		queryKey: [...queryKeys.forms.byId(id)],
+		queryFn: () => FormsService.getFormById(id)
+	});
+}
+
 export const useFormBySlug = (slug: string): UseQueryResult<IResponse<IForm>> => {
 	return useQuery({
 		queryKey: [...queryKeys.forms.bySlug(slug)],
@@ -34,4 +41,16 @@ export const useDeleteForm = () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.forms.all })
 		}
 	});
+}
+
+export const useUpdateForm = () => {
+	return useMutation({
+		mutationFn: (form: IForm) => FormsService.update(form),
+		onSuccess: (data) => {
+			const slug: string = data.isSuccess ? data.value.slug : '';
+			const formBySlugKeys = slug.length ? queryKeys.forms.bySlug(slug) : [];
+			queryClient.invalidateQueries
+				({ queryKey: [...queryKeys.forms.all, ...formBySlugKeys]})
+		}
+	})
 }

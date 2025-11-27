@@ -38,6 +38,7 @@ namespace TDPRegistrations.Infrastracture.Repositories
         {
             return await _appDbContext.Forms
                     .Include(f => f.Fields)
+                    .ThenInclude(f => f.Options)
                     .Where(where)
                     .ToListAsync(cancellationToken);
         }

@@ -57,7 +57,7 @@ export function NewFormForm(props: INewFormFormProps) {
 		}
 
 		<Button type="submit" variant="contained" disabled={addForm.isPending}>
-			Crea
+			{STRINGS.Create}
 		</Button>
 	</Box>;
 }

@@ -29,7 +29,7 @@ const router = createBrowserRouter([
 		element: <AdminAllFormsPage />,
 	},
 	{
-		path: '/admin/form/:slug',
+		path: '/admin/form/:id',
 		element: <AdminFormPage />
 	},
 	{

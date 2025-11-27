@@ -100,7 +100,7 @@ export function AdminAllFormsPage() {
 											</TableCell>
 											<TableCell colSpan={2} align="right">
 												<ButtonGroup variant="contained" aria-label="Azioni form">
-													<Link to={LinkUtils.SlugToRelativeUrl(form.slug)}>
+													<Link to={LinkUtils.IdToRelativeUrl(form.id)}>
 														<Button title="Dettagli"><CreateIcon /></Button>
 													</Link>
 

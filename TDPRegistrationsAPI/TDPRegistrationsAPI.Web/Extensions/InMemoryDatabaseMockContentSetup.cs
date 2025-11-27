@@ -132,7 +132,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
                 DateUpdated = new DateTime(2024, 9, 20),
                 Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut orci nec augue euismod suscipit. Suspendisse condimentum vel libero sed finibus. Sed lacinia eleifend auctor. Etiam bibendum ante nec urna placerat, eget ornare metus posuere. Sed id velit blandit, pellentesque dolor maximus, sagittis justo. Donec ut ipsum et elit venenatis congue. Donec ac sapien id nunc hendrerit tincidunt.",
                 IsOpen = true,
-                Slug = "iscrizioni-settembre-2024",
+                Slug = "iscrizioni-2024",
                 Id = Guid.NewGuid(),
                 Title = "Iscrizioni 2024"
             };

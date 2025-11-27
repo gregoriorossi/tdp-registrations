@@ -33,6 +33,15 @@ export const STRINGS = {
 				Title: 'Vuoi eliminare la form?',
 				Content: 'Una volta eliminata la form non sarà più accedibile e i dati saranno persi'
 			}
+		},
+		AdminForm: {
+			Registrations: 'Iscrizioni',
+			Form: {
+				TitleLabel: 'Titolo',
+				ErrorMessages: {
+					TitleMandatory: "Il titolo della form è obbligatorio"
+				}
+			}
 		}
 	},
 	AddValue: 'Aggiungi un valore',
@@ -40,7 +49,9 @@ export const STRINGS = {
 	Create: 'Crea',
 	Delete: 'Elimina',
 	Save: 'Salva',
-	GenericError: 'C\'è stato un errore, riprovare più tardi.',
+	OpenPlural: 'Aperte',
+	ClosedPlural: 'Chiuse',
+	GenericError: 'C\'è stato un errore, riprovare più tardi.'
 } 
 
 interface IErrorStrings {

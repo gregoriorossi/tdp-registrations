@@ -46,8 +46,21 @@
 
         &.adminFormPage {
 
+            .actionsBar {
+                display: flex;
+                justify-content: space-between;
+                flex-direction: row;
+                margin-bottom: 20px;
+            }
+
             .leftColumn {
                 text-align: left;
+
+                .section {
+                    margin-bottom: 10px;
+
+
+                }
             }
 
             .formEditor {
@@ -136,4 +149,8 @@
 
 .read-the-docs {
     color: #888;
+}
+
+.fullWidth {
+    width: 100%;
 }

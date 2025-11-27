@@ -1,5 +1,5 @@
 export class LinkUtils {
-	public static SlugToRelativeUrl = (slug: string) => {
+	public static IdToRelativeUrl = (slug: string) => {
 		return `/admin/form/${slug}`;
 	}
 }

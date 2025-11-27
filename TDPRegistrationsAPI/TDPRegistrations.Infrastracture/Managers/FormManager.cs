@@ -26,7 +26,7 @@ namespace TDPRegistrations.Infrastracture.Managers
 
         public async Task<Form?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
         {
-            System.Linq.Expressions.Expression<Func<Form, bool>> whereFn = (f) => slug == f.Slug;
+            System.Linq.Expressions.Expression<Func<Form, bool>> whereFn = (f) => slug.ToLower() == f.Slug.ToLower();
             var forms = await _formRepository.GetAllAsync(whereFn, cancellationToken);
             return forms.FirstOrDefault();
         }
@@ -41,14 +41,22 @@ namespace TDPRegistrations.Infrastracture.Managers
         public async Task<bool> IsSlugAvailableAsync(Form form, CancellationToken cancellationToken)
         {
             var result = await GetBySlugAsync(form.Slug, cancellationToken);
+            
+            bool sameForm = result?.Id == form.Id;
             bool slugExists = result != null;
-            return !slugExists;
+            return !slugExists || sameForm;
         }
 
-        public async Task<Form> UpdateAsync(Form form, CancellationToken cancellationToken)
+        public async Task<Form> UpdateAsync(Form updatedForm, CancellationToken cancellationToken)
         {
+            Form form = await GetByIdAsync(updatedForm.Id, cancellationToken);
+            form.Title = updatedForm.Title;
+            form.Description = updatedForm.Description;
+            form.DateUpdated = DateTime.Now;
+            form.Slug = updatedForm.Slug;
+
             await _formRepository.UpdateAsync(form, cancellationToken);
-            return form;
+            return updatedForm;
         }
 
         public async Task<Field> AddFieldAsync(Field field, Guid formId, CancellationToken cancellationToken)
@@ -77,6 +85,19 @@ namespace TDPRegistrations.Infrastracture.Managers
         {
             Form? result = await GetByIdAsync(id, cancellationToken);
             return result != null;
+        }
+
+        public async Task SetRegistrationsStatus(Guid formId, bool status, CancellationToken cancellationToken)
+        {
+            Form form = await GetByIdAsync(formId, cancellationToken);
+            form.IsOpen = status;
+
+            await UpdateAsync(form, cancellationToken);
+        }
+
+        public async Task DeleteAsync(Form form, CancellationToken cancellationToken)
+        {
+            await _formRepository.DeleteAsync(form, cancellationToken);
         }
     }
 }
