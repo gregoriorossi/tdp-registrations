@@ -18,7 +18,7 @@ namespace TDPRegistrations.Infrastracture.Data
             Console.WriteLine($"Connection String {connectionString}");
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
             optionsBuilder.UseSqlServer(connectionString);
-
+            
             return new AppDbContext(optionsBuilder.Options);
         }
     }

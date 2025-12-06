@@ -1,5 +1,5 @@
 import *  as yup from "yup";
-import { FieldType, IField, IFieldOption } from "../../../models/form.models";
+import { IFieldFormValues, FieldType, IField, IFieldOption } from "../../../models/form.models";
 import { fieldTypesArray, fieldTypesOptions } from "../../../consts/forms.consts";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Typography, TextField, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox, Autocomplete, Chip, Button } from "@mui/material";
@@ -7,22 +7,24 @@ import { useForm, Controller } from "react-hook-form";
 import styles from "../../../App.module.scss";
 import { FieldIcon } from "../FieldIcon";
 import { STRINGS } from "../../../consts/strings.consts";
+import { fieldFormValuesToField } from "../../../utils/forms.utils";
 export interface IFieldFormProps {
 	onSubmit: (data: IField) => void;
 	currentField?: IField;
 }
+
 const FIELD_FORM = STRINGS.Modals.FieldForm;
 const ERROR_MESSAGES = STRINGS.Modals.FieldForm.ErrorMessages;
 
 const schema = yup.object({
-	name: yup.string().required(ERROR_MESSAGES.NameMandatory),
+	label: yup.string().required(ERROR_MESSAGES.NameMandatory),
 	description: yup.string(),
 	type: yup.mixed().oneOf(fieldTypesArray).required(ERROR_MESSAGES.TypeMandatory),
 	mandatory: yup.bool(),
 	options: yup.array()
 		.of(yup.string())
 		.when('type', {
-			is: FieldType.TEXT,
+			is: (type: FieldType) => type !== FieldType.SINGLE_CHOICE && type !== FieldType.MULTIPLE_CHOICE ,
 			then: (schema) => schema.max(0, 'Valori non ammessi se il campo non è di tipo scelta'),
 			otherwise: (schema) => schema.min(1, 'Devi inserire almeno un valore')
 		})
@@ -35,9 +37,11 @@ export function FieldForm(props: IFieldFormProps) {
 
 	const typeOptions = JSON.parse(JSON.stringify(props.currentField?.options ?? []));
 	const { currentField } = props;
-	const onSubmit = (data: any) => {
+
+	const onSubmit = (data: IFieldFormValues) => {
 		console.log(data);
-		//props.onSubmit()
+		const result = fieldFormValuesToField(data, currentField);
+		props.onSubmit(result);
 	}
 
 	const formTitle: string = !currentField ? FIELD_FORM.NewField : FIELD_FORM.EditField;
@@ -45,20 +49,26 @@ export function FieldForm(props: IFieldFormProps) {
 
 	return <Box className={styles.form}
 		component="form"
-		onSubmit={handleSubmit(onSubmit)}>
+		onSubmit={(e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			handleSubmit(onSubmit as any)(e);
+		}}>
 		<Typography variant="h5" component="h2">{formTitle}</Typography>
 
 		<TextField
 			label={FIELD_FORM.NameLabel}
-			{...register("name")}
+			{...register("label")}
+			autoComplete="off"
 			defaultValue={currentField?.label}
-			error={!!errors.name}
-			helperText={errors.name?.message} />
+			error={!!errors.label}
+			helperText={errors.label?.message} />
 
 		<TextField
 			label="Descrizione"
 			{...register("description")}
 			defaultValue={currentField?.description}
+			autoComplete="off"
 			error={!!errors.description}
 			helperText={errors.description?.message} />
 
@@ -68,7 +78,7 @@ export function FieldForm(props: IFieldFormProps) {
 				name="type"
 				control={control}
 				rules={{ required: FIELD_FORM.TypePlaceholder }}
-				defaultValue={currentField?.type ?? -1}
+				defaultValue={currentField?.type ?? FieldType.TEXT}
 				render={({ field }) => (
 					<Select labelId="ruolo-label" label="type" {...field}>
 						{
@@ -92,7 +102,7 @@ export function FieldForm(props: IFieldFormProps) {
 				<Checkbox
 					{...register("mandatory")}
 					defaultValue={currentField?.isMandatory ? 1 : 0} />}
-					label={FIELD_FORM.MandatoryLabel} />
+				label={FIELD_FORM.MandatoryLabel} />
 		</FormControl>
 
 		<Controller

@@ -17,6 +17,10 @@ export const STRINGS = {
 				NameMandatory: 'Il nome del campo è obbligatorio',
 				TypeMandatory: 'La tipologia del campo è obbligatoria'
 			}
+		},
+		DeleteForm: {
+			Title: 'Vuoi eliminare il campo?',
+			Content: 'Una volta eliminato il campo verranno eliminate anche eventuali rispose associate'
 		}
 	},
 	Pages: {
@@ -41,6 +45,9 @@ export const STRINGS = {
 				ErrorMessages: {
 					TitleMandatory: "Il titolo della form è obbligatorio"
 				}
+			},
+			FieldsEditor: {
+				NoFields: 'Nessun campo definito per questa form'
 			}
 		}
 	},

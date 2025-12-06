@@ -47,8 +47,8 @@ export const useUpdateForm = () => {
 	return useMutation({
 		mutationFn: (form: IForm) => FormsService.update(form),
 		onSuccess: (data) => {
-			const slug: string = data.isSuccess ? data.value.slug : '';
-			const formBySlugKeys = slug.length ? queryKeys.forms.bySlug(slug) : [];
+			const id: string = data.isSuccess ? data.value.id : '';
+			const formBySlugKeys = id.length ? queryKeys.forms.byId(id) : [];
 			queryClient.invalidateQueries
 				({ queryKey: [...queryKeys.forms.all, ...formBySlugKeys]})
 		}

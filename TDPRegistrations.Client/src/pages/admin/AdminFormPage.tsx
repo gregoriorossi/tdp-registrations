@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { AdminPageWrapper } from "./AdminPageWrapper";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Errors } from "../../consts/errors.consts";
 import React from "react";
-import { IForm } from "../../models/form.models";
+import { IField, IForm } from "../../models/form.models";
 import { Alert, Box, Button, Chip, CircularProgress, Grid, Icon, TextField, Typography } from "@mui/material";
 import { Routes } from "../../consts/routes.consts";
 import { FieldsEditor } from "../../components/admin/form/FieldsEditor";
@@ -44,18 +44,30 @@ export function AdminFormPage() {
 	const id: string | undefined = params.id;
 	const updateForm = useUpdateForm();
 	const rteRef = useRef<RichTextEditorRef>(null);
+	const [fields, setFields] = useState<IField[]>([]);
+	const [initialized, setInitialized] = useState(false);
+
 	const { handleSubmit, control, register, formState: { errors } } = useForm({
 		resolver: yupResolver(schema)
 	});
 
-	const onSubmit = async (data: IFormData, form: IForm): Promise<void> => { 
+	const onSubmit = async (data: IFormData, form: IForm): Promise<void> => {
 		console.log(data);
+		const updatedForm: IForm = {
+			...form,
+			title: data.title,
+			description: data?.description ?? '',
+			fields: fields
+		}
 
-		const updatedForm = JSON.parse(JSON.stringify(form)) as IForm;
-		updatedForm.title = data.title;
-		updatedForm.description = data?.description ?? '';
 		await updateForm.mutateAsync(updatedForm);
 	}
+
+	const onFieldsUpdate = (updatedFields: IField[]): void => {
+		console.log('fields', updatedFields);
+		setFields(updatedFields);
+	}
+
 
 	if (!id) {
 		navigate(Routes.NotFound);
@@ -71,15 +83,27 @@ export function AdminFormPage() {
 
 	const form = response?.value;
 
+	useEffect(() => {
+		if (form && !initialized) {
+			setFields(form.fields);
+			setInitialized(true);
+		}
+	}, [form, initialized]);
+
 	if (!form || updateForm.isPending) {
 		return <CircularProgress />;
 	}
 
-	{
-		response?.error?.description &&
-			<Alert severity="error">
-				<ErrorMessage errorCode={response?.error?.code} />
-			</Alert>
+	if (updateForm.error) {
+		return <Alert severity="error">
+			<ErrorMessage errorCode={STRINGS.GenericError} />
+		</Alert>;
+	}
+
+	if (response?.error?.description) {
+		return <Alert severity="error">
+			<ErrorMessage errorCode={response?.error?.code} />
+		</Alert>;
 	}
 
 	return (
@@ -151,7 +175,9 @@ export function AdminFormPage() {
 
 					</Grid>
 					<Grid size={{ xs: 12, md: 6 }}>
-						<FieldsEditor fields={form.fields} />
+						<FieldsEditor
+							fields={fields}
+							onFieldsUpdated={onFieldsUpdate} />
 					</Grid>
 				</Grid>
 			</Box>

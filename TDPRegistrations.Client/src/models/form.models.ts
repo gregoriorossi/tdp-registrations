@@ -19,14 +19,14 @@ export interface IForm {
 
 export interface IField {
 	label: string;
-	description: string;
+	description?: string;
 	type: FieldType;
 	isMandatory: boolean;
 	order: number;
 	options: IFieldOption[];
-	id: string;
-	dateCreated: string;
-	dateUpdated: string;
+	id?: string | null;
+	dateCreated?: string;
+	dateUpdated?: string;
 }
 
 export enum FieldType {
@@ -43,4 +43,11 @@ export enum FieldType {
 export interface IFieldOption {
 	id: string;
 	label: string;
+}
+export interface IFieldFormValues {
+	description?: string | undefined;
+	mandatory?: boolean | undefined;
+	label: string;
+	type: FieldType;
+	options: string[] | undefined;
 }

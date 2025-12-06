@@ -9,12 +9,16 @@ import React from "react";
 import axiosClient from "../../../api/axios";
 import ConfirmationDialog from "../ConfirmationDialog";
 import { EditFieldModal } from "../modals/EditFieldModal";
+import { STRINGS } from "../../../consts/strings.consts";
 
 export interface IFormEditorFieldProps {
 	field: IField;
+	onDeleted: (field: IField) => void;
+	onUpdated: (field: IField) => void;
 }
+
 export function FieldEditor(props: IFormEditorFieldProps) {
-	const { field } = props;
+	const { field, onDeleted } = props;
 	const [deleteFormDialogOpen, setDeleteFormDialogOpen] = React.useState(false);
 	const [editFieldModalOpen, setEditFieldModalOpen] = React.useState(false);
 
@@ -23,8 +27,8 @@ export function FieldEditor(props: IFormEditorFieldProps) {
 	}
 
 	const onDeleteFormHandler = (): void => {
+		onDeleted(field);
 		setDeleteFormDialogOpen(false);
-		//axiosClient.post(TDPEndpoints.Forms.Delete('test'));
 	}
 
 	const onEditClick = (): void => {
@@ -33,6 +37,11 @@ export function FieldEditor(props: IFormEditorFieldProps) {
 
 	const onEditModalClose = (): void => {
 		setEditFieldModalOpen(false);
+	}
+
+	const onUpdated = (field: IField): void => {
+		props.onUpdated(field);
+		setDeleteFormDialogOpen(false);
 	}
 
 
@@ -59,14 +68,18 @@ export function FieldEditor(props: IFormEditorFieldProps) {
 				<Chip label={o.label} color="info" variant="filled" className={styles.option} key={idx} />)}
 		</div>
 
-		<EditFieldModal field={field} onClose={onEditModalClose} open={editFieldModalOpen} />
+		<EditFieldModal
+			field={field}
+			onClose={onEditModalClose}
+			onUpdated={props.onUpdated}
+			open={editFieldModalOpen} />
 
 		<ConfirmationDialog
 			isOpen={deleteFormDialogOpen}
-			title="Vuoi eliminare il campo?"
-			cancelBtnLabel="Cancella"
-			confirmBtnLabel="Elimina"
-			content="Una volta eliminato il campo verranno eliminate anche eventuali rispose associate"
+			title={STRINGS.Modals.DeleteForm.Title}
+			cancelBtnLabel={STRINGS.Cancel}
+			confirmBtnLabel={STRINGS.Delete}
+			content={STRINGS.Modals.DeleteForm.Content}
 			onCancel={() => { setDeleteFormDialogOpen(false) }}
 			onClose={() => { setDeleteFormDialogOpen(false) }}
 			onConfirm={onDeleteFormHandler} />
