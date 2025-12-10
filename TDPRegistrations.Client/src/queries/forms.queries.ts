@@ -1,7 +1,7 @@
 import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "../api/queryClient";
 import FormsService from "../services/forms.service";
-import { IResponse } from "../models/api.models";
+import { IResponse, IUpdateFormRequest } from "../models/api.models";
 import { IForm, IFormBasicDTO } from "../models/form.models";
 
 export const useForms = (): UseQueryResult<IResponse<IFormBasicDTO[]>> => {
@@ -45,7 +45,7 @@ export const useDeleteForm = () => {
 
 export const useUpdateForm = () => {
 	return useMutation({
-		mutationFn: (form: IForm) => FormsService.update(form),
+		mutationFn: (form: IUpdateFormRequest) => FormsService.update(form),
 		onSuccess: (data) => {
 			const id: string = data.isSuccess ? data.value.id : '';
 			const formBySlugKeys = id.length ? queryKeys.forms.byId(id) : [];

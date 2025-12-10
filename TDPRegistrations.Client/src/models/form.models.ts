@@ -1,3 +1,5 @@
+import { IImage } from "./shared.models";
+
 export interface IFormBasicDTO {
 	id: string;
 	title: string;
@@ -15,6 +17,7 @@ export interface IForm {
 	description: string;
 	dateUpdated: string;
 	fields: IField[];
+	bannerImage: IImage | null;
 }
 
 export interface IField {

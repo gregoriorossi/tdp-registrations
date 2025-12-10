@@ -1,4 +1,6 @@
-﻿using TDPRegistrations.Core.Enums;
+﻿using Newtonsoft.Json;
+using TDPRegistrations.Core.Entities;
+using TDPRegistrations.Core.Enums;
 using TDPRegistrations.Core.Models;
 using TDPRegistrationsAPI.Web.Helpers;
 using TDPRegistrationsAPI.Web.ViewModels.Requests;
@@ -20,10 +22,12 @@ namespace TDPRegistrationsAPI.Web.Mappers
             };
         }
 
-        public static Form UpdateFormVMToForm(UpdateFormVM model)
+        public static async Task<Form> UpdateFormVMToForm(UpdateFormVM model)
         {
             string slug = SlugHelper.Generate(model.Title);
-            List<Field> fields = model.Fields.Select(model => {
+            List<UpdateFormFieldVM> updateFormFieldVMs = JsonConvert.DeserializeObject<List<UpdateFormFieldVM>>(model.Fields) ?? new List<UpdateFormFieldVM>();
+
+            List<Field> fields = updateFormFieldVMs.Select(model => {
                 return new Field
                 {
                     Label = model.Label,
@@ -36,6 +40,19 @@ namespace TDPRegistrationsAPI.Web.Mappers
                 };
             }).ToList();
 
+            Image? bannerImage = null;
+            if (model.BannerImage != null )
+            {
+                bannerImage = new Image();
+                bannerImage.Length = model.BannerImage.Length;
+                bannerImage.ContentType = model.BannerImage.ContentType;
+                bannerImage.FileName = model.BannerImage.FileName;  
+
+                await using var ms = new MemoryStream();
+                await model.BannerImage.CopyToAsync(ms);
+                bannerImage.Data  = ms.ToArray();
+            }
+
             return new Form()
             {
                 Id = model.Id,
@@ -43,21 +60,8 @@ namespace TDPRegistrationsAPI.Web.Mappers
                 Description = model.Description,
                 Slug = slug,
                 DateUpdated = DateTime.Now,
-                Fields = fields
-            };
-        }
-
-        public static Field AddFieldVMToField(AddFieldVM model)
-        {
-            return new Field()
-            {
-                DateCreated = DateTime.Now,
-                DateUpdated = DateTime.Now,
-                Label = model.Label,
-                Description = model.Description,
-                IsMandatory = model.IsMandatory,
-                Type = ToFieldType(model.Type),
-                Options = model.Options.Select((o, idx) => new FieldOption(o, idx + 1)).ToList()
+                Fields = fields,
+                BannerImage = bannerImage
             };
         }
 

@@ -1,11 +1,9 @@
 import { FieldType } from "../models/form.models";
 import { IFieldTypeValue } from "../models/shared.models";
+import *  as yup from "yup";
+import { STRINGS } from "./strings.consts";
 
 export const fieldTypesOptions: IFieldTypeValue[] = [
-    {
-        Key: FieldType.EMPTY,
-        Value: ""
-    },
     {
         Key: FieldType.TEXT,
         Value: "Testo"
@@ -46,3 +44,17 @@ export const fieldTypesArray: FieldType[] = [
     FieldType.MULTIPLE_CHOICE,
     FieldType.EMAIL
 ];
+
+export const MAX_IMAGE_SIZE = 3 * 1024 * 1024; // 3MB
+
+const AdminForm = STRINGS.Pages.AdminForm;
+
+export const adminFormSchema = yup.object({
+    title: yup.string().required(AdminForm.Form.ErrorMessages.TitleMandatory),
+    description: yup.string(),
+    bannerImage: yup
+        .mixed<File>()
+        .nullable()
+        .optional()
+        .test('fileSize', AdminForm.Form.ErrorMessages.ImageTooLarge, (file) => !file || file.size <= MAX_IMAGE_SIZE)
+});

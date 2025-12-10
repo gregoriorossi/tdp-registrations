@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Errors } from "../../consts/errors.consts";
 import React from "react";
 import { IField, IForm } from "../../models/form.models";
-import { Alert, Box, Button, Chip, CircularProgress, Grid, Icon, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Chip, CircularProgress, Grid, Icon, Stack, TextField, Typography } from "@mui/material";
 import { Routes } from "../../consts/routes.consts";
 import { FieldsEditor } from "../../components/admin/form/FieldsEditor";
 import styles from "../../App.module.scss";
@@ -26,16 +26,16 @@ import { STRINGS } from "../../consts/strings.consts";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import SaveIcon from '@mui/icons-material/Save';
+import { ImagePicker } from "../../components/admin/input/imagePicker";
+import { MAX_IMAGE_SIZE, adminFormSchema } from "../../consts/forms.consts";
+import { IImage } from "../../models/shared.models";
+import { IUpdateFormRequest } from "../../models/api.models";
 const FormPage = STRINGS.Pages.AdminForm;
-
-const schema = yup.object({
-	title: yup.string().required(STRINGS.Pages.AdminForm.Form.ErrorMessages.TitleMandatory),
-	description: yup.string()
-});
 
 interface IFormData {
 	title: string;
 	description?: string | undefined;
+	bannerImage?: File | undefined | null;
 }
 
 export function AdminFormPage() {
@@ -46,18 +46,22 @@ export function AdminFormPage() {
 	const rteRef = useRef<RichTextEditorRef>(null);
 	const [fields, setFields] = useState<IField[]>([]);
 	const [initialized, setInitialized] = useState(false);
+	const [deletedBannerImage, setDeletedBannerImage] = useState(false);
 
-	const { handleSubmit, control, register, formState: { errors } } = useForm({
-		resolver: yupResolver(schema)
+	const { handleSubmit, control, register, setValue, formState: { errors } } = useForm({
+		resolver: yupResolver(adminFormSchema)
 	});
 
 	const onSubmit = async (data: IFormData, form: IForm): Promise<void> => {
 		console.log(data);
-		const updatedForm: IForm = {
+
+		const updatedForm: IUpdateFormRequest = {
 			...form,
 			title: data.title,
 			description: data?.description ?? '',
-			fields: fields
+			fields: fields,
+			bannerImage: data?.bannerImage ?? null,
+			bannerImageDeleted: deletedBannerImage,
 		}
 
 		await updateForm.mutateAsync(updatedForm);
@@ -68,6 +72,14 @@ export function AdminFormPage() {
 		setFields(updatedFields);
 	}
 
+	const onImageChange = (file: File | null) => {
+		if (!file) {
+			setDeletedBannerImage(true);
+		} else {
+			setValue('bannerImage', file, { shouldValidate: true, shouldDirty: true });
+			setDeletedBannerImage(false);
+		}
+	}
 
 	if (!id) {
 		navigate(Routes.NotFound);
@@ -82,7 +94,7 @@ export function AdminFormPage() {
 	}
 
 	const form = response?.value;
-
+	console.log("errors", errors.bannerImage);
 	useEffect(() => {
 		if (form && !initialized) {
 			setFields(form.fields);
@@ -148,6 +160,18 @@ export function AdminFormPage() {
 							className={`${styles.section} ${styles.fullWidth}`}
 							helperText={errors.title?.message}
 							defaultValue={form.title} />
+
+						<Controller
+							name='bannerImage'
+							control={control}
+							render={({ field }) => (
+									<ImagePicker
+										fieldLabel={FormPage.Form.Image}
+										image={field?.value ?? null}
+										onChange={onImageChange} />								
+									
+							)} />
+
 						<Controller
 							name="description"
 							control={control}

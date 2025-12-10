@@ -106,8 +106,9 @@ namespace TDPRegistrationsAPI.Web.Controllers
                 return BadRequest();
             }
 
-            Form updatedForm = ViewModelToEntity.UpdateFormVMToForm(model);
+            Form updatedForm = await ViewModelToEntity.UpdateFormVMToForm(model);
 
+            // check validità immagine banner
             bool formExists = await _formManager.FormExists(updatedForm.Id, cancellationToken);
             if (!formExists)
             {

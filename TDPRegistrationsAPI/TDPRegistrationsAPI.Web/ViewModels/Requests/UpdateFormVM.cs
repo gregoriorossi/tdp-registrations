@@ -10,9 +10,11 @@ namespace TDPRegistrationsAPI.Web.ViewModels.Requests
         [Required, StringLength(maximumLength: 100, MinimumLength = 5)]
         public string Title { get; set; } = string.Empty;
 
+        public IFormFile? BannerImage { get; set; }
+
         public string Description { get; set; } = string.Empty;
 
-        public List<UpdateFormFieldVM> Fields { get; set; } = [];
+        public string Fields { get; set; } = string.Empty;
     }
 
     public class UpdateFormFieldVM

@@ -8,6 +8,7 @@ import styles from "../../../App.module.scss";
 import { FieldIcon } from "../FieldIcon";
 import { STRINGS } from "../../../consts/strings.consts";
 import { fieldFormValuesToField } from "../../../utils/forms.utils";
+
 export interface IFieldFormProps {
 	onSubmit: (data: IField) => void;
 	currentField?: IField;

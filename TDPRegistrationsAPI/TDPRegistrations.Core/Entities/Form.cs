@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using TDPRegistrations.Core.Entities;
 
 namespace TDPRegistrations.Core.Models
 {
@@ -10,5 +11,6 @@ namespace TDPRegistrations.Core.Models
         public bool IsOpen { get; set; }
         public ICollection<Field> Fields { get; set; } = [];
         public string Slug { get; set; } = string.Empty;
+        public Image? BannerImage { get; set; }
     }
 }

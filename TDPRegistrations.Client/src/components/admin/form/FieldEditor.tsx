@@ -40,8 +40,8 @@ export function FieldEditor(props: IFormEditorFieldProps) {
 	}
 
 	const onUpdated = (field: IField): void => {
+		setEditFieldModalOpen(false);
 		props.onUpdated(field);
-		setDeleteFormDialogOpen(false);
 	}
 
 
@@ -71,7 +71,7 @@ export function FieldEditor(props: IFormEditorFieldProps) {
 		<EditFieldModal
 			field={field}
 			onClose={onEditModalClose}
-			onUpdated={props.onUpdated}
+			onUpdated={onUpdated}
 			open={editFieldModalOpen} />
 
 		<ConfirmationDialog

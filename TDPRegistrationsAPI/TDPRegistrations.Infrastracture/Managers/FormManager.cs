@@ -53,17 +53,12 @@ namespace TDPRegistrations.Infrastracture.Managers
             Form form = await GetByIdAsync(updatedForm.Id, cancellationToken);
             form.Title = updatedForm.Title;
             form.Description = updatedForm.Description;
+            form.BannerImage = updatedForm.BannerImage;
             form.DateUpdated = DateTime.Now;
             form.Slug = updatedForm.Slug;
 
-            var newFields = updatedForm.Fields.Where(f => f.Id == Guid.Empty).ToList();
-            newFields.ForEach(f =>
-            {
-                f.DateCreated = DateTime.Now;
-                f.DateUpdated = DateTime.Now;
-                form.Fields.Add(f);
-            });
 
+            // remove deleted fields
             var updatedIds = updatedForm.Fields.Where(f => f.Id != Guid.Empty)
                                          .Select(f => f.Id)
                                          .ToHashSet();
@@ -76,22 +71,18 @@ namespace TDPRegistrations.Infrastracture.Managers
                 }
             }
 
-
-            var existingFieldsById = form.Fields.ToDictionary(f => f.Id);
-            var fieldsToUpdate = updatedForm.Fields.Where(uf => form.Fields.Any(f => f.Id == uf.Id)).ToList();
-            fieldsToUpdate.ForEach(f =>
+            // add new fields
+            var newFields = updatedForm.Fields.Where(f => f.Id == Guid.Empty).ToList();
+            newFields.ForEach(f =>
             {
-                var field = form.Fields.FirstOrDefault(formField => formField.Id == f.Id);
-
-                if (field != null)
-                {
-                    field.Label = f.Label;
-                    field.Description = f.Description;
-                    field.DateUpdated = DateTime.Now;
-                    field.Order = f.Order; field.IsMandatory = f.IsMandatory;
-                }
+                f.DateCreated = DateTime.Now;
+                f.DateUpdated = DateTime.Now;
+                form.Fields.Add(f);
             });
 
+            // update fields
+            var existingFieldsById = form.Fields.ToDictionary(f => f.Id);
+           
             foreach (var uf in updatedForm.Fields.ToList())
             {
                 if (existingFieldsById.TryGetValue(uf.Id, out var field))
@@ -104,74 +95,9 @@ namespace TDPRegistrations.Infrastracture.Managers
                 }
             }
 
+
             await _formRepository.UpdateAsync(form, cancellationToken);
-            return updatedForm;
-        }
-
-        //public async Task<Form> UpdateAsync(Form updatedForm, CancellationToken cancellationToken)
-        //{
-        //    Form form = await GetByIdAsync(updatedForm.Id, cancellationToken);
-        //    DateTime now = DateTime.Now;
-        //    form.Title = updatedForm.Title;
-        //    form.Description = updatedForm.Description;
-        //    form.DateUpdated = now;
-        //    form.Slug = updatedForm.Slug;
-
-        //    var existingFieldsById = form.Fields.ToDictionary(f => f.Id);
-
-        //    foreach (var uf in updatedForm.Fields.ToList())
-        //    {
-        //        // new field
-        //        if (uf.Id == Guid.Empty)
-        //        {
-        //            uf.Id = Guid.NewGuid();
-        //            uf.DateCreated = now;
-        //            uf.DateUpdated = now;
-
-        //            form.Fields.Add(uf);
-        //            continue;
-        //        }
-
-        //        if (existingFieldsById.TryGetValue(uf.Id, out var field))
-        //        {
-        //            field.Label = uf.Label;
-        //            field.Description = uf.Description;
-        //            field.DateUpdated = now;
-        //            field.Order = uf.Order;
-        //            field.IsMandatory = uf.IsMandatory;
-        //        }
-        //    }
-
-        //    var updatedIds = updatedForm.Fields.Where(f => f.Id != Guid.Empty)
-        //                                 .Select(f => f.Id)
-        //                                 .ToHashSet();
-
-        //    foreach (var field in form.Fields.ToList())
-        //    {
-        //        if (!updatedIds.Contains(field.Id))
-        //        {
-        //            form.Fields.Remove(field);
-        //        }
-        //    }
-
-        //    await _formRepository.SaveChangeAsync(cancellationToken);
-        //    return form;
-        //}
-
-        public async Task<Field> AddFieldAsync(Field field, Guid formId, CancellationToken cancellationToken)
-        {
-            var formFields = await GetFieldsAsync(formId, cancellationToken);
-            var lastFormField = formFields.OrderByDescending(f => f.Order).FirstOrDefault();
-
-            int order = lastFormField == null ? 1 : lastFormField.Order + 1;
-            field.Order = order;
-
-            Form form = await GetByIdAsync(formId, cancellationToken);
-            form.Fields.Add(field);
-
-            await _formRepository.SaveChangeAsync(cancellationToken);
-
-            return field;
+            return form;
         }
 
         public async Task<IEnumerable<Field>> GetFieldsAsync(Guid formId, CancellationToken cancellationToken)

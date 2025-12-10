@@ -1,9 +1,6 @@
 ﻿import { Errors } from "./errors.consts";
 
 export const STRINGS = {
-	Forms: {
-
-	},
 	Modals: {
 		FieldForm: {
 			NewField: 'Nuovo campo',
@@ -43,8 +40,10 @@ export const STRINGS = {
 			Form: {
 				TitleLabel: 'Titolo',
 				ErrorMessages: {
-					TitleMandatory: "Il titolo della form è obbligatorio"
-				}
+					TitleMandatory: "Il titolo della form è obbligatorio",
+					ImageTooLarge: 'Il file supera 3MB'
+				},
+				Image: 'Scegli un\'immagine',
 			},
 			FieldsEditor: {
 				NoFields: 'Nessun campo definito per questa form'
@@ -58,7 +57,8 @@ export const STRINGS = {
 	Save: 'Salva',
 	OpenPlural: 'Aperte',
 	ClosedPlural: 'Chiuse',
-	GenericError: 'C\'è stato un errore, riprovare più tardi.'
+	GenericError: 'C\'è stato un errore, riprovare più tardi.',
+	SupportedImageFormats: 'Formati: JPG, PNG. (Max. 3MB)'
 } 
 
 interface IErrorStrings {
