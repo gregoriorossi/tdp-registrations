@@ -39,7 +39,6 @@ namespace TDPRegistrations.Infrastracture.Repositories
             return await _appDbContext.Forms
                     .Include(f => f.Fields)
                     .ThenInclude(field => field.Options)
-                    .Include(f => f.BannerImage)
                     .Where(where)
                     .ToListAsync(cancellationToken);
         }

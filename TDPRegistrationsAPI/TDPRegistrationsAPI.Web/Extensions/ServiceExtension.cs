@@ -11,6 +11,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
         {
             #region Managers
             services.AddScoped<IFormManager, FormManager>();
+            services.AddScoped<IImagesManager, ImagesManager>();
             #endregion
 
             #region Services
@@ -18,6 +19,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
 
             #region Repositories
             services.AddScoped<IFormRepository, FormRepository>();
+            services.AddScoped<IImagesRepository, ImagesRepository>();
             #endregion
 
             return services;

@@ -58,7 +58,7 @@ export const STRINGS = {
 	OpenPlural: 'Aperte',
 	ClosedPlural: 'Chiuse',
 	GenericError: 'C\'è stato un errore, riprovare più tardi.',
-	SupportedImageFormats: 'Formati: JPG, PNG. (Max. 3MB)'
+	SupportedImageFormats: 'Formati supportati: JPG, PNG. (Max. 3MB)'
 } 
 
 interface IErrorStrings {

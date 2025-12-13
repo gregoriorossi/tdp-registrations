@@ -1,5 +1,6 @@
 export type Styles = {
   'actionContainer': string;
+  'actions': string;
   'actionsBar': string;
   'adminAllFormsPage': string;
   'adminFormPage': string;
@@ -9,14 +10,17 @@ export type Styles = {
   'button': string;
   'card': string;
   'content': string;
+  'deleteButtonContainer': string;
   'draggable': string;
   'fieldEditor': string;
   'firstRow': string;
   'form': string;
+  'formContainer': string;
   'formEditor': string;
   'fullWidth': string;
   'greenIcon': string;
-  'leftColumn': string;
+  'image': string;
+  'imagePicker': string;
   'logo': string;
   'logoSpin': string;
   'modal': string;

@@ -18,6 +18,7 @@ export interface IForm {
 	dateUpdated: string;
 	fields: IField[];
 	bannerImage: IImage | null;
+	bannerImageId: string;
 }
 
 export interface IField {

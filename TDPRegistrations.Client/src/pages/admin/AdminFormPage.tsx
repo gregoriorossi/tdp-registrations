@@ -30,6 +30,7 @@ import { ImagePicker } from "../../components/admin/input/imagePicker";
 import { MAX_IMAGE_SIZE, adminFormSchema } from "../../consts/forms.consts";
 import { IImage } from "../../models/shared.models";
 import { IUpdateFormRequest } from "../../models/api.models";
+import ImagesService from "../../services/images.service";
 const FormPage = STRINGS.Pages.AdminForm;
 
 interface IFormData {
@@ -94,7 +95,8 @@ export function AdminFormPage() {
 	}
 
 	const form = response?.value;
-	console.log("errors", errors.bannerImage);
+	const bannerImageUrl: string | null = form?.bannerImageId ? ImagesService.getImageUrl(form.bannerImageId) : null;
+
 	useEffect(() => {
 		if (form && !initialized) {
 			setFields(form.fields);
@@ -150,7 +152,7 @@ export function AdminFormPage() {
 						</Alert>
 					}
 				</Box>
-				<Grid container spacing={2} className={styles.leftColumn}>
+				<Grid container spacing={2} className={styles.formContainer}>
 					<Grid size={{ xs: 12, md: 6 }}>
 
 						<TextField
@@ -161,42 +163,44 @@ export function AdminFormPage() {
 							helperText={errors.title?.message}
 							defaultValue={form.title} />
 
-						<Controller
-							name='bannerImage'
-							control={control}
-							render={({ field }) => (
+						<div className={styles.section}>
+							<Controller
+								name='bannerImage'
+								control={control}
+								render={({ field }) => (
 									<ImagePicker
 										fieldLabel={FormPage.Form.Image}
+										imageUrl={bannerImageUrl}
 										image={field?.value ?? null}
-										onChange={onImageChange} />								
-									
-							)} />
+										onChange={onImageChange} />
+								)} />
+						</div>
 
-						<Controller
-							name="description"
-							control={control}
-							defaultValue={form.description}
-							render={({ field: { value, onChange } }) => (
-								<RichTextEditor
-									ref={rteRef}
-									className={styles.section}
-									extensions={[StarterKit]}
-									content={value}
-									onUpdate={({ editor }) => {
-										onChange(editor.getHTML())
-									}}
-									renderControls={() => (
-										<MenuControlsContainer>
-											<MenuSelectHeading />
-											<MenuDivider />
-											<MenuButtonBold />
-											<MenuButtonItalic />
-											<MenuButtonBulletedList />
-										</MenuControlsContainer>
-									)} />
-							)}
-						/>
-
+						<div className={styles.section}>
+							<Controller
+								name="description"
+								control={control}
+								defaultValue={form.description}
+								render={({ field: { value, onChange } }) => (
+									<RichTextEditor
+										ref={rteRef}
+										className={styles.section}
+										extensions={[StarterKit]}
+										content={value}
+										onUpdate={({ editor }) => {
+											onChange(editor.getHTML())
+										}}
+										renderControls={() => (
+											<MenuControlsContainer>
+												<MenuSelectHeading />
+												<MenuDivider />
+												<MenuButtonBold />
+												<MenuButtonItalic />
+												<MenuButtonBulletedList />
+											</MenuControlsContainer>
+										)} />
+								)} />
+						</div>
 					</Grid>
 					<Grid size={{ xs: 12, md: 6 }}>
 						<FieldsEditor

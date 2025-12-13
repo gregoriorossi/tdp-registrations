@@ -12,5 +12,6 @@ namespace TDPRegistrations.Core.Models
         public ICollection<Field> Fields { get; set; } = [];
         public string Slug { get; set; } = string.Empty;
         public Image? BannerImage { get; set; }
+        public Guid? BannerImageId { get; set; }
     }
 }

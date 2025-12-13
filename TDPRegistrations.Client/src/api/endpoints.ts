@@ -6,3 +6,7 @@ export const FormsEndpoints = {
 	getBySlug: (slug: string) => `/Forms/getbyslug/${slug}`,
 	update: () => '/Forms'
 }
+
+export const ImagesEndpoints = {
+	get: (id: string) => `${import.meta.env.VITE_API_URL}/Images/${id}`
+}

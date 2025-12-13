@@ -47,7 +47,7 @@ namespace TDPRegistrations.Infrastracture.Managers
             return !slugExists || sameForm;
         }
 
-        public async Task<Form> UpdateAsync(Form updatedForm, CancellationToken cancellationToken)
+        public async Task<Form> UpdateAsync(Form updatedForm, bool bannerImageDeleted, CancellationToken cancellationToken)
         {
             DateTime now = DateTime.Now;
             Form form = await GetByIdAsync(updatedForm.Id, cancellationToken);
@@ -57,6 +57,10 @@ namespace TDPRegistrations.Infrastracture.Managers
             form.DateUpdated = DateTime.Now;
             form.Slug = updatedForm.Slug;
 
+            if (bannerImageDeleted)
+            {
+                form.BannerImageId = null;
+            }
 
             // remove deleted fields
             var updatedIds = updatedForm.Fields.Where(f => f.Id != Guid.Empty)
@@ -117,7 +121,7 @@ namespace TDPRegistrations.Infrastracture.Managers
             Form form = await GetByIdAsync(formId, cancellationToken);
             form.IsOpen = status;
 
-            await UpdateAsync(form, cancellationToken);
+            await UpdateAsync(form, false, cancellationToken);
         }
 
         public async Task DeleteAsync(Form form, CancellationToken cancellationToken)
