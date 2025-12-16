@@ -1,4 +1,6 @@
-﻿using TDPRegistrations.Core.Interfaces.Managers;
+﻿using System.Threading;
+using TDPRegistrations.Core.Entities;
+using TDPRegistrations.Core.Interfaces.Managers;
 using TDPRegistrations.Core.Interfaces.Repositories;
 using TDPRegistrations.Core.Models;
 
@@ -62,46 +64,84 @@ namespace TDPRegistrations.Infrastracture.Managers
                 form.BannerImageId = null;
             }
 
-            // remove deleted fields
-            var updatedIds = updatedForm.Fields.Where(f => f.Id != Guid.Empty)
+
+            // remove deleted sections
+            var updatedIds = updatedForm.Sections.Where(s => s.Id != Guid.Empty)
                                          .Select(f => f.Id)
                                          .ToHashSet();
 
-            foreach (var field in form.Fields.ToList())
+            foreach (var section in form.Sections.ToList())
             {
-                if (!updatedIds.Contains(field.Id))
+                if (!updatedIds.Contains(section.Id))
                 {
-                    form.Fields.Remove(field);
+                    // verificare se vengono rimossi anche i campi a cascata
+                    form.Sections.Remove(section);
                 }
             }
 
-            // add new fields
-            var newFields = updatedForm.Fields.Where(f => f.Id == Guid.Empty).ToList();
-            newFields.ForEach(f =>
+            // add new sections
+            var newSections = updatedForm.Sections.Where(s => s.Id == Guid.Empty).ToList();
+            newSections.ForEach(f =>
             {
-                f.DateCreated = DateTime.Now;
-                f.DateUpdated = DateTime.Now;
-                form.Fields.Add(f);
+                form.Sections.Add(f);
             });
 
-            // update fields
-            var existingFieldsById = form.Fields.ToDictionary(f => f.Id);
-           
-            foreach (var uf in updatedForm.Fields.ToList())
+            // update sections
+            var existingSectionsById = form.Sections.ToDictionary(f => f.Id);
+
+            foreach (var updatedSection in updatedForm.Sections.ToList())
             {
-                if (existingFieldsById.TryGetValue(uf.Id, out var field))
+                if (existingSectionsById.TryGetValue(updatedSection.Id, out var sectionToUpdate))
                 {
-                    field.Label = uf.Label;
-                    field.Description = uf.Description;
-                    field.DateUpdated = now;
-                    field.Order = uf.Order;
-                    field.IsMandatory = uf.IsMandatory;
+                    sectionToUpdate.Title = updatedSection.Title;
+                    sectionToUpdate.Description = updatedSection.Description;
+
+                    UpdateFieldsInSection(updatedSection, sectionToUpdate);
                 }
             }
 
 
             await _formRepository.UpdateAsync(form, cancellationToken);
             return form;
+        }
+
+        private void UpdateFieldsInSection(Section updatedSection, Section sectionToUpdate)
+        {
+            var now = DateTime.Now;
+
+            // remove deleted fields
+            var updatedIds = updatedSection.Fields.Where(f => f.Id != Guid.Empty)
+                                         .Select(f => f.Id)
+                                         .ToHashSet();
+
+            foreach (var field in sectionToUpdate.Fields.ToList())
+            {
+                if (!updatedIds.Contains(field.Id))
+                {
+                    sectionToUpdate.Fields.Remove(field);
+                }
+            }
+
+            // add new fields
+            var newFields = updatedSection.Fields.Where(f => f.Id == Guid.Empty).ToList();
+            newFields.ForEach(f =>
+            {
+                sectionToUpdate.Fields.Add(f);
+            });
+
+            // update fields
+            var existingFieldsById = sectionToUpdate.Fields.ToDictionary(f => f.Id);
+
+            foreach (var uf in updatedSection.Fields.ToList())
+            {
+                if (existingFieldsById.TryGetValue(uf.Id, out var field))
+                {
+                    field.Label = uf.Label;
+                    field.Description = uf.Description;
+                    field.Order = uf.Order;
+                    field.IsMandatory = uf.IsMandatory;
+                }
+            }
         }
 
         public async Task<IEnumerable<Field>> GetFieldsAsync(Guid formId, CancellationToken cancellationToken)

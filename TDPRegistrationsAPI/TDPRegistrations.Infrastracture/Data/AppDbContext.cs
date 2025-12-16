@@ -11,10 +11,16 @@ namespace TDPRegistrations.Infrastracture.Data
 
         public DbSet<Form> Forms { get; set; }
         public DbSet<Field> Fields { get; set; }
+        public DbSet<Section> Sections { get; set; }
         public DbSet<FieldOption> FieldOptions { get; set; }
         public DbSet<FormResponse> FormResponses { get; set; }
         public DbSet<FieldResponse> FieldsResponses { get; set; }
         public DbSet<FieldResponseOption> FieldResponseOptions { get; set; }
         public DbSet<Image> Images { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

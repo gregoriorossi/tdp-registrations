@@ -31,13 +31,15 @@ namespace TDPRegistrations.Infrastracture.Repositories
         public async Task<IEnumerable<Form>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _appDbContext.Forms
+                    .AsNoTracking()
                     .ToListAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<Form>> GetAllAsync(Expression<Func<Form, bool>> where, CancellationToken cancellationToken)
         {
             return await _appDbContext.Forms
-                    .Include(f => f.Fields)
+                    .Include(f => f.Sections)
+                    .ThenInclude(f => f.Fields)
                     .ThenInclude(field => field.Options)
                     .Where(where)
                     .ToListAsync(cancellationToken);

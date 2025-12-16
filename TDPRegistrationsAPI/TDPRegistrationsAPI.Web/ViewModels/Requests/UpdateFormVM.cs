@@ -14,9 +14,20 @@ namespace TDPRegistrationsAPI.Web.ViewModels.Requests
 
         public string Description { get; set; } = string.Empty;
 
-        public string Fields { get; set; } = string.Empty;
+        public string Sections { get; set; } = string.Empty;
 
         public bool BannerImageDeleted { get; set; }
+    }
+
+    public class UpdateFormSectionVM
+    {
+        public Guid? Id { get; set; }
+
+        public string Title { get; set;} = string.Empty;
+
+        public string Description { get; set; } = string.Empty;
+
+        public IEnumerable<UpdateFormFieldVM> Fields { get; set; } = new List<UpdateFormFieldVM>();
     }
 
     public class UpdateFormFieldVM

@@ -15,8 +15,6 @@ namespace TDPRegistrations.Core.Models
         public FieldOption(string label, int order)
         {
             Label = label;
-            DateCreated = DateTime.Now;
-            DateUpdated = DateTime.Now;
             Order = order;
         }
     }

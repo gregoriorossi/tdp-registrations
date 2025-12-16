@@ -25,32 +25,43 @@ namespace TDPRegistrationsAPI.Web.Mappers
         public static async Task<Form> UpdateFormVMToForm(UpdateFormVM model)
         {
             string slug = SlugHelper.Generate(model.Title);
-            List<UpdateFormFieldVM> updateFormFieldVMs = JsonConvert.DeserializeObject<List<UpdateFormFieldVM>>(model.Fields) ?? new List<UpdateFormFieldVM>();
+            List<UpdateFormSectionVM> updateFormSectionVMs = JsonConvert.DeserializeObject<List<UpdateFormSectionVM>>(model.Sections) ?? new List<UpdateFormSectionVM>();
 
-            List<Field> fields = updateFormFieldVMs.Select(model => {
-                return new Field
+            List<Section> sections = updateFormSectionVMs.Select(model =>
+            {
+                List<Field> fields = model.Fields.Select(model =>
                 {
-                    Label = model.Label,
+                    return new Field
+                    {
+                        Label = model.Label,
+                        Id = model.Id ?? Guid.Empty,
+                        IsMandatory = model.IsMandatory,
+                        Order = model.Order,
+                        Description = model.Description,
+                        Type = ToFieldType(model.Type),
+                        Options = new List<FieldOption> { }
+                    };
+                }).ToList();
+
+                return new Section
+                {
                     Id = model.Id ?? Guid.Empty,
-                    IsMandatory = model.IsMandatory,
-                    Order = model.Order,
-                    Description = model.Description,
-                    Type = ToFieldType(model.Type),
-                    Options = new List<FieldOption> { }
+                    Title = model.Title,
+                    Description = model.Description
                 };
             }).ToList();
 
             Image? bannerImage = null;
-            if (model.BannerImage != null )
+            if (model.BannerImage != null)
             {
                 bannerImage = new Image();
                 bannerImage.Length = model.BannerImage.Length;
                 bannerImage.ContentType = model.BannerImage.ContentType;
-                bannerImage.FileName = model.BannerImage.FileName;  
+                bannerImage.FileName = model.BannerImage.FileName;
 
                 await using var ms = new MemoryStream();
                 await model.BannerImage.CopyToAsync(ms);
-                bannerImage.Data  = ms.ToArray();
+                bannerImage.Data = ms.ToArray();
             }
 
             return new Form()
@@ -60,7 +71,7 @@ namespace TDPRegistrationsAPI.Web.Mappers
                 Description = model.Description,
                 Slug = slug,
                 DateUpdated = DateTime.Now,
-                Fields = fields,
+                Sections = sections,
                 BannerImage = bannerImage
             };
         }
