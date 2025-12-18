@@ -36,7 +36,7 @@ export function NewFormForm(props: INewFormFormProps) {
 
 	return <Box className={styles.form}
 		component="form"
-		onSubmit={handleSubmit(onSubmit)}	>
+		onSubmit={handleSubmit(onSubmit)}>
 		<Typography variant="h5" component="h2">Nuova form</Typography>
 
 		<TextField

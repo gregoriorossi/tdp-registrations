@@ -46,11 +46,18 @@
 
         &.adminFormPage {
 
-            .actionsBar {
+            .actionsBar,
+            .titleAndAction {
                 display: flex;
                 justify-content: space-between;
                 flex-direction: row;
                 margin-bottom: 20px;
+            }
+
+            .titleAndAction {
+                h2 {
+                    margin: 0;
+                }
             }
 
             .formContainer {
@@ -58,37 +65,45 @@
 
                 .section {
                     margin-bottom: 20px;
-
-
                 }
             }
 
-            .formEditor {
 
-                .fieldEditor { 
-                    display: block;
-                    width: 100%;
-                    margin-bottom: 1rem;
 
-                    .firstRow {
-                        display: flex;
+            .sectionEditor {
+
+                h3 {
+                    display: flex;
+                    justify-content: space-between;
+                }
+
+                .fieldsEditor {
+
+                    .fieldEditor {
+                        display: block;
                         width: 100%;
+                        margin-bottom: 1rem;
 
-                        .actionContainer {
+                        .firstRow {
                             display: flex;
-                            flex-direction: row;
+                            width: 100%;
 
-                            .button {
-                                min-width: auto;
+                            .actionContainer {
+                                display: flex;
+                                flex-direction: row;
+
+                                .button {
+                                    min-width: auto;
+                                }
                             }
                         }
-                    }
 
-                    .secondRow {
-                        display: flex;
+                        .secondRow {
+                            display: flex;
 
-                        .option {
-                            margin-right: 5px;
+                            .option {
+                                margin-right: 5px;
+                            }
                         }
                     }
                 }

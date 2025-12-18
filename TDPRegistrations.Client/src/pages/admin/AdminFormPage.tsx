@@ -3,84 +3,29 @@ import { AdminPageWrapper } from "./AdminPageWrapper";
 import { useEffect, useRef, useState } from "react";
 import { Errors } from "../../consts/errors.consts";
 import React from "react";
-import { IField, IForm } from "../../models/form.models";
-import { Alert, Box, Button, Chip, CircularProgress, Grid, Icon, Stack, TextField, Typography } from "@mui/material";
+import { Alert, Box, Chip, CircularProgress, Tab, Tabs, Typography } from "@mui/material";
 import { Routes } from "../../consts/routes.consts";
-import { FieldsEditor } from "../../components/admin/form/FieldsEditor";
 import styles from "../../App.module.scss";
 import { useFormById, useUpdateForm } from "../../queries/forms.queries";
 import { ErrorMessage } from "../../components/ErrorMessage";
-import {
-	MenuButtonBold,
-	MenuButtonBulletedList,
-	MenuButtonItalic,
-	MenuControlsContainer,
-	MenuDivider,
-	MenuSelectHeading,
-	RichTextEditor,
-	type RichTextEditorRef,
-} from "mui-tiptap";
-import *  as yup from "yup";
-import StarterKit from "@tiptap/starter-kit";
 import { STRINGS } from "../../consts/strings.consts";
-import { Controller, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import SaveIcon from '@mui/icons-material/Save';
-import { ImagePicker } from "../../components/admin/input/imagePicker";
-import { MAX_IMAGE_SIZE, adminFormSchema } from "../../consts/forms.consts";
-import { IImage } from "../../models/shared.models";
 import { IUpdateFormRequest } from "../../models/api.models";
 import ImagesService from "../../services/images.service";
+import { FormEditor } from "../../components/admin/form/FormEditor";
 const FormPage = STRINGS.Pages.AdminForm;
-
-interface IFormData {
-	title: string;
-	description?: string | undefined;
-	bannerImage?: File | undefined | null;
-}
 
 export function AdminFormPage() {
 	const params = useParams();
 	const navigate = useNavigate();
 	const id: string | undefined = params.id;
 	const updateForm = useUpdateForm();
-	const rteRef = useRef<RichTextEditorRef>(null);
-	const [fields, setFields] = useState<IField[]>([]);
-	const [initialized, setInitialized] = useState(false);
-	const [deletedBannerImage, setDeletedBannerImage] = useState(false);
+	const [tabValue, setTabValue] = useState(0);
 
-	const { handleSubmit, control, register, setValue, formState: { errors } } = useForm({
-		resolver: yupResolver(adminFormSchema)
-	});
-
-	const onSubmit = async (data: IFormData, form: IForm): Promise<void> => {
+	const onUpdate = async (data: IUpdateFormRequest): Promise<void> => {
 		console.log(data);
-
-		const updatedForm: IUpdateFormRequest = {
-			...form,
-			title: data.title,
-			description: data?.description ?? '',
-			fields: fields,
-			bannerImage: data?.bannerImage ?? null,
-			bannerImageDeleted: deletedBannerImage,
-		}
-
-		await updateForm.mutateAsync(updatedForm);
+		await updateForm.mutateAsync(data);
 	}
 
-	const onFieldsUpdate = (updatedFields: IField[]): void => {
-		console.log('fields', updatedFields);
-		setFields(updatedFields);
-	}
-
-	const onImageChange = (file: File | null) => {
-		if (!file) {
-			setDeletedBannerImage(true);
-		} else {
-			setValue('bannerImage', file, { shouldValidate: true, shouldDirty: true });
-			setDeletedBannerImage(false);
-		}
-	}
 
 	if (!id) {
 		navigate(Routes.NotFound);
@@ -94,121 +39,60 @@ export function AdminFormPage() {
 		return;
 	}
 
-	const form = response?.value;
-	const bannerImageUrl: string | null = form?.bannerImageId ? ImagesService.getImageUrl(form.bannerImageId) : null;
+	const form = response?.value!;
 
-	useEffect(() => {
-		if (form && !initialized) {
-			setFields(form.fields);
-			setInitialized(true);
-		}
-	}, [form, initialized]);
-
-	if (!form || updateForm.isPending) {
+	if (isLoading) {
 		return <CircularProgress />;
 	}
-
-	if (updateForm.error) {
-		return <Alert severity="error">
-			<ErrorMessage errorCode={STRINGS.GenericError} />
-		</Alert>;
-	}
-
-	if (response?.error?.description) {
-		return <Alert severity="error">
-			<ErrorMessage errorCode={response?.error?.code} />
-		</Alert>;
-	}
+	//useEffect(() => {
+	//	if (form && !initialized) {
+	//		//setFields(form.sections);
+	//		setInitialized(true);
+	//	}
+	//}, [form, initialized]);
 
 	return (
 		<AdminPageWrapper
 			className={styles.adminFormPage}
 			title={form.title}>
-			<Box component="form"
-				onSubmit={handleSubmit((data) => onSubmit(data, form))}>
-				<Box component="div" className={styles.actionsBar}>
-					<Typography component="h3" className={styles.section}>
-						<b>{FormPage.Registrations} &nbsp;</b>{
-							form.isOpen
-								? <Chip label={STRINGS.OpenPlural} color="success" variant="filled" />
-								: <Chip label={STRINGS.ClosedPlural} color="error" variant="filled" />
-						}
-					</Typography>
 
-					<Box>
-						<Button
-							variant="contained"
-							type="submit"
-							disabled={updateForm.isPending}>
-							<SaveIcon />&nbsp;{STRINGS.Save}
-						</Button>
-					</Box>
-				</Box>
-				<Box>
-					{
-						updateForm?.data?.isFailure &&
-						<Alert severity="error">
-							<ErrorMessage errorCode={updateForm?.data?.error?.code!} />
-						</Alert>
+			<Box component="div" className={styles.actionsBar}>
+				<Typography component="h3" className={styles.section}>
+					<b>{FormPage.Registrations} &nbsp;</b>{
+						form.isOpen
+							? <Chip label={STRINGS.OpenPlural} color="success" variant="filled" />
+							: <Chip label={STRINGS.ClosedPlural} color="error" variant="filled" />
 					}
-				</Box>
-				<Grid container spacing={2} className={styles.formContainer}>
-					<Grid size={{ xs: 12, md: 6 }}>
-
-						<TextField
-							label={STRINGS.Pages.AdminForm.Form.TitleLabel}
-							{...register("title")}
-							error={!!errors.title}
-							className={`${styles.section} ${styles.fullWidth}`}
-							helperText={errors.title?.message}
-							defaultValue={form.title} />
-
-						<div className={styles.section}>
-							<Controller
-								name='bannerImage'
-								control={control}
-								render={({ field }) => (
-									<ImagePicker
-										fieldLabel={FormPage.Form.Image}
-										imageUrl={bannerImageUrl}
-										image={field?.value ?? null}
-										onChange={onImageChange} />
-								)} />
-						</div>
-
-						<div className={styles.section}>
-							<Controller
-								name="description"
-								control={control}
-								defaultValue={form.description}
-								render={({ field: { value, onChange } }) => (
-									<RichTextEditor
-										ref={rteRef}
-										className={styles.section}
-										extensions={[StarterKit]}
-										content={value}
-										onUpdate={({ editor }) => {
-											onChange(editor.getHTML())
-										}}
-										renderControls={() => (
-											<MenuControlsContainer>
-												<MenuSelectHeading />
-												<MenuDivider />
-												<MenuButtonBold />
-												<MenuButtonItalic />
-												<MenuButtonBulletedList />
-											</MenuControlsContainer>
-										)} />
-								)} />
-						</div>
-					</Grid>
-					<Grid size={{ xs: 12, md: 6 }}>
-						<FieldsEditor
-							fields={fields}
-							onFieldsUpdated={onFieldsUpdate} />
-					</Grid>
-				</Grid>
+				</Typography>
 			</Box>
+
+			<Box>
+				<Tabs value={tabValue} onChange={(e, value) => setTabValue(value)}>
+					<Tab label={FormPage.Editor } />
+					<Tab label={FormPage.Fields} />
+					<Tab label={FormPage.Answers} />
+					<Tab label={FormPage.Analytics} />
+				</Tabs>
+			</Box>
+
+			{
+				(!form || updateForm.isPending) && <CircularProgress />
+			}
+
+			{
+				(updateForm.error) &&
+				<Alert severity="error">
+					<ErrorMessage errorCode={STRINGS.GenericError} />
+				</Alert>
+			}
+
+			{
+				(response?.error?.description) && <Alert severity="error">
+					<ErrorMessage errorCode={response?.error?.code} />
+				</Alert>
+			}
+
+			{tabValue === 0 && <FormEditor form={form} isLoading={updateForm.isPending} onUpdate={onUpdate} />}
 		</AdminPageWrapper>
 	);
 }

@@ -13,10 +13,10 @@ export type Styles = {
   'deleteButtonContainer': string;
   'draggable': string;
   'fieldEditor': string;
+  'fieldsEditor': string;
   'firstRow': string;
   'form': string;
   'formContainer': string;
-  'formEditor': string;
   'fullWidth': string;
   'greenIcon': string;
   'image': string;
@@ -29,7 +29,10 @@ export type Styles = {
   'redIcon': string;
   'secondRow': string;
   'section': string;
+  'sectionEditor': string;
+  'sectionFields': string;
   'subheaderContainer': string;
+  'titleAndAction': string;
 };
 
 export type ClassNames = keyof Styles;

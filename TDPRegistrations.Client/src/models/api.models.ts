@@ -1,4 +1,4 @@
-import { IField } from "./form.models";
+import { IField, ISection } from "./form.models";
 
 export interface IResponse<T> {
 	value: T;
@@ -21,7 +21,7 @@ export interface IUpdateFormRequest {
 	dateCreated: string;
 	description: string;
 	dateUpdated: string;
-	fields: IField[];
+	sections: ISection[];
 	bannerImage: File | null;
 	bannerImageDeleted: boolean;
 }

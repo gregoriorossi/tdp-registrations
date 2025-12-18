@@ -16,9 +16,15 @@ export interface IForm {
 	dateCreated: string;
 	description: string;
 	dateUpdated: string;
-	fields: IField[];
+	sections: ISection[];
 	bannerImage: IImage | null;
 	bannerImageId: string;
+}
+
+export interface ISection {
+	title: string;
+	description: string;
+	fields: IField[];
 }
 
 export interface IField {
@@ -54,4 +60,9 @@ export interface IFieldFormValues {
 	label: string;
 	type: FieldType;
 	options: string[] | undefined;
+}
+
+export interface ISectionFormValues {
+	title: string;
+	description?: string;
 }

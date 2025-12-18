@@ -15,15 +15,9 @@ export interface IFormEditorProps {
 
 export function FieldsEditor(props: IFormEditorProps) {
 	const fields: IField[] = JSON.parse(JSON.stringify(props.fields));
-	const [newFieldModalOpen, setNewFieldModalOpen] = useState(false);
+	
 
-	const onNewFieldClick = () => {
-		setNewFieldModalOpen(true);
-	}
-
-	const onNewFieldModalClose = (): void => {
-		setNewFieldModalOpen(false);
-	}
+	
 
 	const onFieldDeleted = (field: IField): void => {
 		const updatedFields = fields
@@ -35,14 +29,6 @@ export function FieldsEditor(props: IFormEditorProps) {
 		props.onFieldsUpdated(updatedFields);
 	}
 
-	const onFieldCreated = (field: IField): void => {
-		const order: number = fields.length + 1;
-		field.order = order;
-		fields.push(field);
-		props.onFieldsUpdated(fields);
-		setNewFieldModalOpen(false);
-	}
-
 	const onFieldUpdated = (field: IField): void => {
 		const updatedFields = fields.map(f =>
 			f.order === field.order ? {...f, ...field} : f
@@ -52,17 +38,10 @@ export function FieldsEditor(props: IFormEditorProps) {
 
 	return (
 		<>
-			<h2>Campi della form&nbsp;
-				<Button onClick={onNewFieldClick}
-					title="Aggiungi campo"
-					variant="contained"><AddIcon /></Button>
-			</h2>
-			<div>
-			</div>
 			{
 				fields.length === 0
 					? <Alert severity="info">{FieldsEditorStr.NoFields}</Alert >
-					: <List className={styles.formEditor}>
+					: <List className={styles.fieldsEditor}>
 						{
 							fields.sort(sortFields)
 								.map((f, idx) =>
@@ -74,11 +53,6 @@ export function FieldsEditor(props: IFormEditorProps) {
 						}
 					</List>
 			}
-
-			<NewFieldModal
-				open={newFieldModalOpen}
-				onClose={onNewFieldModalClose}
-				onFieldCreated={onFieldCreated} />
 		</>
 	);
 }

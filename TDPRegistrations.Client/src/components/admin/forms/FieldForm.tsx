@@ -1,6 +1,6 @@
 import *  as yup from "yup";
 import { IFieldFormValues, FieldType, IField, IFieldOption } from "../../../models/form.models";
-import { fieldTypesArray, fieldTypesOptions } from "../../../consts/forms.consts";
+import { fieldFormSchema, fieldTypesArray, fieldTypesOptions } from "../../../consts/forms.consts";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Typography, TextField, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox, Autocomplete, Chip, Button } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
@@ -17,23 +17,9 @@ export interface IFieldFormProps {
 const FIELD_FORM = STRINGS.Modals.FieldForm;
 const ERROR_MESSAGES = STRINGS.Modals.FieldForm.ErrorMessages;
 
-const schema = yup.object({
-	label: yup.string().required(ERROR_MESSAGES.NameMandatory),
-	description: yup.string(),
-	type: yup.mixed().oneOf(fieldTypesArray).required(ERROR_MESSAGES.TypeMandatory),
-	mandatory: yup.bool(),
-	options: yup.array()
-		.of(yup.string())
-		.when('type', {
-			is: (type: FieldType) => type !== FieldType.SINGLE_CHOICE && type !== FieldType.MULTIPLE_CHOICE ,
-			then: (schema) => schema.max(0, 'Valori non ammessi se il campo non è di tipo scelta'),
-			otherwise: (schema) => schema.min(1, 'Devi inserire almeno un valore')
-		})
-});
-
 export function FieldForm(props: IFieldFormProps) {
 	const { control, register, handleSubmit, formState: { errors } } = useForm({
-		resolver: yupResolver(schema)
+		resolver: yupResolver(fieldFormSchema)
 	});
 
 	const typeOptions = JSON.parse(JSON.stringify(props.currentField?.options ?? []));
@@ -66,7 +52,7 @@ export function FieldForm(props: IFieldFormProps) {
 			helperText={errors.label?.message} />
 
 		<TextField
-			label="Descrizione"
+			label={FIELD_FORM.DescriptionLabel}
 			{...register("description")}
 			defaultValue={currentField?.description}
 			autoComplete="off"

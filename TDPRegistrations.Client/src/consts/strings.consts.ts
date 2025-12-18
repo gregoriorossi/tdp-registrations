@@ -6,6 +6,7 @@ export const STRINGS = {
 			NewField: 'Nuovo campo',
 			EditField: 'Modifica campo',
 			NameLabel: 'Nome',
+			DescriptionLabel: 'Descrizione',
 			TypeLabel: 'Tipo',
 			TypePlaceholder: 'Seleziona un tipo',
 			MandatoryLabel: 'Obbligatorio',
@@ -15,9 +16,22 @@ export const STRINGS = {
 				TypeMandatory: 'La tipologia del campo è obbligatoria'
 			}
 		},
+		SectionForm: {
+			NewSection: 'Nuova sezione',
+			EditSection: 'Modifica sezione',
+			TitleLabel: 'Titolo',
+			DescriptionLabel: 'Descrizione',
+			ErrorMessages: {
+				TitleMandatory: 'Il titolo della sezione è obbligatorio'
+			}
+		},
 		DeleteForm: {
 			Title: 'Vuoi eliminare il campo?',
 			Content: 'Una volta eliminato il campo verranno eliminate anche eventuali rispose associate'
+		},
+		DeleteSection: {
+			Title: 'Vuoi eliminare la sezione?',
+			Content: 'Una volta eliminata la sezione e i campi in essa contenuti non saranno più disponibili'
 		}
 	},
 	Pages: {
@@ -44,10 +58,23 @@ export const STRINGS = {
 					ImageTooLarge: 'Il file supera 3MB'
 				},
 				Image: 'Scegli un\'immagine',
+				NoSections: 'Nessuna sezione definita per questa form',
+				EditFormSectionTitle: 'Costruisci la tua form',
+				NewSection: 'Nuova sezione',
+				SectionsSectionTitle: 'Campi della form',
+				NewField: 'Nuovo campo'
+			},
+			SectionEditor: {
+				DeleteSection: 'Elimina sezione',
+				EditSection: 'Modifica la sezione'
 			},
 			FieldsEditor: {
-				NoFields: 'Nessun campo definito per questa form'
-			}
+				NoFields: 'Nessun campo definito per questa sezione'
+			},
+			Editor: 'Editor',
+			Fields: 'Campi',
+			Answers: 'Risposte',
+			Analytics: 'Analtytics'
 		}
 	},
 	AddValue: 'Aggiungi un valore',
@@ -59,7 +86,7 @@ export const STRINGS = {
 	ClosedPlural: 'Chiuse',
 	GenericError: 'C\'è stato un errore, riprovare più tardi.',
 	SupportedImageFormats: 'Formati supportati: JPG, PNG. (Max. 3MB)'
-} 
+}
 
 interface IErrorStrings {
 	[key: string]: string;

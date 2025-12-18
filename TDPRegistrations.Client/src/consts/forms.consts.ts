@@ -2,6 +2,7 @@ import { FieldType } from "../models/form.models";
 import { IFieldTypeValue } from "../models/shared.models";
 import *  as yup from "yup";
 import { STRINGS } from "./strings.consts";
+const ERROR_MESSAGES = STRINGS.Modals.FieldForm.ErrorMessages;
 
 export const fieldTypesOptions: IFieldTypeValue[] = [
     {
@@ -57,4 +58,23 @@ export const adminFormSchema = yup.object({
         .nullable()
         .optional()
         .test('fileSize', AdminForm.Form.ErrorMessages.ImageTooLarge, (file) => !file || file.size <= MAX_IMAGE_SIZE)
+});
+
+export const fieldFormSchema = yup.object({
+    label: yup.string().required(ERROR_MESSAGES.NameMandatory),
+    description: yup.string(),
+    type: yup.mixed().oneOf(fieldTypesArray).required(ERROR_MESSAGES.TypeMandatory),
+    mandatory: yup.bool(),
+    options: yup.array()
+        .of(yup.string())
+        .when('type', {
+            is: (type: FieldType) => type !== FieldType.SINGLE_CHOICE && type !== FieldType.MULTIPLE_CHOICE,
+            then: (schema) => schema.max(0, 'Valori non ammessi se il campo non è di tipo scelta'),
+            otherwise: (schema) => schema.min(1, 'Devi inserire almeno un valore')
+        })
+});
+
+export const sectionFormSchema = yup.object({
+    title: yup.string().required(AdminForm.Form.ErrorMessages.TitleMandatory),
+    description: yup.string()
 });
