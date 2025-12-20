@@ -18,13 +18,6 @@ export const useFormById = (id: string): UseQueryResult<IResponse<IForm>> => {
 	});
 }
 
-export const useFormBySlug = (slug: string): UseQueryResult<IResponse<IForm>> => {
-	return useQuery({
-		queryKey: [...queryKeys.forms.bySlug(slug)],
-		queryFn: () => FormsService.getFormBySlug(slug)
-	});
-}
-
 export const useCreateForm = () => {
 	return useMutation({
 		mutationFn: (title: string) => FormsService.add(title),
@@ -48,9 +41,9 @@ export const useUpdateForm = () => {
 		mutationFn: (form: IUpdateFormRequest) => FormsService.update(form),
 		onSuccess: (data) => {
 			const id: string = data.isSuccess ? data.value.id : '';
-			const formBySlugKeys = id.length ? queryKeys.forms.byId(id) : [];
-			queryClient.invalidateQueries
-				({ queryKey: [...queryKeys.forms.all, ...formBySlugKeys]})
+			const formByIdKeys = id.length > 0 ? queryKeys.forms.byId(id) : [];
+			queryClient.invalidateQueries({ queryKey: queryKeys.forms.all });
+			queryClient.invalidateQueries({ queryKey: formByIdKeys });
 		}
 	})
 }

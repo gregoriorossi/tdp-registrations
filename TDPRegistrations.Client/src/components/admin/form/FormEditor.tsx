@@ -3,7 +3,7 @@ import { IForm, ISection } from "../../../models/form.models";
 import styles from "../../../App.module.scss";
 import { STRINGS } from "../../../consts/strings.consts";
 import { Controller, useForm } from "react-hook-form";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ImagePicker } from "../input/imagePicker";
 import { adminFormSchema } from "../../../consts/forms.consts";
@@ -44,7 +44,6 @@ export function FormEditor(props: IFormEditorProps) {
 
 	const { form: formToUpdate, isLoading, onUpdate } = props;
 	const rteRef = useRef<RichTextEditorRef>(null);
-	const [sections, setSections] = useState<ISection[]>([]);
 	const [sectionModalOpen, setSectionModalOpen] = useState<boolean>(false);
 	const [deletedBannerImage, setDeletedBannerImage] = useState(false);
 	const [form, setForm] = useState<IForm>(formToUpdate);
@@ -71,8 +70,6 @@ export function FormEditor(props: IFormEditorProps) {
 		}
 		setForm(newForm);
 		setSectionModalOpen(false);
-
-		console.log("updated section", newForm);
 	}
 
 	const handleRemoveSection = (idx: number): void => {
@@ -90,7 +87,7 @@ export function FormEditor(props: IFormEditorProps) {
 			...form,
 			sections: newSections
 		});
-	} 
+	}
 
 	const onSubmit = async (data: IFormData, form: IForm): Promise<void> => {
 		console.log(data);
@@ -99,14 +96,18 @@ export function FormEditor(props: IFormEditorProps) {
 			...form,
 			title: data.title,
 			description: data?.description ?? '',
-			sections: sections,
+			sections: form.sections,
 			bannerImage: data?.bannerImage ?? null,
 			bannerImageDeleted: deletedBannerImage,
 		}
 
 		props.onUpdate(updatedForm, deletedBannerImage);
 	}
-	console.log("rener", form);
+
+	useEffect(() => {
+		setForm(props.form);
+	}, [props.form])
+
 	return <Box component="form"
 		onSubmit={handleSubmit((data) => onSubmit(data, form))}>
 		<Box component="div" className={styles.actionsBar}>
@@ -119,9 +120,17 @@ export function FormEditor(props: IFormEditorProps) {
 				</Button>
 			</Box>
 		</Box>
+		<div>
+			[TODO] add privacy file upload<br />
+			[TODO] add open/close state
+			[TODO] ordinamento campi e sezioni<br />
+		</div>
 		<Grid container spacing={2} className={styles.formContainer}>
-			<Grid size={{ xs: 12, md: 6 }}>
 
+			<Grid size={{ xs: 12, md: 6 }}>
+				<Box className={styles.titleAndAction}>
+					<h2>{FormPage.Form.InformationSectionTitle}</h2>
+				</Box>
 				<TextField
 					label={STRINGS.Pages.AdminForm.Form.TitleLabel}
 					{...register("title")}

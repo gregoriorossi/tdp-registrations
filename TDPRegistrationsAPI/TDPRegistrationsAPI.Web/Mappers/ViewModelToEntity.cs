@@ -47,7 +47,9 @@ namespace TDPRegistrationsAPI.Web.Mappers
                 {
                     Id = model.Id ?? Guid.Empty,
                     Title = model.Title,
-                    Description = model.Description
+                    Description = model.Description,
+                    Order = model.Order,
+                    Fields = fields
                 };
             }).ToList();
 

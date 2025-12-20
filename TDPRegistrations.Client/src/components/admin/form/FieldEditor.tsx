@@ -10,6 +10,7 @@ import axiosClient from "../../../api/axios";
 import ConfirmationDialog from "../ConfirmationDialog";
 import { EditFieldModal } from "../modals/EditFieldModal";
 import { STRINGS } from "../../../consts/strings.consts";
+import EmergencyIcon from '@mui/icons-material/Emergency';
 
 export interface IFormEditorFieldProps {
 	field: IField;
@@ -49,7 +50,7 @@ export function FieldEditor(props: IFormEditorFieldProps) {
 		<div className={styles.firstRow}>
 			<DragIndicatorIcon className={styles.draggable} />
 			<FieldIcon fieldType={field.type} />&nbsp;
-			<ListItemText primary={field.label} />
+			<ListItemText primary={`${field.label} ${field.isMandatory ? '*' : ''}`} />
 			<div className={styles.actionContainer}>
 				<ListItemButton onClick={onEditClick}>
 					<ListItemIcon className={styles.button}>

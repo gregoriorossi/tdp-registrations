@@ -43,7 +43,13 @@ export function SectionEditor(props: ISectionEditorProps) {
 		resolver: yupResolver(sectionFormSchema)
 	});
 
-	const onFieldsUpdate = () => { }
+	const onFieldsUpdate = (fields: IField[]) => {
+		const newSection: ISection = {
+			...section,
+			fields: fields
+		};
+		onChange(newSection, idx);
+	}
 
 	const onFieldCreated = (field: IField): void => {
 		const order: number = section.fields.length + 1;

@@ -22,7 +22,6 @@ export function AdminFormPage() {
 	const [tabValue, setTabValue] = useState(0);
 
 	const onUpdate = async (data: IUpdateFormRequest): Promise<void> => {
-		console.log(data);
 		await updateForm.mutateAsync(data);
 	}
 
@@ -44,12 +43,6 @@ export function AdminFormPage() {
 	if (isLoading) {
 		return <CircularProgress />;
 	}
-	//useEffect(() => {
-	//	if (form && !initialized) {
-	//		//setFields(form.sections);
-	//		setInitialized(true);
-	//	}
-	//}, [form, initialized]);
 
 	return (
 		<AdminPageWrapper
@@ -69,7 +62,6 @@ export function AdminFormPage() {
 			<Box>
 				<Tabs value={tabValue} onChange={(e, value) => setTabValue(value)}>
 					<Tab label={FormPage.Editor } />
-					<Tab label={FormPage.Fields} />
 					<Tab label={FormPage.Answers} />
 					<Tab label={FormPage.Analytics} />
 				</Tabs>

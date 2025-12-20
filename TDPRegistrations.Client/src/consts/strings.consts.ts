@@ -61,7 +61,8 @@ export const STRINGS = {
 				NoSections: 'Nessuna sezione definita per questa form',
 				EditFormSectionTitle: 'Costruisci la tua form',
 				NewSection: 'Nuova sezione',
-				SectionsSectionTitle: 'Campi della form',
+				SectionsSectionTitle: 'Sezioni e campi',
+				InformationSectionTitle: 'Informazioni',
 				NewField: 'Nuovo campo'
 			},
 			SectionEditor: {

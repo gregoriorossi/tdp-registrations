@@ -6,6 +6,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import ListIcon from '@mui/icons-material/List';
 import EmailIcon from '@mui/icons-material/Email';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
 export interface IFieldIconProps {
 	fieldType: FieldType;
@@ -28,6 +29,6 @@ export function FieldIcon(props: IFieldIconProps) {
 		case FieldType.TELEPHONE_NUMBER:
 			return <PhoneAndroidIcon />;
 		default:
-			return <FormatColorTextIcon />;
+			return <QuestionMarkIcon />;
 	}
 }

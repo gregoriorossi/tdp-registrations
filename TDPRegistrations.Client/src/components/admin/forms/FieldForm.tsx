@@ -26,7 +26,6 @@ export function FieldForm(props: IFieldFormProps) {
 	const { currentField } = props;
 
 	const onSubmit = (data: IFieldFormValues) => {
-		console.log(data);
 		const result = fieldFormValuesToField(data, currentField);
 		props.onSubmit(result);
 	}
@@ -88,7 +87,7 @@ export function FieldForm(props: IFieldFormProps) {
 			<FormControlLabel control={
 				<Checkbox
 					{...register("mandatory")}
-					defaultValue={currentField?.isMandatory ? 1 : 0} />}
+					defaultChecked={currentField?.isMandatory} />}
 				label={FIELD_FORM.MandatoryLabel} />
 		</FormControl>
 

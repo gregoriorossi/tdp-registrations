@@ -27,6 +27,8 @@ namespace TDPRegistrationsAPI.Web.ViewModels.Requests
 
         public string Description { get; set; } = string.Empty;
 
+        public int Order { get; set; }
+
         public IEnumerable<UpdateFormFieldVM> Fields { get; set; } = new List<UpdateFormFieldVM>();
     }
 
