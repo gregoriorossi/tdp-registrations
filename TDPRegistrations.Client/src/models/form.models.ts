@@ -1,4 +1,4 @@
-import { IImage } from "./shared.models";
+import { IFile } from "./shared.models";
 
 export interface IFormBasicDTO {
 	id: string;
@@ -17,8 +17,11 @@ export interface IForm {
 	description: string;
 	dateUpdated: string;
 	sections: ISection[];
-	bannerImage: IImage | null;
+	bannerImage: IFile | null;
 	bannerImageId: string | null;
+	privacyDisclaimer: string;
+	privacyAttachment: IFile | null;
+	privacyAttachmentId: string | null;
 }
 
 export interface ISection {

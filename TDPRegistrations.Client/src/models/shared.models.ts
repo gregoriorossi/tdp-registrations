@@ -5,7 +5,7 @@ export interface IFieldTypeValue {
 	Value: string;
 }
 
-export interface IImage {
+export interface IFile {
 	id?: string;
 	fileName: string;
 	contentType: string;

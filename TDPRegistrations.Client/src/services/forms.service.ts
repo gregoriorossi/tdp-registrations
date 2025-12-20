@@ -39,10 +39,15 @@ export default class FormsService {
 		formData.append('title', form.title);
 		formData.append('description', form?.description ?? '');
 		formData.append('sections', JSON.stringify(form?.sections));
-		
+		formData.append('privacyDisclaimer', form?.privacyDisclaimer ?? '');
+
 
 		if (form?.bannerImage) {
 			formData.append('bannerImage', form?.bannerImage, form.bannerImage?.name);
+		}
+
+		if (form?.privacyAttachment) {
+			formData.append('privacyAttachment', form?.privacyAttachment, form.privacyAttachment?.name);
 		}
 
 		const data = await axiosClient.patch(FormsEndpoints.update(), formData, {

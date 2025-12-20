@@ -7,11 +7,11 @@ namespace TDPRegistrationsAPI.Web.Controllers
 {
     [ApiController]
     [Route(Consts.DefaultApiRoute)]
-    public class ImagesController : ControllerBase
+    public class FilesController : ControllerBase
     {
-        private readonly IImagesManager _imagesManager;
+        private readonly IFilesManager _imagesManager;
 
-        public ImagesController(IImagesManager imagesManager)
+        public FilesController(IFilesManager imagesManager)
         {
             _imagesManager = imagesManager;
         }
@@ -20,7 +20,7 @@ namespace TDPRegistrationsAPI.Web.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
-            Image? image = await _imagesManager.GetByIdAsync(id, cancellationToken);
+            TDPRegistrations.Core.Entities.File? image = await _imagesManager.GetByIdAsync(id, cancellationToken);
             if (image == null)
             {
                 return NotFound();

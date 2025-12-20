@@ -5,18 +5,18 @@ using TDPRegistrations.Core.Interfaces.Repositories;
 
 namespace TDPRegistrations.Infrastracture.Managers
 {
-    public class ImagesManager : IImagesManager
+    public class FilesManager : IFilesManager
     {
-        private readonly IImagesRepository _imagesRepository;
+        private readonly IFilesRepository _imagesRepository;
 
-        public ImagesManager(IImagesRepository imagesRepository)
+        public FilesManager(IFilesRepository imagesRepository)
         {
             _imagesRepository = imagesRepository;
         }
 
-        public async Task<Image?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<Core.Entities.File?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            Expression<Func<Image, bool>> whereFn = (i) => i.Id == id;
+            Expression<Func<Core.Entities.File, bool>> whereFn = (i) => i.Id == id;
             var result= await _imagesRepository.GetAllAsync(whereFn, cancellationToken);
             return result.FirstOrDefault();
         }

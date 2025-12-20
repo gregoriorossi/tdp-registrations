@@ -7,6 +7,6 @@ export const FormsEndpoints = {
 	update: () => '/Forms'
 }
 
-export const ImagesEndpoints = {
+export const FilesEndpoints = {
 	get: (id: string) => `${import.meta.env.VITE_API_URL}/Images/${id}`
 }

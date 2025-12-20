@@ -20,6 +20,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
                 Slug = "iscrizioni-2023",
                 Id = Guid.NewGuid(),
                 Title = "Iscrizioni 2023",
+                PrivacyDisclaimer = "Text disclaimer",
                 Sections = new List<Section>
                 {
                     new Section

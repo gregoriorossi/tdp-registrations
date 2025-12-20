@@ -6,16 +6,16 @@ using TDPRegistrations.Infrastracture.Data;
 
 namespace TDPRegistrations.Infrastracture.Repositories
 {
-    public class ImagesRepository : IImagesRepository
+    public class FilesRepository : IFilesRepository
     {
         private readonly AppDbContext _appDbContext;
 
-        public ImagesRepository(AppDbContext dbContext)
+        public FilesRepository(AppDbContext dbContext)
         {
             _appDbContext = dbContext;   
         }
 
-        public async Task<IEnumerable<Image>> GetAllAsync(Expression<Func<Image, bool>> where, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Core.Entities.File>> GetAllAsync(Expression<Func<Core.Entities.File, bool>> where, CancellationToken cancellationToken)
         {
             return await _appDbContext.Images.Where(where).ToListAsync();
         }

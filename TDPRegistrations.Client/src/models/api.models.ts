@@ -23,4 +23,6 @@ export interface IUpdateFormRequest {
 	dateUpdated: string;
 	sections: ISection[];
 	bannerImage: File | null;
+	privacyAttachment: File | null;
+	privacyDisclaimer: string;
 }

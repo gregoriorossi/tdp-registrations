@@ -16,12 +16,17 @@ namespace TDPRegistrations.Core.Models
 
         public string Slug { get; set; } = string.Empty;
 
-        public Image? BannerImage { get; set; }
+        public Entities.File? BannerImage { get; set; }
 
         public Guid? BannerImageId { get; set; }
 
         public DateTime DateCreated { get; set; }
 
         public DateTime DateUpdated { get; set; }
+
+        public string PrivacyDisclaimer { get; set; } = string.Empty;
+
+        public Entities.File? PrivacyAttachment { get; set; }
+        public Guid? PrivacyAttachmentId { get; set; }
     }
 }

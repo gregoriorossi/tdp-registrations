@@ -59,7 +59,8 @@ namespace TDPRegistrations.Infrastracture.Managers
             form.DateUpdated = DateTime.Now;
             form.Slug = updatedForm.Slug;
             form.BannerImageId = updatedForm.BannerImageId;
-
+            form.PrivacyDisclaimer = updatedForm.PrivacyDisclaimer;
+            form.PrivacyAttachment = updatedForm.PrivacyAttachment;
 
             // remove deleted sections
             var updatedIds = updatedForm.Sections.Where(s => s.Id != Guid.Empty)

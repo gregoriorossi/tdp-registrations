@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ImagePicker } from "../input/imagePicker";
 import { adminFormSchema } from "../../../consts/forms.consts";
-import ImagesService from "../../../services/images.service";
+import FilesService from "../../../services/files.service";
 import SaveIcon from '@mui/icons-material/Save';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -25,6 +25,7 @@ import { IUpdateFormRequest } from "../../../models/api.models";
 import StarterKit from "@tiptap/starter-kit";
 import { SectionEditor } from "./SectionEditor";
 import { SectionModal } from "../modals/SectionModal";
+import { FilePicker } from "../input/filePicker";
 
 const FormPage = STRINGS.Pages.AdminForm;
 
@@ -38,7 +39,19 @@ interface IFormData {
 	title: string;
 	description?: string | undefined;
 	bannerImage?: File | undefined | null;
+	privacyAttachment?: File | undefined | null;
+	privacyDisclaimer?: string | undefined;
 }
+
+
+export const textEditorMenuControls = <MenuControlsContainer>
+	<MenuSelectHeading />
+	<MenuDivider />
+	<MenuButtonBold />
+	<MenuButtonItalic />
+	<MenuButtonBulletedList />
+</MenuControlsContainer>;
+
 
 export function FormEditor(props: IFormEditorProps) {
 
@@ -51,7 +64,8 @@ export function FormEditor(props: IFormEditorProps) {
 		resolver: yupResolver(adminFormSchema)
 	});
 
-	const bannerImageUrl: string | null = form?.bannerImageId ? ImagesService.getImageUrl(form.bannerImageId) : null;
+	const bannerImageUrl: string | null = form?.bannerImageId ? FilesService.getFileUrl(form.bannerImageId) : null;
+	const fileUrl: string | null = form?.privacyAttachmentId ? FilesService.getFileUrl(form.privacyAttachmentId) : null;
 
 	const onImageChange = (file: File | null) => {
 		if (!file) {
@@ -63,6 +77,19 @@ export function FormEditor(props: IFormEditorProps) {
 		setForm({
 			...form,
 			bannerImageId: null
+		});
+	}
+
+	const onFileChange = (file: File | null) => {
+		if (!file) {
+			setValue('privacyAttachment', null);
+		} else {
+			setValue('privacyAttachment', file, { shouldValidate: true, shouldDirty: true });
+		}
+
+		setForm({
+			...form,
+			privacyAttachmentId: null
 		});
 	}
 
@@ -100,7 +127,9 @@ export function FormEditor(props: IFormEditorProps) {
 			title: data.title,
 			description: data?.description ?? '',
 			sections: form.sections,
-			bannerImage: data?.bannerImage ?? null
+			bannerImage: data?.bannerImage ?? null,
+			privacyAttachment: data?.privacyAttachment ?? null,
+			privacyDisclaimer: data?.privacyDisclaimer ?? ''
 		}
 
 		props.onUpdate(updatedForm);
@@ -169,15 +198,39 @@ export function FormEditor(props: IFormEditorProps) {
 								onUpdate={({ editor }) => {
 									onChange(editor.getHTML())
 								}}
-								renderControls={() => (
-									<MenuControlsContainer>
-										<MenuSelectHeading />
-										<MenuDivider />
-										<MenuButtonBold />
-										<MenuButtonItalic />
-										<MenuButtonBulletedList />
-									</MenuControlsContainer>
-								)} />
+								renderControls={() => (textEditorMenuControls)} />
+						)} />
+				</div>
+
+				<div className={styles.section}>
+					<h4>{FormPage.Form.PrivacyDisclaimer}</h4>
+					<Controller
+						name="privacyDisclaimer"
+						control={control}
+						defaultValue={form.privacyDisclaimer}
+						render={({ field: { value, onChange } }) => (
+							<RichTextEditor
+								ref={rteRef}
+								className={styles.section}
+								extensions={[StarterKit]}
+								content={value}
+								onUpdate={({ editor }) => {
+									onChange(editor.getHTML())
+								}}
+								renderControls={() => (textEditorMenuControls)} />
+						)} />
+				</div>
+
+				<div className={styles.section}>
+					<Controller
+						name='privacyAttachment'
+						control={control}
+						render={({ field }) => (
+							<FilePicker
+								fieldLabel={FormPage.Form.PrivacyAttachment}
+								fileUrl={fileUrl}
+								file={field?.value ?? null}
+								onChange={onFileChange} />
 						)} />
 				</div>
 			</Grid>

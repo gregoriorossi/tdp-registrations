@@ -14,6 +14,8 @@ export type Styles = {
   'draggable': string;
   'fieldEditor': string;
   'fieldsEditor': string;
+  'filePreview': string;
+  'filesPicker': string;
   'firstRow': string;
   'form': string;
   'formContainer': string;
@@ -30,7 +32,6 @@ export type Styles = {
   'secondRow': string;
   'section': string;
   'sectionEditor': string;
-  'sectionFields': string;
   'subheaderContainer': string;
   'titleAndAction': string;
 };

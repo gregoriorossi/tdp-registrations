@@ -53,18 +53,8 @@ namespace TDPRegistrationsAPI.Web.Mappers
                 };
             }).ToList();
 
-            Image? bannerImage = null;
-            if (model.BannerImage != null)
-            {
-                bannerImage = new Image();
-                bannerImage.Length = model.BannerImage.Length;
-                bannerImage.ContentType = model.BannerImage.ContentType;
-                bannerImage.FileName = model.BannerImage.FileName;
-
-                await using var ms = new MemoryStream();
-                await model.BannerImage.CopyToAsync(ms);
-                bannerImage.Data = ms.ToArray();
-            }
+            TDPRegistrations.Core.Entities.File? bannerImage = await BuildFile(model.BannerImage);
+            TDPRegistrations.Core.Entities.File? privacyAttachment = await BuildFile(model.PrivacyAttachment);
 
             return new Form()
             {
@@ -74,8 +64,11 @@ namespace TDPRegistrationsAPI.Web.Mappers
                 Slug = slug,
                 DateUpdated = DateTime.Now,
                 Sections = sections,
-                BannerImageId = !string.IsNullOrEmpty(model.BannerImageId) ? Guid.Parse(model.BannerImageId) : null,
-                BannerImage = bannerImage
+                BannerImageId = ParseGuid(model.BannerImageId),
+                BannerImage = bannerImage,
+                PrivacyDisclaimer = model.PrivacyDisclaimer,
+                PrivacyAttachmentId = ParseGuid(model.PrivacyAttachmentId),
+                PrivacyAttachment = privacyAttachment,
             };
         }
 
@@ -123,6 +116,28 @@ namespace TDPRegistrationsAPI.Web.Mappers
                 default:
                     return FieldTypes.TEXT;
             }
+        }
+
+        private static Guid? ParseGuid(string? guid)
+        {
+            return !string.IsNullOrEmpty(guid) ? Guid.Parse(guid) : null;
+        }
+
+        private async static Task<TDPRegistrations.Core.Entities.File?> BuildFile(IFormFile? formFile)
+        {
+            TDPRegistrations.Core.Entities.File? file = null;
+            if (formFile != null)
+            {
+                file = new TDPRegistrations.Core.Entities.File();
+                file.Length = formFile.Length;
+                file.ContentType = formFile.ContentType;
+                file.FileName = formFile.FileName;
+
+                await using var ms = new MemoryStream();
+                await formFile.CopyToAsync(ms);
+                file.Data = ms.ToArray();
+            }
+            return file;
         }
     }
 }

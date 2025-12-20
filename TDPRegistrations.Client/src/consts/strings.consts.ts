@@ -55,12 +55,15 @@ export const STRINGS = {
 				TitleLabel: 'Titolo',
 				ErrorMessages: {
 					TitleMandatory: "Il titolo della form è obbligatorio",
-					ImageTooLarge: 'Il file supera 3MB'
+					ImageTooLarge: 'Il file supera 3MB',
+					FileTooLarge: 'Il file supera 5MB'
 				},
 				Image: 'Scegli un\'immagine',
+				PrivacyAttachment: 'Carica un documento',
 				NoSections: 'Nessuna sezione definita per questa form',
 				EditFormSectionTitle: 'Costruisci la tua form',
 				NewSection: 'Nuova sezione',
+				PrivacyDisclaimer: 'Disclaimer Privacy',
 				SectionsSectionTitle: 'Sezioni e campi',
 				InformationSectionTitle: 'Informazioni',
 				NewField: 'Nuovo campo'

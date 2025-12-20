@@ -2,7 +2,7 @@ import { Avatar, Button, Typography } from "@mui/material";
 import { FormPage } from "../../../pages/FormPage";
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import { STRINGS } from "../../../consts/strings.consts";
-import { IImage } from "../../../models/shared.models";
+import { IFile } from "../../../models/shared.models";
 import { ChangeEvent, ChangeEventHandler, InputHTMLAttributes, useState } from "react";
 import styles from "../../../App.module.scss";
 import DeleteIcon from '@mui/icons-material/Delete';

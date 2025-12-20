@@ -3,8 +3,8 @@ using TDPRegistrations.Core.Models;
 
 namespace TDPRegistrations.Core.Entities
 {
-    [Table("Images")]
-    public class Image : BaseModel<Guid>
+    [Table("Files")]
+    public class File : BaseModel<Guid>
     {
         public string FileName { get; set; } = default!;
         public string ContentType { get; set; } = default!;

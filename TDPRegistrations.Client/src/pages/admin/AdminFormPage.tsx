@@ -10,7 +10,7 @@ import { useFormById, useUpdateForm } from "../../queries/forms.queries";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import { STRINGS } from "../../consts/strings.consts";
 import { IUpdateFormRequest } from "../../models/api.models";
-import ImagesService from "../../services/images.service";
+import FilesService from "../../services/files.service";
 import { FormEditor } from "../../components/admin/form/FormEditor";
 const FormPage = STRINGS.Pages.AdminForm;
 

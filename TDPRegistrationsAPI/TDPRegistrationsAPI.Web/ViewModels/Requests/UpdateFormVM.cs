@@ -17,6 +17,12 @@ namespace TDPRegistrationsAPI.Web.ViewModels.Requests
         public string Description { get; set; } = string.Empty;
 
         public string Sections { get; set; } = string.Empty;
+
+        public string PrivacyDisclaimer { get; set; } = string.Empty;
+
+        public string? PrivacyAttachmentId { get; set; }
+
+        public IFormFile? PrivacyAttachment { get; set; }
     }
 
     public class UpdateFormSectionVM
