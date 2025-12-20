@@ -39,7 +39,7 @@ export default class FormsService {
 		formData.append('title', form.title);
 		formData.append('description', form?.description ?? '');
 		formData.append('sections', JSON.stringify(form?.sections));
-		formData.append('bannerImageDeleted', String(form.bannerImageDeleted));
+		
 
 		if (form?.bannerImage) {
 			formData.append('bannerImage', form?.bannerImage, form.bannerImage?.name);

@@ -23,5 +23,4 @@ export interface IUpdateFormRequest {
 	dateUpdated: string;
 	sections: ISection[];
 	bannerImage: File | null;
-	bannerImageDeleted: boolean;
 }

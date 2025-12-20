@@ -121,7 +121,7 @@ namespace TDPRegistrationsAPI.Web.Controllers
                 return Ok(Result<Form>.Failure(FormErrors.SlugNotAvailable));
             }
 
-            var result = await _formManager.UpdateAsync(updatedForm, model.BannerImageDeleted, cancellationToken);
+            var result = await _formManager.UpdateAsync(updatedForm, cancellationToken);
             return Ok(Result<Form>.Success(updatedForm));
         }
 

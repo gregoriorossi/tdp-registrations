@@ -30,7 +30,7 @@ const FormPage = STRINGS.Pages.AdminForm;
 
 interface IFormEditorProps {
 	form: IForm;
-	onUpdate: (form: IUpdateFormRequest, bannerImageDeleted: boolean) => void;
+	onUpdate: (form: IUpdateFormRequest) => void;
 	isLoading: boolean;
 }
 
@@ -45,7 +45,6 @@ export function FormEditor(props: IFormEditorProps) {
 	const { form: formToUpdate, isLoading, onUpdate } = props;
 	const rteRef = useRef<RichTextEditorRef>(null);
 	const [sectionModalOpen, setSectionModalOpen] = useState<boolean>(false);
-	const [deletedBannerImage, setDeletedBannerImage] = useState(false);
 	const [form, setForm] = useState<IForm>(formToUpdate);
 
 	const { handleSubmit, control, register, setValue, formState: { errors } } = useForm({
@@ -56,11 +55,15 @@ export function FormEditor(props: IFormEditorProps) {
 
 	const onImageChange = (file: File | null) => {
 		if (!file) {
-			setDeletedBannerImage(true);
+			setValue('bannerImage', null);
 		} else {
 			setValue('bannerImage', file, { shouldValidate: true, shouldDirty: true });
-			setDeletedBannerImage(false);
 		}
+
+		setForm({
+			...form,
+			bannerImageId: null
+		});
 	}
 
 	const handleAddSection = (section: ISection): void => {
@@ -97,11 +100,10 @@ export function FormEditor(props: IFormEditorProps) {
 			title: data.title,
 			description: data?.description ?? '',
 			sections: form.sections,
-			bannerImage: data?.bannerImage ?? null,
-			bannerImageDeleted: deletedBannerImage,
+			bannerImage: data?.bannerImage ?? null
 		}
 
-		props.onUpdate(updatedForm, deletedBannerImage);
+		props.onUpdate(updatedForm);
 	}
 
 	useEffect(() => {
@@ -122,8 +124,9 @@ export function FormEditor(props: IFormEditorProps) {
 		</Box>
 		<div>
 			[TODO] add privacy file upload<br />
-			[TODO] add open/close state
+			[TODO] add open/close state<br />
 			[TODO] ordinamento campi e sezioni<br />
+			[TODO] copia url pagina<br />
 		</div>
 		<Grid container spacing={2} className={styles.formContainer}>
 

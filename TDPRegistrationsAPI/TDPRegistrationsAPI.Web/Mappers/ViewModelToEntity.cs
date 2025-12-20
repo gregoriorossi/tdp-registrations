@@ -74,6 +74,7 @@ namespace TDPRegistrationsAPI.Web.Mappers
                 Slug = slug,
                 DateUpdated = DateTime.Now,
                 Sections = sections,
+                BannerImageId = !string.IsNullOrEmpty(model.BannerImageId) ? Guid.Parse(model.BannerImageId) : null,
                 BannerImage = bannerImage
             };
         }

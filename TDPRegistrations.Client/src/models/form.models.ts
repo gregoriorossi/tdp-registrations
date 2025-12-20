@@ -18,7 +18,7 @@ export interface IForm {
 	dateUpdated: string;
 	sections: ISection[];
 	bannerImage: IImage | null;
-	bannerImageId: string;
+	bannerImageId: string | null;
 }
 
 export interface ISection {

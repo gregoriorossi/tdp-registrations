@@ -18,7 +18,7 @@ namespace TDPRegistrations.Core.Interfaces.Managers
 
         Task DeleteAsync(Form form, CancellationToken cancellationToken);
 
-        Task<Form> UpdateAsync(Form form, bool bannerImageDeleted, CancellationToken cancellationToken);
+        Task<Form> UpdateAsync(Form form, CancellationToken cancellationToken);
 
         Task<IEnumerable<Field>> GetFieldsAsync(Guid formId, CancellationToken cancellationToken);
 
