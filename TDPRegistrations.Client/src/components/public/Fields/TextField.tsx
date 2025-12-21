@@ -10,7 +10,7 @@ export function TextField(props: IFieldBaseProps) {
 			label={field.label}
 			{...register(field.id!)}
 			fullWidth
-			error={!!errors.title}
+			error={!!errors[field.id!]}
 			helperText={(errors[field.id!]?.message as string) ?? ''} />
 	</div>;
 }

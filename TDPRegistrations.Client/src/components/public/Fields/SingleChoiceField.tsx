@@ -7,7 +7,7 @@ export function SingleChoiceField(props: IFieldBaseProps) {
 	const { field: currentField, errors, register, control } = props;
 
 	return <FormControl
-		error={!!errors.type}
+		error={!!errors[currentField.id!]}
 		className={`${styles.field} ${styles.fullWidth}`}
 		defaultValue={''}>
 		<InputLabel>{currentField.label}</InputLabel>
@@ -25,7 +25,7 @@ export function SingleChoiceField(props: IFieldBaseProps) {
 					}
 				</Select>
 			)} />
-		{errors.type && (
+		{errors[currentField.id!] && (
 			<Typography variant="caption" color="error">
 				{errors[currentField.id!]?.message as string}
 			</Typography>

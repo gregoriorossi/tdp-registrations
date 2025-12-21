@@ -6,6 +6,7 @@ import { buildDynamicFormSchema } from "../../utils/forms.utils";
 import DOMPurify from "dompurify";
 import { FieldRenderer } from "./FieldRenderer";
 import styles from "../../App.module.scss";
+import { STRINGS } from "../../consts/strings.consts";
 
 interface IFormProps {
 	form: IForm;
@@ -21,10 +22,11 @@ export function Form(props: IFormProps) {
 	});
 
 	const onSubmit = (data: any) => {
-
+		console.log("Submit", data);
 	}
 
 	const cleanDescription = DOMPurify.sanitize(form.description);
+	const cleanDisclaimer = DOMPurify.sanitize(form.privacyDisclaimer);
 
 	return <Box component="form"
 		className={styles.form}
@@ -49,12 +51,13 @@ export function Form(props: IFormProps) {
 				</div>)
 		}
 
-		<p dangerouslySetInnerHTML={{ __html: form?.privacyDisclaimer }}></p>
+		<p dangerouslySetInnerHTML={{ __html: cleanDisclaimer }}></p>
 
 		[TODO] checkbox<br />
 		[TODO] aggiungere tipologia di campo checkbox
+
 		<div>
-			<Button type="submit">Invia</Button>
+			<Button type="submit">{STRINGS.Pages.Form.Send}</Button>
 		</div>
 	</Box>
 }

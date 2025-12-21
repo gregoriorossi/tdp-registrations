@@ -79,6 +79,10 @@ export const STRINGS = {
 			Fields: 'Campi',
 			Answers: 'Risposte',
 			Analytics: 'Analtytics'
+		},
+		Form: {
+			SelectDate: 'Seleziona una data',
+			Send: 'Invia'
 		}
 	},
 	AddValue: 'Aggiungi un valore',

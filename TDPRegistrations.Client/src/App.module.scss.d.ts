@@ -10,7 +10,10 @@ export type Styles = {
   'bannerContainer': string;
   'button': string;
   'card': string;
+  'clearDate': string;
   'content': string;
+  'dateField': string;
+  'dateFieldWrapper': string;
   'deleteButtonContainer': string;
   'draggable': string;
   'field': string;

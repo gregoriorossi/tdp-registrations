@@ -148,14 +148,53 @@
     .form {
         padding: 0 30%;
 
+        @media screen and (max-width: 1200px) {
+            padding: 0 15%;
+        }
+
+        @media screen and (max-width: 768px) {
+            padding: 0;
+        }
+
         .field {
             margin-bottom: 10px;
+
+            &.dateField {
+                color: black;
+
+                :global {
+                    .dateFieldWrapper {
+                        text-align: right;
+
+                        input {
+                            padding: 16px 20px 15px 35px;
+                            width: 50%;
+
+                            @media screen and (max-width: 768px) {
+                                width: 35%;
+                            }
+                        }
+
+                        svg {
+                            padding: 1rem 0.625em;
+                        }
+
+                        .clearDate {
+                            color: black;
+                        }
+                    }
+                }
+            }
         }
     }
 
     .formDescription {
         margin-top: 10px;
         padding: 0 10%;
+
+        @media screen and (max-width: 768px) {
+            padding: 0;
+        }
     }
 }
 

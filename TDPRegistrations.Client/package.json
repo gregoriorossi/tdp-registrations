@@ -23,6 +23,7 @@
     "dompurify": "^3.3.1",
     "mui-tiptap": "^1.28.1",
     "react": "^19.1.1",
+    "react-datepicker": "^9.1.0",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.66.0",
     "react-router-dom": "^7.9.4",

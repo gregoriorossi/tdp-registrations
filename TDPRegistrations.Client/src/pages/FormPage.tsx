@@ -32,8 +32,8 @@ export function FormPage() {
 
 	const form = response?.value!;
 
-	// aggiungere controllo se la form è chiusa
-	console.log(params);
+	// [TODO] aggiungere controllo se la form è chiusa
+
 
 	const bannerImageUrl: string | null = form.bannerImageId ? FilesService.getFileUrl(form.bannerImageId) : null;
 
