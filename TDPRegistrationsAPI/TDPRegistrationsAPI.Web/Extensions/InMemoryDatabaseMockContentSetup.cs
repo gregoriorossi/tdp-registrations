@@ -58,6 +58,15 @@ namespace TDPRegistrationsAPI.Web.Extensions
                                     IsMandatory = true,
                                     Order = 3
                                 },
+                                 new Field()
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Type = TDPRegistrations.Core.Enums.FieldTypes.CHECKBOX,
+                                    Label = "Maggiorenne?",
+                                    Description = "Se hai raggiunto la maggiore età",
+                                    IsMandatory = false,
+                                    Order = 4
+                                },
                          }
                     },
                     new Section()

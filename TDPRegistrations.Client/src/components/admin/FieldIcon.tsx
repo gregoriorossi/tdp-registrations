@@ -7,6 +7,7 @@ import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import ListIcon from '@mui/icons-material/List';
 import EmailIcon from '@mui/icons-material/Email';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 export interface IFieldIconProps {
 	fieldType: FieldType;
@@ -28,6 +29,8 @@ export function FieldIcon(props: IFieldIconProps) {
 			return <EmailIcon />;
 		case FieldType.TELEPHONE_NUMBER:
 			return <PhoneAndroidIcon />;
+		case FieldType.CHECKBOX:
+			return <CheckBoxIcon />;
 		default:
 			return <QuestionMarkIcon />;
 	}

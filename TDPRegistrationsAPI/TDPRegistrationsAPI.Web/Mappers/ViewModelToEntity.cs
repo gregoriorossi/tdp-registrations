@@ -90,6 +90,8 @@ namespace TDPRegistrationsAPI.Web.Mappers
                     return FieldTypes.EMAIL;
                 case "TELEPHONE_NUMBER":
                     return FieldTypes.TELEPHONE_NUMBER;
+                case "CHECKBOX":
+                    return FieldTypes.CHECKBOX;
                 default:
                     return FieldTypes.TEXT;
             }
@@ -113,6 +115,8 @@ namespace TDPRegistrationsAPI.Web.Mappers
                     return FieldTypes.EMAIL;
                 case 6:
                     return FieldTypes.TELEPHONE_NUMBER;
+                case 7:
+                    return FieldTypes.CHECKBOX;
                 default:
                     return FieldTypes.TEXT;
             }

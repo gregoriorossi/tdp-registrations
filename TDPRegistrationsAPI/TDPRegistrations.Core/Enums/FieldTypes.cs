@@ -8,6 +8,7 @@
         SINGLE_CHOICE,
         MULTIPLE_CHOICE,
         EMAIL,
-        TELEPHONE_NUMBER
+        TELEPHONE_NUMBER,
+        CHECKBOX
     }
 }

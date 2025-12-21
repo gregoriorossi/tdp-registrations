@@ -29,6 +29,10 @@ export const fieldTypesOptions: IFieldTypeValue[] = [
 		Value: "Data"
 	},
 	{
+		Key: FieldType.CHECKBOX,
+		Value: "Checkbox"
+	},
+	{
 		Key: FieldType.SINGLE_CHOICE,
 		Value: "Scelta singola"
 	},
@@ -54,6 +58,7 @@ export const fieldTypesArray: FieldType[] = [
 	FieldType.TELEPHONE_NUMBER,
 	FieldType.SINGLE_CHOICE,
 	FieldType.MULTIPLE_CHOICE,
+	FieldType.CHECKBOX,
 	FieldType.EMAIL
 ];
 

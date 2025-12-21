@@ -48,6 +48,8 @@ export const buildDynamicFormSchema = (form: IForm) => {
 				case FieldType.TELEPHONE_NUMBER:
 					validator = yup.string();
 					break;
+				case FieldType.CHECKBOX:
+					validator = yup.boolean();
 				default:
 					validator = yup.mixed();
 			}

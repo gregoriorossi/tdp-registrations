@@ -5,6 +5,7 @@ import { MultiChoiceField } from "./Fields/MultiChoiceField";
 import { NumberField } from "./Fields/NumberField";
 import { SingleChoiceField } from "./Fields/SingleChoiceField";
 import { TextField } from "./Fields/TextField";
+import { CheckboxField } from "./Fields/CheckboxField";
 
 interface IFieldRendererProps {
 	field: IField;
@@ -29,6 +30,8 @@ export function FieldRenderer(props: IFieldRendererProps) {
 			return <SingleChoiceField {...props} />;
 		case FieldType.MULTIPLE_CHOICE:
 			return <MultiChoiceField {...props} />;
+		case FieldType.CHECKBOX:
+			return <CheckboxField {...props} />;
 		default:
 			return <TextField {...props} />;
 	}

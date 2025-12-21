@@ -52,7 +52,8 @@ export enum FieldType {
 	SINGLE_CHOICE = 3,
 	MULTIPLE_CHOICE = 4,
 	EMAIL = 5,
-	TELEPHONE_NUMBER = 6
+	TELEPHONE_NUMBER = 6,
+	CHECKBOX = 7
 }
 
 export interface IFieldOption {
