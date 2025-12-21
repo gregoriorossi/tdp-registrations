@@ -7,11 +7,13 @@ export type Styles = {
   'adminHeader': string;
   'adminPageContainer': string;
   'adminPageWrapper': string;
+  'bannerContainer': string;
   'button': string;
   'card': string;
   'content': string;
   'deleteButtonContainer': string;
   'draggable': string;
+  'field': string;
   'fieldEditor': string;
   'fieldsEditor': string;
   'filePreview': string;
@@ -19,8 +21,10 @@ export type Styles = {
   'firstRow': string;
   'form': string;
   'formContainer': string;
+  'formPage': string;
   'fullWidth': string;
   'greenIcon': string;
+  'header': string;
   'image': string;
   'imagePicker': string;
   'logo': string;
@@ -33,6 +37,7 @@ export type Styles = {
   'section': string;
   'sectionEditor': string;
   'subheaderContainer': string;
+  'title': string;
   'titleAndAction': string;
 };
 

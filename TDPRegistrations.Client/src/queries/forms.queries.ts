@@ -18,6 +18,13 @@ export const useFormById = (id: string): UseQueryResult<IResponse<IForm>> => {
 	});
 }
 
+export const useFormBySlug = (slug: string): UseQueryResult<IResponse<IForm>> => {
+	return useQuery({
+		queryKey: [...queryKeys.forms.bySlug(slug)],
+		queryFn: () => FormsService.getFormBySlug(slug)
+	});
+}
+
 export const useCreateForm = () => {
 	return useMutation({
 		mutationFn: (title: string) => FormsService.add(title),

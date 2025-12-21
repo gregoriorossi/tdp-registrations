@@ -67,18 +67,6 @@ namespace TDPRegistrationsAPI.Web.Controllers
             return Ok(Result<bool>.Success(true));
         }
 
-        [HttpGet]
-        [Route("getbyslug/{slug}")]
-        public async Task<IActionResult> GetBySlug(string slug, CancellationToken cancellationToken)
-        {
-            Form? form = await _formManager.GetBySlugAsync(slug, cancellationToken);
-            var result = form == null
-                ? Result<Form>.Failure(FormErrors.NotFound)
-                : Result<Form>.Success(form);
-
-            return Ok(result);
-        }
-
         [HttpPost]
         public async Task<IActionResult> AddForm(AddFormVM model, CancellationToken cancellationToken)
         {

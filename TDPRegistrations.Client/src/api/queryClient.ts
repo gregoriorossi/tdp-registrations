@@ -12,6 +12,7 @@ export const queryClient = new QueryClient({
 export const queryKeys = {
 	forms: {
 		all: ["forms"] as const,
-		byId: (id: string) => ["form-id", id]
+		byId: (id: string) => ["form-id", id],
+		bySlug: (slug: string) => ["form-slug", slug]
 	}
 }

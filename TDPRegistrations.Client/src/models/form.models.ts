@@ -1,3 +1,4 @@
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { IFile } from "./shared.models";
 
 export interface IFormBasicDTO {
@@ -25,6 +26,7 @@ export interface IForm {
 }
 
 export interface ISection {
+	id: string | null;
 	title: string;
 	description: string;
 	fields: IField[];
@@ -68,4 +70,10 @@ export interface IFieldFormValues {
 export interface ISectionFormValues {
 	title: string;
 	description?: string;
+}
+
+export interface IFieldBaseProps {
+	field: IField;
+	errors: FieldErrors<{ [x: string]: any }>;
+	register: UseFormRegister<{ [x: string]: any }>;
 }
