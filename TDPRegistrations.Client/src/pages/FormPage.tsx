@@ -56,7 +56,8 @@ export function FormPage() {
 				</div>
 			}
 
-			<p dangerouslySetInnerHTML={{ __html: form?.description }}></p>
+			<p className={styles.formDescription}
+				dangerouslySetInnerHTML={{ __html: form?.description }}></p>
 
 			<Form form={form} />
 		</Box>

@@ -15,9 +15,6 @@ export interface IFormEditorProps {
 
 export function FieldsEditor(props: IFormEditorProps) {
 	const fields: IField[] = JSON.parse(JSON.stringify(props.fields));
-	
-
-	
 
 	const onFieldDeleted = (field: IField): void => {
 		const updatedFields = fields

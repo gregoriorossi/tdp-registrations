@@ -41,6 +41,7 @@ export function Form(props: IFormProps) {
 							<FieldRenderer
 								field={field}
 								key={field.id}
+								control={control}
 								errors={errors}
 								register={register} />
 						)
@@ -50,7 +51,8 @@ export function Form(props: IFormProps) {
 
 		<p dangerouslySetInnerHTML={{ __html: form?.privacyDisclaimer }}></p>
 
-		[TODO] checkbox
+		[TODO] checkbox<br />
+		[TODO] aggiungere tipologia di campo checkbox
 		<div>
 			<Button type="submit">Invia</Button>
 		</div>

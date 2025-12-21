@@ -21,6 +21,7 @@ export type Styles = {
   'firstRow': string;
   'form': string;
   'formContainer': string;
+  'formDescription': string;
   'formPage': string;
   'fullWidth': string;
   'greenIcon': string;

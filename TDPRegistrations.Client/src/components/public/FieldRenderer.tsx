@@ -1,4 +1,4 @@
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 import { FieldType, IField } from "../../models/form.models";
 import { DateTimeField } from "./Fields/DateTimeField";
 import { MultiChoiceField } from "./Fields/MultiChoiceField";
@@ -8,27 +8,28 @@ import { TextField } from "./Fields/TextField";
 
 interface IFieldRendererProps {
 	field: IField;
+	control: Control<{ [x: string]: any }>;
 	errors: FieldErrors<{ [x: string]: any }>;
 	register: UseFormRegister<{ [x: string]: any }>;
 }
 
 export function FieldRenderer(props: IFieldRendererProps) {
-	const { field, errors, register } = props;
+	const { field, errors, register, control } = props;
 
 	switch (field.type) {
 		case FieldType.TEXT:
 		case FieldType.EMAIL:
 		case FieldType.TELEPHONE_NUMBER:
-			return <TextField field={field} errors={errors} register={register} />;
+			return <TextField {...props} />;
 		case FieldType.NUMBER:
-			return <NumberField field={field} errors={errors} register={register} />;
+			return <NumberField {...props} />;
 		case FieldType.DATETIME:
-			return <DateTimeField field={field} errors={errors} register={register} />;
+			return <DateTimeField {...props} />;
 		case FieldType.SINGLE_CHOICE:
-			return <SingleChoiceField field={field} errors={errors} register={register} />;
+			return <SingleChoiceField {...props} />;
 		case FieldType.MULTIPLE_CHOICE:
-			return <MultiChoiceField field={field} errors={errors} register={register} />;
+			return <MultiChoiceField {...props} />;
 		default:
-			return <TextField field={field} errors={errors} register={register} />;
+			return <TextField {...props} />;
 	}
 }

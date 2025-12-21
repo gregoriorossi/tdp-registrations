@@ -128,6 +128,15 @@ namespace TDPRegistrationsAPI.Web.Extensions
                                 IsMandatory = false,
                                 Order = 7
                             },
+                            new Field()
+                            {
+                                Id = Guid.NewGuid(),
+                                Type = TDPRegistrations.Core.Enums.FieldTypes.NUMBER,
+                                Label = "Scegli un numero",
+                                Description = "Perché di si",
+                                IsMandatory = false,
+                                Order = 8
+                            },
                         }
                     }
                 }

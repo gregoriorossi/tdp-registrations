@@ -1,4 +1,4 @@
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 import { IFile } from "./shared.models";
 
 export interface IFormBasicDTO {
@@ -76,4 +76,5 @@ export interface IFieldBaseProps {
 	field: IField;
 	errors: FieldErrors<{ [x: string]: any }>;
 	register: UseFormRegister<{ [x: string]: any }>;
+	control?: Control<{ [x: string]: any }>;
 }
