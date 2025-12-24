@@ -58,7 +58,7 @@ export const STRINGS = {
 					ImageTooLarge: 'Il file supera 3MB',
 					FileTooLarge: 'Il file supera 5MB'
 				},
-				Image: 'Scegli un\'immagine',
+				Image: 'Scegli un\'immagine di copertina',
 				PrivacyAttachment: 'Carica un documento',
 				NoSections: 'Nessuna sezione definita per questa form',
 				EditFormSectionTitle: 'Costruisci la tua form',
@@ -66,7 +66,9 @@ export const STRINGS = {
 				PrivacyDisclaimer: 'Disclaimer Privacy',
 				SectionsSectionTitle: 'Sezioni e campi',
 				InformationSectionTitle: 'Informazioni',
-				NewField: 'Nuovo campo'
+				NewField: 'Nuovo campo',
+				ClickToCopy: 'Clicca per copiare',
+				UrlCopied: 'Url copiato negli appunti!'
 			},
 			SectionEditor: {
 				DeleteSection: 'Elimina sezione',
@@ -86,7 +88,12 @@ export const STRINGS = {
 			PrivacyLabel: 'Ho letto, compreso e accettato l\'Informativa sulla privacy',
 			PrivacyLabelWithLink: 'Ho letto, compreso e accettato l\'<a href="{privacyUrl}" target="_blank">Informativa sulla privacy</a>',
 			Errors: {
-				PrivacyMandatory: 'L\'accettazione della privacy è obbligatoria'
+				PrivacyMandatory: 'L\'accettazione della privacy è obbligatoria',
+				CampoObbligatorio: 'Campo obbligatorio',
+				InvalidDate: 'Data non valida',
+				InvalidSelection: 'Selezione non valida',
+				InvalidEmail: 'Email non valida',
+				InvalidNumber: 'Numero non valido'
 			}
 		}
 	},

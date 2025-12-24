@@ -12,6 +12,7 @@ import { STRINGS } from "../../consts/strings.consts";
 import { IUpdateFormRequest } from "../../models/api.models";
 import FilesService from "../../services/files.service";
 import { FormEditor } from "../../components/admin/form/FormEditor";
+import { CopyUrlButton } from "../../components/admin/form/CopyUrlButton";
 const FormPage = STRINGS.Pages.AdminForm;
 
 export function AdminFormPage() {
@@ -24,7 +25,6 @@ export function AdminFormPage() {
 	const onUpdate = async (data: IUpdateFormRequest): Promise<void> => {
 		await updateForm.mutateAsync(data);
 	}
-
 
 	if (!id) {
 		navigate(Routes.NotFound);
@@ -57,13 +57,17 @@ export function AdminFormPage() {
 							: <Chip label={STRINGS.ClosedPlural} color="error" variant="filled" />
 					}
 				</Typography>
+
+				<CopyUrlButton formSlug={form.slug} />
 			</Box>
 
 			<Box>
-				<Tabs value={tabValue} onChange={(e, value) => setTabValue(value)}>
-					<Tab label={FormPage.Editor } />
-					<Tab label={FormPage.Answers} />
-					<Tab label={FormPage.Analytics} />
+				<Tabs value={tabValue}
+					className={styles.tabsContainer}
+					onChange={(e, value) => setTabValue(value)}>
+					<Tab label={FormPage.Editor} className={styles.tabItem} />
+					<Tab label={FormPage.Answers} className={styles.tabItem} />
+					<Tab label={FormPage.Analytics} className={styles.tabItem} />
 				</Tabs>
 			</Box>
 

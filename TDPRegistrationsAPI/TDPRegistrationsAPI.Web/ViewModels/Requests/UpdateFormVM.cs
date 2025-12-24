@@ -14,11 +14,11 @@ namespace TDPRegistrationsAPI.Web.ViewModels.Requests
 
         public IFormFile? BannerImage { get; set; }
 
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
 
         public string Sections { get; set; } = string.Empty;
 
-        public string PrivacyDisclaimer { get; set; } = string.Empty;
+        public string? PrivacyDisclaimer { get; set; } = string.Empty;
 
         public string? PrivacyAttachmentId { get; set; }
 

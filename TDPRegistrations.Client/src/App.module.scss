@@ -68,7 +68,14 @@
                 }
             }
 
+            .tabsContainer {
+                margin-bottom: 10px;
 
+                .tabItem:focus,
+                .tabItem:focus-visible {
+                    outline: none;
+                }
+            }
 
             .sectionEditor {
 
@@ -290,4 +297,14 @@
 
 .full-width {
     width: 100%;
+}
+
+.copyUrl {
+    cursor: pointer;
+    text-align: center;
+    padding: 1rem;
+
+    &:hover {
+        background-color: #ff8f0014
+    }
 }

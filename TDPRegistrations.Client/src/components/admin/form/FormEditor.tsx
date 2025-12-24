@@ -120,7 +120,6 @@ export function FormEditor(props: IFormEditorProps) {
 	}
 
 	const onSubmit = async (data: IFormData, form: IForm): Promise<void> => {
-		console.log(data);
 
 		const updatedForm: IUpdateFormRequest = {
 			...form,
@@ -152,10 +151,8 @@ export function FormEditor(props: IFormEditorProps) {
 			</Box>
 		</Box>
 		<div>
-			[TODO] add privacy file upload<br />
 			[TODO] add open/close state<br />
 			[TODO] ordinamento campi e sezioni<br />
-			[TODO] copia url pagina<br />
 		</div>
 		<Grid container spacing={2} className={styles.formContainer}>
 

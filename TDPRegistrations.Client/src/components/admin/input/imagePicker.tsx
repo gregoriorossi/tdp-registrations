@@ -15,9 +15,16 @@ interface IImagePickerProps {
 }
 
 export function ImagePicker(props: IImagePickerProps) {
+	const [selectedImagePreview, setSelectedImagePreview] = useState<string | null>(null);
 
-	const preview = !props.image ? null : URL.createObjectURL(props.image);
-
+	const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
+		const file = e.target?.files?.[0] ?? null;
+		if (file) {
+			const previewImage = URL.createObjectURL(file);
+			setSelectedImagePreview(previewImage);
+		}
+		props.onChange(file);
+	}
 
 	return <div className={styles.imagePicker}>
 		<div className={styles.actions}>
@@ -31,11 +38,7 @@ export function ImagePicker(props: IImagePickerProps) {
 						hidden
 						type="file"
 						accept="image/*"
-						onChange={(e) => {
-							const file = e.target?.files?.[0] ?? null;
-							props.onChange(file);
-						}}
-					/>
+						onChange={onChange} />
 				</Button>
 				<div>
 					<Typography variant="caption" color="text.secondary">
@@ -57,11 +60,11 @@ export function ImagePicker(props: IImagePickerProps) {
 		</div>
 
 		{
-			preview &&
+			selectedImagePreview &&
 			<Avatar
 				variant="rounded"
 				sx={{ width: 120, height: 120 }}
-				src={preview ?? undefined}
+				src={selectedImagePreview ?? undefined}
 				alt={props.image?.name} />
 		}
 

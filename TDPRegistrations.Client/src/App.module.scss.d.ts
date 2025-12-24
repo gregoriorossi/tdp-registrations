@@ -12,6 +12,7 @@ export type Styles = {
   'card': string;
   'checkboxField': string;
   'content': string;
+  'copyUrl': string;
   'dateField': string;
   'deleteButtonContainer': string;
   'draggable': string;
@@ -40,6 +41,8 @@ export type Styles = {
   'section': string;
   'sectionEditor': string;
   'subheaderContainer': string;
+  'tabItem': string;
+  'tabsContainer': string;
   'title': string;
   'titleAndAction': string;
 };

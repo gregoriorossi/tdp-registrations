@@ -28,7 +28,7 @@ export function Form(props: IFormProps) {
 	const { data: dataResponse, isPending, error, mutateAsync: useSendResponseAsync } = useSendResponse();
 
 	const onSubmit = async (data: { [key: string]: any }): Promise<void> => {
-		console.log("Submit", data);
+
 		await useSendResponseAsync({
 			formId: form.id,
 			responses: data

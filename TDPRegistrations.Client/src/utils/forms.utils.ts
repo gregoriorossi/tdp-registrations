@@ -1,6 +1,8 @@
 import { STRINGS } from "../consts/strings.consts";
 import { IFieldFormValues, IField, IForm, FieldType } from "../models/form.models";
 import *  as yup from "yup";
+import { FormPage } from "../pages/FormPage";
+const FormString = STRINGS.Pages.Form;
 
 export const fieldFormValuesToField = (data: IFieldFormValues, field?: IField): IField => {
 	return {
@@ -22,31 +24,36 @@ export const sortFields = (f1: IField, f2: IField): number => {
 
 export const buildDynamicFormSchema = (form: IForm) => {
 	const obj: { [id: string]: any } = {
-		"privacyAccepted": yup.boolean().isTrue(STRINGS.Pages.Form.Errors.PrivacyMandatory)
+		"privacyAccepted": yup.boolean().isTrue(FormString.Errors.PrivacyMandatory)
 	};
 
 	form.sections.forEach(section => {
 		section.fields.forEach(field => {
 			let validator;
+			const options: string[] = (field.options ?? []).map(f => f.id);
 
 			switch (field.type) {
 				case FieldType.TEXT:
 					validator = yup.string();
 					break;
 				case FieldType.NUMBER:
-					validator = yup.number().typeError("Numero non valido");
+					validator = yup.number().typeError(FormString.Errors.InvalidNumber);
 					break;
 				case FieldType.DATETIME:
-					validator = yup.date().typeError("Data non valido");
+					validator = yup.date().typeError(FormString.Errors.InvalidDate);
 					break;
 				case FieldType.SINGLE_CHOICE:
-					validator = yup.string(); //mettere controllo sulle option
+					validator = yup.mixed()
+						.oneOf(options, FormString.Errors.InvalidSelection);
 					break;
 				case FieldType.MULTIPLE_CHOICE:
-					validator = yup.string(); //mettere controllo sulle option
+					validator = yup
+						.array()
+						.of(yup.string().oneOf(options))
+						.typeError(FormString.Errors.InvalidSelection);
 					break;
 				case FieldType.EMAIL:
-					validator = yup.string().email("Email non valida");
+					validator = yup.string().email(FormString.Errors.InvalidEmail);
 					break;
 				case FieldType.TELEPHONE_NUMBER:
 					validator = yup.string();
@@ -58,7 +65,7 @@ export const buildDynamicFormSchema = (form: IForm) => {
 			}
 
 			if (field.isMandatory) {
-				validator.required();
+				validator.required(STRINGS.Pages.Form.Errors.PrivacyMandatory);
 			}
 
 			obj[field.id!] = validator;
