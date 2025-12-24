@@ -82,7 +82,12 @@ export const STRINGS = {
 		},
 		Form: {
 			SelectDate: 'Seleziona una data',
-			Send: 'Invia'
+			Send: 'Invia',
+			PrivacyLabel: 'Ho letto, compreso e accettato l\'Informativa sulla privacy',
+			PrivacyLabelWithLink: 'Ho letto, compreso e accettato l\'<a href="{privacyUrl}" target="_blank">Informativa sulla privacy</a>',
+			Errors: {
+				PrivacyMandatory: 'L\'accettazione della privacy è obbligatoria'
+			}
 		}
 	},
 	AddValue: 'Aggiungi un valore',

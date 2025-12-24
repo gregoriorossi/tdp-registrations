@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Checkbox, FormControl, FormControlLabel, Typography } from "@mui/material";
 import { IForm } from "../../models/form.models";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,6 +8,9 @@ import { FieldRenderer } from "./FieldRenderer";
 import styles from "../../App.module.scss";
 import { STRINGS } from "../../consts/strings.consts";
 import { useSendResponse } from "../../queries/forms.queries";
+import { FormPage } from "../../pages/FormPage";
+import FilesService from "../../services/files.service";
+const FormPageStrings = STRINGS.Pages.Form;
 
 interface IFormProps {
 	form: IForm;
@@ -21,7 +24,7 @@ export function Form(props: IFormProps) {
 		resolver: yupResolver(formSchema),
 		defaultValues: {}
 	});
-
+	console.log("errors", errors);
 	const { data: dataResponse, isPending, error, mutateAsync: useSendResponseAsync } = useSendResponse();
 
 	const onSubmit = async (data: { [key: string]: any }): Promise<void> => {
@@ -34,6 +37,10 @@ export function Form(props: IFormProps) {
 
 	const cleanDescription = DOMPurify.sanitize(form.description);
 	const cleanDisclaimer = DOMPurify.sanitize(form.privacyDisclaimer);
+	const privacyAttachmentUrl: string | null = form.privacyAttachmentId ? FilesService.getFileUrl(form.privacyAttachmentId) : null;
+	const privacyText = privacyAttachmentUrl
+		? FormPageStrings.PrivacyLabelWithLink.replace("{privacyUrl}", privacyAttachmentUrl)
+		: FormPageStrings.PrivacyLabel;
 
 	return <Box component="form"
 		className={styles.form}
@@ -60,7 +67,19 @@ export function Form(props: IFormProps) {
 
 		<p dangerouslySetInnerHTML={{ __html: cleanDisclaimer }}></p>
 
-		[TODO] checkbox<br />
+		<FormControl>
+			<FormControlLabel control={
+				<Checkbox
+					{...register("privacyAccepted")}
+					defaultChecked={false} />}
+					label={<span dangerouslySetInnerHTML={{ __html: privacyText }}></span>} />
+
+			{errors.privacyAccepted!! && (
+				<Typography variant="caption" color="error">
+					{errors.privacyAccepted.message as string}
+				</Typography>
+			)}
+		</FormControl>
 
 		<div>
 			<Button type="submit">{STRINGS.Pages.Form.Send}</Button>

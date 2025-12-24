@@ -1,3 +1,4 @@
+import { STRINGS } from "../consts/strings.consts";
 import { IFieldFormValues, IField, IForm, FieldType } from "../models/form.models";
 import *  as yup from "yup";
 
@@ -20,7 +21,9 @@ export const sortFields = (f1: IField, f2: IField): number => {
 }
 
 export const buildDynamicFormSchema = (form: IForm) => {
-	const obj: {[id:string]: any} = {"test": 0};
+	const obj: { [id: string]: any } = {
+		"privacyAccepted": yup.boolean().isTrue(STRINGS.Pages.Form.Errors.PrivacyMandatory)
+	};
 
 	form.sections.forEach(section => {
 		section.fields.forEach(field => {
