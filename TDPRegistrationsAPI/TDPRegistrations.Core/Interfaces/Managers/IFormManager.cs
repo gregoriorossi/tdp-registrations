@@ -23,5 +23,7 @@ namespace TDPRegistrations.Core.Interfaces.Managers
         Task<IEnumerable<Field>> GetFieldsAsync(Guid formId, CancellationToken cancellationToken);
 
         Task SetRegistrationsStatus(Guid formId, bool status, CancellationToken cancellationToken);
+
+        Task<FormResponse> SendResponse(FormResponse response, CancellationToken cancellationToken);
     }
 }

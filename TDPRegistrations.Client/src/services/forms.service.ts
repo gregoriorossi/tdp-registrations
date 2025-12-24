@@ -57,4 +57,13 @@ export default class FormsService {
 		});
 		return data.data as IResponse<IForm>;
 	}
+
+	public static send = async (formId: string, formData: {[key: string]: any}): Promise<IResponse<any>> => {
+		const fields = Object.keys(formData).reduce((acc: any[], fieldId) => {
+			return [...acc, { id: fieldId, value: formData[fieldId] }];
+		}, []);
+
+		const data = await axiosClient.post(FormsEndpoints.send(formId), { Fields: fields } );
+		return data.data as IResponse<any>;
+	}
 }

@@ -65,6 +65,15 @@ namespace TDPRegistrations.Infrastracture.Repositories
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task<FormResponse> SendResponse(FormResponse model, CancellationToken cancellationToken)
+        {
+            var result = await _appDbContext.FormResponses
+                .AddAsync(model);
+
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+            return model;
+        }
+
         public async Task SaveChangeAsync(CancellationToken cancellationToken)
         {
             await _appDbContext.SaveChangesAsync(cancellationToken);

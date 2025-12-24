@@ -2,7 +2,7 @@ import { UseMutationResult, UseQueryResult, useMutation, useQuery } from "@tanst
 import { queryClient, queryKeys } from "../api/queryClient";
 import FormsService from "../services/forms.service";
 import { IResponse, IUpdateFormRequest } from "../models/api.models";
-import { IForm, IFormBasicDTO } from "../models/form.models";
+import { IForm, IFormBasicDTO, ISendResponse } from "../models/form.models";
 
 export const useForms = (): UseQueryResult<IResponse<IFormBasicDTO[]>> => {
 	return useQuery({
@@ -53,4 +53,10 @@ export const useUpdateForm = () => {
 			queryClient.invalidateQueries({ queryKey: formByIdKeys });
 		}
 	})
+}
+
+export const useSendResponse = () => {
+	return useMutation({
+		mutationFn: (model: ISendResponse) => FormsService.send(model.formId, model.responses)
+	});
 }

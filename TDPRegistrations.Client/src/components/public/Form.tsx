@@ -7,6 +7,7 @@ import DOMPurify from "dompurify";
 import { FieldRenderer } from "./FieldRenderer";
 import styles from "../../App.module.scss";
 import { STRINGS } from "../../consts/strings.consts";
+import { useSendResponse } from "../../queries/forms.queries";
 
 interface IFormProps {
 	form: IForm;
@@ -21,8 +22,14 @@ export function Form(props: IFormProps) {
 		defaultValues: {}
 	});
 
-	const onSubmit = (data: any) => {
+	const { data: dataResponse, isPending, error, mutateAsync: useSendResponseAsync } = useSendResponse();
+
+	const onSubmit = async (data: { [key: string]: any }): Promise<void> => {
 		console.log("Submit", data);
+		await useSendResponseAsync({
+			formId: form.id,
+			responses: data
+		});
 	}
 
 	const cleanDescription = DOMPurify.sanitize(form.description);
@@ -54,7 +61,6 @@ export function Form(props: IFormProps) {
 		<p dangerouslySetInnerHTML={{ __html: cleanDisclaimer }}></p>
 
 		[TODO] checkbox<br />
-		[TODO] aggiungere tipologia di campo checkbox
 
 		<div>
 			<Button type="submit">{STRINGS.Pages.Form.Send}</Button>

@@ -26,7 +26,7 @@ export interface IForm {
 }
 
 export interface ISection {
-	id: string | null;
+	id?: string | null;
 	title: string;
 	description: string;
 	fields: IField[];
@@ -78,4 +78,9 @@ export interface IFieldBaseProps {
 	errors: FieldErrors<{ [x: string]: any }>;
 	register: UseFormRegister<{ [x: string]: any }>;
 	control?: Control<{ [x: string]: any }>;
+}
+
+export interface ISendResponse {
+	formId: string;
+	responses: { [key: string]: any }
 }

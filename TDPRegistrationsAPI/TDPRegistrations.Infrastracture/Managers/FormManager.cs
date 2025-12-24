@@ -165,5 +165,10 @@ namespace TDPRegistrations.Infrastracture.Managers
         {
             await _formRepository.DeleteAsync(form, cancellationToken);
         }
+
+        public async Task<FormResponse> SendResponse(FormResponse response, CancellationToken cancellationToken)
+        {
+            return await _formRepository.SendResponse(response, cancellationToken);
+        }
     }
 }

@@ -72,6 +72,27 @@ namespace TDPRegistrationsAPI.Web.Mappers
             };
         }
 
+        public static FormResponse SendResponseVMToFormResponse(SendResponseVM responseModel, Form form)
+        {
+            List<FormResponseField> responseFields = responseModel.Fields.Select(f =>
+            {
+                return new FormResponseField
+                {
+                    FormFieldId = new Guid(f.id),
+                    Value = f.value?.ToString() ?? ""
+                };
+            }).ToList();
+
+            var response = new FormResponse()
+            {
+                FormId = form.Id,
+                CreationDate = DateTime.Now,
+                Fields = responseFields
+            };
+
+            return response;
+        }
+
         private static FieldTypes ToFieldType(string type)
         {
             switch (type)

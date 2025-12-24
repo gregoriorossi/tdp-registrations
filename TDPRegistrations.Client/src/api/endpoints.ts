@@ -4,6 +4,7 @@ export const FormsEndpoints = {
 	getAll: () => '/Forms',
 	getById: (id: string) => `/Forms/${id}`,
 	getBySlug: (slug: string) => `/Public/getbyslug/${slug}`,
+	send: (formId: string) => `/Public/send/${formId}`,
 	update: () => '/Forms'
 }
 

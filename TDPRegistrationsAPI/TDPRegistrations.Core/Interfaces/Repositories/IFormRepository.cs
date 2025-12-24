@@ -16,7 +16,9 @@ namespace TDPRegistrations.Core.Interfaces.Repositories
         Task DeleteAsync(Form model, CancellationToken cancellationToken);
         
         Task<IEnumerable<Field>> GetFieldsAsync(Guid formId, CancellationToken cancellationToken);
-        
+
+        Task<FormResponse> SendResponse(FormResponse response, CancellationToken cancellationToken);
+
         Task SaveChangeAsync(CancellationToken cancellationToken);
     }
 }

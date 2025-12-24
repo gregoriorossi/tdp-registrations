@@ -5,7 +5,7 @@ import { Checkbox, FormControl, FormControlLabel, TextField as MuiTextField } fr
 export function CheckboxField(props: IFieldBaseProps) {
 	const { field, errors, register } = props;
 
-	return <div className={styles.field}>
+	return <div className={`${styles.field} ${styles.checkboxField}`}>
 		<FormControl>
 			<FormControlLabel
 				label={field.label}
