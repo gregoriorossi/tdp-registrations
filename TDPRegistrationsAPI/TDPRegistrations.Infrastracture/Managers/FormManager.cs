@@ -92,6 +92,7 @@ namespace TDPRegistrations.Infrastracture.Managers
                 {
                     sectionToUpdate.Title = updatedSection.Title;
                     sectionToUpdate.Description = updatedSection.Description;
+                    sectionToUpdate.Order = updatedSection.Order;
 
                     UpdateFieldsInSection(updatedSection, sectionToUpdate);
                 }

@@ -57,23 +57,6 @@ export function ImagePicker(props: IImagePickerProps) {
 					</Button>
 				</div>
 			}
-		</div>
-
-		{
-			selectedImagePreview &&
-			<Avatar
-				variant="rounded"
-				sx={{ width: 120, height: 120 }}
-				src={selectedImagePreview ?? undefined}
-				alt={props.image?.name} />
-		}
-
-		{
-			props.imageUrl &&
-			<div className={styles.image}>
-				<img src={props.imageUrl!} />
-			</div>
-		}
-
+		</div>		
 	</div>;
 }

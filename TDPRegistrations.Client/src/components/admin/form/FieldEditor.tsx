@@ -11,15 +11,21 @@ import ConfirmationDialog from "../ConfirmationDialog";
 import { EditFieldModal } from "../modals/EditFieldModal";
 import { STRINGS } from "../../../consts/strings.consts";
 import EmergencyIcon from '@mui/icons-material/Emergency';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+const FieldsEditorStrings = STRINGS.Pages.AdminForm.FieldsEditor;
 
 export interface IFormEditorFieldProps {
 	field: IField;
 	onDeleted: (field: IField) => void;
 	onUpdated: (field: IField) => void;
+	onMove: (formIndex: number, toIndex: number) => void;
+	isFirst: boolean;
+	isLast: boolean;
 }
 
 export function FieldEditor(props: IFormEditorFieldProps) {
-	const { field, onDeleted } = props;
+	const { field, onDeleted, isFirst, isLast, onMove } = props;
 	const [deleteFormDialogOpen, setDeleteFormDialogOpen] = React.useState(false);
 	const [editFieldModalOpen, setEditFieldModalOpen] = React.useState(false);
 
@@ -45,13 +51,31 @@ export function FieldEditor(props: IFormEditorFieldProps) {
 		props.onUpdated(field);
 	}
 
-
 	return <ListItem draggable={true} className={styles.fieldEditor}>
 		<div className={styles.firstRow}>
 			<DragIndicatorIcon className={styles.draggable} />
 			<FieldIcon fieldType={field.type} />&nbsp;
 			<ListItemText primary={`${field.label} ${field.isMandatory ? '*' : ''}`} />
 			<div className={styles.actionContainer}>
+				{
+					!isFirst &&
+					<ListItemButton onClick={() => onMove(field.order, field.order - 1)}
+						title={FieldsEditorStrings.MoveUp}>
+						<ListItemIcon className={styles.button}>
+							<ArrowUpwardIcon />
+						</ListItemIcon>
+
+					</ListItemButton>
+				}
+				{
+					!isLast &&
+					<ListItemButton onClick={() => onMove(field.order, field.order + 1)}
+						title={FieldsEditorStrings.MoveDown}>
+						<ListItemIcon className={styles.button}>
+							<ArrowDownwardIcon />
+						</ListItemIcon>
+					</ListItemButton>
+				}
 				<ListItemButton onClick={onEditClick}>
 					<ListItemIcon className={styles.button}>
 						<CreateIcon />

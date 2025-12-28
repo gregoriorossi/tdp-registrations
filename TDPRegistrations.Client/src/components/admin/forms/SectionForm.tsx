@@ -25,7 +25,8 @@ export function SectionForm(props: ISectionFormProps) {
 		const section: ISection = {
 			title: data.title,
 			description: data.description ?? '',
-			fields: props?.section?.fields ?? []
+			fields: props?.section?.fields ?? [],
+			order: 0
 		}
 
 		onSubmit(section);
@@ -63,5 +64,5 @@ export function SectionForm(props: ISectionFormProps) {
 		<Button type="submit" variant="contained">
 			{submitButtonLabel}
 		</Button>
-	</Box>	
+	</Box>
 } 

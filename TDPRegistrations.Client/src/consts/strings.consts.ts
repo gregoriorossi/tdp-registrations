@@ -72,10 +72,14 @@ export const STRINGS = {
 			},
 			SectionEditor: {
 				DeleteSection: 'Elimina sezione',
-				EditSection: 'Modifica la sezione'
+				EditSection: 'Modifica la sezione',
+				MoveUp: 'Sposta in sù la sezione',
+				MoveDown: 'Sposta in giù la sezione'
 			},
 			FieldsEditor: {
-				NoFields: 'Nessun campo definito per questa sezione'
+				NoFields: 'Nessun campo definito per questa sezione',
+				MoveUp: 'Sposta il campo in sù',
+				MoveDown: 'Sposta il campo in giù'
 			},
 			Editor: 'Editor',
 			Fields: 'Campi',

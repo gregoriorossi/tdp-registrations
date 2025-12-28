@@ -30,6 +30,7 @@ export interface ISection {
 	title: string;
 	description: string;
 	fields: IField[];
+	order: number;
 }
 
 export interface IField {

@@ -8,6 +8,7 @@ import { NewFieldModal } from "./NewFieldModal";
 import { sortFields } from "../../../utils/forms.utils";
 import { STRINGS } from "../../../consts/strings.consts";
 const FieldsEditorStr = STRINGS.Pages.AdminForm.FieldsEditor;
+
 export interface IFormEditorProps {
 	fields: IField[];
 	onFieldsUpdated: (fields: IField[]) => void;
@@ -28,9 +29,19 @@ export function FieldsEditor(props: IFormEditorProps) {
 
 	const onFieldUpdated = (field: IField): void => {
 		const updatedFields = fields.map(f =>
-			f.order === field.order ? {...f, ...field} : f
+			f.order === field.order ? { ...f, ...field } : f
 		);
 		props.onFieldsUpdated(updatedFields);
+	}
+
+	const onFieldMoved = (fromIndex: number, toIndex: number): void => {
+		const newFields = [...fields];
+		newFields[toIndex] = fields[fromIndex];
+		newFields[fromIndex] = fields[toIndex];
+
+		const reorderedFields = newFields.map((f, idx) => ({ ...f, order: idx }));
+
+		props.onFieldsUpdated(reorderedFields);
 	}
 
 	return (
@@ -45,6 +56,9 @@ export function FieldsEditor(props: IFormEditorProps) {
 									<FieldEditor
 										field={f}
 										key={idx}
+										isFirst={idx === 0}
+										isLast={idx === fields.length - 1}
+										onMove={onFieldMoved}
 										onUpdated={onFieldUpdated}
 										onDeleted={onFieldDeleted} />)
 						}

@@ -1,5 +1,5 @@
 import { STRINGS } from "../consts/strings.consts";
-import { IFieldFormValues, IField, IForm, FieldType } from "../models/form.models";
+import { IFieldFormValues, IField, IForm, FieldType, ISection } from "../models/form.models";
 import *  as yup from "yup";
 import { FormPage } from "../pages/FormPage";
 const FormString = STRINGS.Pages.Form;
@@ -20,6 +20,10 @@ export const fieldFormValuesToField = (data: IFieldFormValues, field?: IField): 
 
 export const sortFields = (f1: IField, f2: IField): number => {
 	return f1.order > f2.order ? 1 : -1;
+}
+
+export const sortSections = (s1: ISection, s2: ISection): number => {
+	return s1.order > s2.order ? 1 : -1;
 }
 
 export const buildDynamicFormSchema = (form: IForm) => {

@@ -39,6 +39,7 @@ export type Styles = {
   'redIcon': string;
   'secondRow': string;
   'section': string;
+  'sectionButton': string;
   'sectionEditor': string;
   'subheaderContainer': string;
   'tabItem': string;

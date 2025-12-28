@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Alert, Avatar, Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { IForm, ISection } from "../../../models/form.models";
 import styles from "../../../App.module.scss";
 import { STRINGS } from "../../../consts/strings.consts";
@@ -26,6 +26,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { SectionEditor } from "./SectionEditor";
 import { SectionModal } from "../modals/SectionModal";
 import { FilePicker } from "../input/filePicker";
+import { sortSections } from "../../../utils/forms.utils";
 
 const FormPage = STRINGS.Pages.AdminForm;
 
@@ -94,10 +95,13 @@ export function FormEditor(props: IFormEditorProps) {
 	}
 
 	const handleAddSection = (section: ISection): void => {
+		section.order = form.sections.length;
+
 		const newForm = {
 			...form,
 			sections: [...form.sections, section]
 		}
+
 		setForm(newForm);
 		setSectionModalOpen(false);
 	}
@@ -116,6 +120,21 @@ export function FormEditor(props: IFormEditorProps) {
 		setForm({
 			...form,
 			sections: newSections
+		});
+	}
+
+	const onSectionMove = (fromIndex: number, toIndex: number): void => {
+		setForm((prevForm) => {
+			let newSections = [...prevForm.sections];
+			newSections[fromIndex] = prevForm.sections[toIndex];
+			newSections[toIndex] = prevForm.sections[fromIndex];
+
+			newSections = newSections.map((s, index) => ({ ...s, order: index }));
+
+			return {
+				...prevForm,
+				sections: newSections
+			};
 		});
 	}
 
@@ -152,7 +171,6 @@ export function FormEditor(props: IFormEditorProps) {
 		</Box>
 		<div>
 			[TODO] add open/close state<br />
-			[TODO] ordinamento campi e sezioni<br />
 		</div>
 		<Grid container spacing={2} className={styles.formContainer}>
 
@@ -172,13 +190,26 @@ export function FormEditor(props: IFormEditorProps) {
 					<Controller
 						name='bannerImage'
 						control={control}
-						render={({ field }) => (
-							<ImagePicker
-								fieldLabel={FormPage.Form.Image}
-								imageUrl={bannerImageUrl}
-								image={field?.value ?? null}
-								onChange={onImageChange} />
-						)} />
+						render={({ field }) => {
+
+							const previewImage = field?.value ? URL.createObjectURL(field.value) : null;
+							console.log("Preview image", previewImage);
+							return (
+								<>
+									<ImagePicker
+										fieldLabel={FormPage.Form.Image}
+										imageUrl={bannerImageUrl}
+										image={field?.value ?? null}
+										onChange={onImageChange} />
+
+
+									<div className={styles.image}>
+										<img src={previewImage ?? bannerImageUrl ?? undefined} />
+									</div>
+
+								</>
+							)
+						}} />
 				</div>
 
 				<div className={styles.section}>
@@ -245,11 +276,16 @@ export function FormEditor(props: IFormEditorProps) {
 					<Alert severity="warning">{FormPage.Form.NoSections}</Alert>
 				}
 				{
-					form.sections.map((s, idx) =>
+					form.sections
+						.sort(sortSections)
+						.map((s, idx) =>
 						<SectionEditor
 							section={s}
 							onChange={handleSectionUpdate}
-							onRemove={handleRemoveSection}
+								onRemove={handleRemoveSection}
+								onSectionMove={onSectionMove }
+							isFirst={idx === 0}
+							isLast={idx === form.sections.length - 1}
 							idx={idx}
 							key={idx} />
 					)

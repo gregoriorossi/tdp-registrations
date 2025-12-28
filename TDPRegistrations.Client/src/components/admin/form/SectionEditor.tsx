@@ -14,19 +14,24 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import ConfirmationDialog from "../ConfirmationDialog";
 import { SectionModal } from "../modals/SectionModal";
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 const SectionForm = STRINGS.Modals.SectionForm;
 const FormPage = STRINGS.Pages.AdminForm;
 
 interface ISectionEditorProps {
 	onChange: (section: ISection, index: number) => void;
+	onSectionMove: (originalIdx: number, newIdx: number) => void;
 	onRemove: (index: number) => void;
 	idx: number;
 	section: ISection;
+	isFirst: boolean;
+	isLast: boolean;
 }
 
 export function SectionEditor(props: ISectionEditorProps) {
-	const { section, onChange, idx } = props;
+	const { section, onChange, idx, isFirst, isLast, onSectionMove } = props;
 	const [newFieldModalOpen, setNewFieldModalOpen] = useState(false);
 	const [deleteSectionDialogOpen, setDeleteSectionDialogOpen] = useState(false);
 	const [editSectionModalOpen, setEditSectionModalOpen] = useState(false);
@@ -52,10 +57,9 @@ export function SectionEditor(props: ISectionEditorProps) {
 	}
 
 	const onFieldCreated = (field: IField): void => {
-		const order: number = section.fields.length + 1;
+		const order: number = section.fields.length;
 		field.order = order;
 		section.fields.push(field);
-		//props.onFieldsUpdated(fields);
 		setNewFieldModalOpen(false);
 	}
 
@@ -72,11 +76,30 @@ export function SectionEditor(props: ISectionEditorProps) {
 	return <div className={styles.sectionEditor}>
 		<h3>{section.title}
 			<span>
+				{
+					!isFirst &&
+					<Button onClick={() => onSectionMove(idx, section.order -1)}
+						className={styles.sectionButton}
+						title={FormPage.SectionEditor.MoveUp}
+						variant="contained"><ArrowUpwardIcon />
+					</Button>
+				}
+				{
+					!isLast &&
+					<Button onClick={() => onSectionMove(idx, section.order + 1)}
+						className={styles.sectionButton}
+						title={FormPage.SectionEditor.MoveDown}
+						variant="contained"><ArrowDownwardIcon />
+					</Button>
+				}
+
 				<Button onClick={() => setEditSectionModalOpen(true)}
+					className={styles.sectionButton}
 					title={FormPage.SectionEditor.EditSection}
 					variant="contained"><EditIcon />
-				</Button>&nbsp;
+				</Button>
 				<Button onClick={() => setDeleteSectionDialogOpen(true)}
+					className={styles.sectionButton}
 					title={FormPage.SectionEditor.DeleteSection}
 					variant="contained"><DeleteIcon />
 				</Button>
