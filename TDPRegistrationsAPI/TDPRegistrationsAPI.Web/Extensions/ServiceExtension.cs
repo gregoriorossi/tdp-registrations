@@ -20,6 +20,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
             #region Repositories
             services.AddScoped<IFormRepository, FormRepository>();
             services.AddScoped<IFilesRepository, FilesRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
             #endregion
 
             return services;

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TDPRegistrations.Core.Entities;
 using TDPRegistrations.Core.Interfaces.Managers;
 using TDPRegistrationsAPI.Web.Constants;
 

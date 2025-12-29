@@ -99,6 +99,19 @@ export const STRINGS = {
 				InvalidEmail: 'Email non valida',
 				InvalidNumber: 'Numero non valido'
 			}
+		},
+		AdminLogin: {
+			Title: 'Accedi all\'area riservata',
+			Form: {
+				Username: 'Username',
+				Password: 'Password',
+				Submit: 'Accedi',
+				Errors: {
+					UsernameMandatory: 'Inserire lo username',
+					PasswordMandatory: 'Inserire la password',
+					WrongCredentials: 'Credenziali non corrette'
+				}
+			}
 		}
 	},
 	AddValue: 'Aggiungi un valore',

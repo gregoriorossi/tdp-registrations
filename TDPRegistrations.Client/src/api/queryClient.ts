@@ -14,5 +14,8 @@ export const queryKeys = {
 		all: ["forms"] as const,
 		byId: (id: string) => ["form-id", id],
 		bySlug: (slug: string) => ["form-slug", slug]
+	},
+	auth: {
+		login: ["login"]
 	}
 }

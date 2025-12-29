@@ -21,6 +21,7 @@
     "@tiptap/starter-kit": "^3.11.0",
     "axios": "^1.13.1",
     "dompurify": "^3.3.1",
+    "jwt-decode": "^4.0.0",
     "mui-tiptap": "^1.28.1",
     "react": "^19.1.1",
     "react-datepicker": "^9.1.0",

@@ -1,6 +1,7 @@
 ﻿using TDPRegistrations.Core.Entities;
 using TDPRegistrations.Core.Models;
 using TDPRegistrations.Infrastracture.Data;
+using TDPRegistrationsAPI.Web.Helpers;
 
 namespace TDPRegistrationsAPI.Web.Extensions
 {
@@ -28,7 +29,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
                         Id = Guid.NewGuid(),
                         Title = "Informazioni Utente",
                         Description = "Compila le tue informazioni di base",
-                        Order = 1,
+                        Order = 0,
                          Fields = new List<Field>()
                          {
                               new Field()
@@ -38,7 +39,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
                                     Label = "Nome",
                                     Description = "Inserisci il tuo nome",
                                     IsMandatory = true,
-                                    Order = 1
+                                    Order = 0
                                 },
                                 new Field()
                                 {
@@ -47,7 +48,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
                                     Label = "Cognome",
                                     Description = "Inserisci il tuo cognome",
                                     IsMandatory = true,
-                                    Order = 2
+                                    Order = 1
                                 },
                                 new Field()
                                 {
@@ -56,7 +57,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
                                     Label = "Data di nascita",
                                     Description = "Inserisci la tua data di nascita",
                                     IsMandatory = true,
-                                    Order = 3
+                                    Order = 2
                                 },
                                  new Field()
                                 {
@@ -65,7 +66,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
                                     Label = "Maggiorenne?",
                                     Description = "Se hai raggiunto la maggiore età",
                                     IsMandatory = false,
-                                    Order = 4
+                                    Order = 3
                                 },
                          }
                     },
@@ -74,7 +75,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
                         Id = Guid.NewGuid(),
                         Title = "Contatti",
                         Description = "Inserisci i tuoi contatti",
-                        Order = 2,
+                        Order = 1,
                         Fields = new List<Field>()
                         {
                             new Field()
@@ -84,7 +85,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
                                 Label = "Email",
                                 Description = "Inserisci la tua email",
                                 IsMandatory = true,
-                                Order = 4
+                                Order = 0
                             },
                             new Field()
                             {
@@ -93,7 +94,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
                                 Label = "Telefono",
                                 Description = "Inserisci il tuo numero di telefono",
                                 IsMandatory = false,
-                                Order = 5
+                                Order = 1
                             },
                         }
                     },
@@ -102,7 +103,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
                         Id = Guid.NewGuid(),
                         Title = "Preferenze",
                         Description = "Inserisci le tue preferenze",
-                        Order = 3,
+                        Order = 2,
                         Fields = new List<Field>()
                         {
                              new Field()
@@ -119,7 +120,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
                                     new FieldOption("60+", 4)
                                 },
                                 IsMandatory = false,
-                                Order = 6
+                                Order = 0
                             },
                             new Field()
                             {
@@ -135,7 +136,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
                                     new FieldOption("Corsa", 4)
                                 },
                                 IsMandatory = false,
-                                Order = 7
+                                Order = 1
                             },
                             new Field()
                             {
@@ -144,7 +145,7 @@ namespace TDPRegistrationsAPI.Web.Extensions
                                 Label = "Scegli un numero",
                                 Description = "Perché di si",
                                 IsMandatory = false,
-                                Order = 8
+                                Order = 2
                             },
                         }
                     }
@@ -188,6 +189,15 @@ namespace TDPRegistrationsAPI.Web.Extensions
             context.Add(form2);
             context.Add(form3);
             context.Add(form4);
+
+            var user = new User
+            {
+                Username = "User1",
+                PasswordHash = PasswordHasher.Hash("Password.123!!")
+            };
+
+            context.Add(user);   
+
             context.SaveChanges();
         }
     }

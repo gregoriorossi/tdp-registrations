@@ -66,6 +66,7 @@ export const MAX_IMAGE_SIZE = 3 * 1024 * 1024; // 3MB
 export const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 const AdminForm = STRINGS.Pages.AdminForm;
+const LoginForm = STRINGS.Pages.AdminLogin.Form;
 
 export const adminFormSchema = yup.object({
 	title: yup.string().required(AdminForm.Form.ErrorMessages.TitleMandatory),
@@ -100,4 +101,9 @@ export const fieldFormSchema = yup.object({
 export const sectionFormSchema = yup.object({
 	title: yup.string().required(AdminForm.Form.ErrorMessages.TitleMandatory),
 	description: yup.string()
+});
+
+export const loginFormSchema = yup.object({
+	username: yup.string().required(LoginForm.Errors.UsernameMandatory),
+	password: yup.string().required(LoginForm.Errors.PasswordMandatory)
 });

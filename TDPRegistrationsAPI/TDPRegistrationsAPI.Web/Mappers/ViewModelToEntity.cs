@@ -60,13 +60,13 @@ namespace TDPRegistrationsAPI.Web.Mappers
             {
                 Id = model.Id,
                 Title = model.Title,
-                Description = model.Description,
+                Description = model.Description ?? "",
                 Slug = slug,
                 DateUpdated = DateTime.Now,
                 Sections = sections,
                 BannerImageId = ParseGuid(model.BannerImageId),
                 BannerImage = bannerImage,
-                PrivacyDisclaimer = model.PrivacyDisclaimer,
+                PrivacyDisclaimer = model.PrivacyDisclaimer ?? "",
                 PrivacyAttachmentId = ParseGuid(model.PrivacyAttachmentId),
                 PrivacyAttachment = privacyAttachment,
             };

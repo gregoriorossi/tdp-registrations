@@ -1,4 +1,6 @@
 import axiosClient from "../api/axios";
+import axiosPublicClient from "../api/axiosPublic";
+
 import { FormsEndpoints } from "../api/endpoints";
 import { IAddFormRequest, IResponse, IUpdateFormRequest } from "../models/api.models";
 import { IForm, IFormBasicDTO } from "../models/form.models";
@@ -63,7 +65,7 @@ export default class FormsService {
 			return [...acc, { id: fieldId, value: formData[fieldId] }];
 		}, []);
 
-		const data = await axiosClient.post(FormsEndpoints.send(formId), { Fields: fields } );
+		const data = await axiosPublicClient.post(FormsEndpoints.send(formId), { Fields: fields } );
 		return data.data as IResponse<any>;
 	}
 }

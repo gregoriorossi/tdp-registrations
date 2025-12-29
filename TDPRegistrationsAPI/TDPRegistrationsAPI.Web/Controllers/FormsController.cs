@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TDPRegistrations.Core.Errors;
 using TDPRegistrations.Core.Interfaces.Managers;
 using TDPRegistrations.Core.Models;
@@ -10,7 +11,7 @@ using TDPRegistrationsAPI.Web.ViewModels.Responses;
 
 namespace TDPRegistrationsAPI.Web.Controllers
 {
-    // solo per admin
+    [Authorize]
     [ApiController]
     [Route(Consts.DefaultApiRoute)]
     public class FormsController : ControllerBase

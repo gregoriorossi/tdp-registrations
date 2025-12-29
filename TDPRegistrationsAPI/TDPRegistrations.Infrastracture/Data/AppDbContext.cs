@@ -16,6 +16,7 @@ namespace TDPRegistrations.Infrastracture.Data
         public DbSet<FormResponse> FormResponses { get; set; }
         public DbSet<FormResponseField> FormResponseFields { get; set; }
         public DbSet<Core.Entities.File> Images { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
