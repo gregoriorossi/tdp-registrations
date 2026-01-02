@@ -54,6 +54,7 @@ namespace TDPRegistrations.Infrastracture.Managers
             DateTime now = DateTime.Now;
             Form form = await GetByIdAsync(updatedForm.Id, cancellationToken);
             form.Title = updatedForm.Title;
+            form.IsOpen = updatedForm.IsOpen;
             form.Description = updatedForm.Description;
             form.BannerImage = updatedForm.BannerImage;
             form.DateUpdated = DateTime.Now;
@@ -61,6 +62,7 @@ namespace TDPRegistrations.Infrastracture.Managers
             form.BannerImageId = updatedForm.BannerImageId;
             form.PrivacyDisclaimer = updatedForm.PrivacyDisclaimer;
             form.PrivacyAttachment = updatedForm.PrivacyAttachment;
+            form.PrivacyAttachmentId = updatedForm.PrivacyAttachmentId;
 
             // remove deleted sections
             var updatedIds = updatedForm.Sections.Where(s => s.Id != Guid.Empty)

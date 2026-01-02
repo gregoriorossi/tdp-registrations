@@ -48,14 +48,15 @@ export function CopyUrlButton(props: ICopyUrlButtonProps) {
 
 
 	return <>
-		<Button onClick={() => setModalOpen(true)}>
-			<LinkIcon />
+		<Button onClick={() => setModalOpen(true)} title={FormString.GetPublicUrl}>
+			<LinkIcon />&nbsp;{FormString.GetPublicUrl}
 		</Button>
 		<Modal open={modalOpen} onClose={closeModal}>
 			<div className={styles.modal} title={FormString.ClickToCopy}>
 				<div className={styles.copyUrl}
 					ref={textRef}
 					onClick={onTextClick}>
+					<h5>{FormString.ClickToCopy}</h5>
 					{publicUrl}
 				</div>
 				{

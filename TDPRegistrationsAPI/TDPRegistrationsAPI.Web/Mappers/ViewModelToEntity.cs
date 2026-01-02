@@ -66,6 +66,7 @@ namespace TDPRegistrationsAPI.Web.Mappers
                 Sections = sections,
                 BannerImageId = ParseGuid(model.BannerImageId),
                 BannerImage = bannerImage,
+                IsOpen = model.IsOpen,  
                 PrivacyDisclaimer = model.PrivacyDisclaimer ?? "",
                 PrivacyAttachmentId = ParseGuid(model.PrivacyAttachmentId),
                 PrivacyAttachment = privacyAttachment,

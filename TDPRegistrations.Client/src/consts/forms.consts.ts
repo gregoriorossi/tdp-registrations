@@ -2,16 +2,6 @@ import { FieldType } from "../models/form.models";
 import { IFieldTypeValue } from "../models/shared.models";
 import *  as yup from "yup";
 import { STRINGS } from "./strings.consts";
-import {
-	MenuButtonBold,
-	MenuButtonBulletedList,
-	MenuButtonItalic,
-	MenuControlsContainer,
-	MenuDivider,
-	MenuSelectHeading,
-	RichTextEditor,
-	type RichTextEditorRef,
-} from "mui-tiptap";
 
 const ERROR_MESSAGES = STRINGS.Modals.FieldForm.ErrorMessages;
 
@@ -72,6 +62,7 @@ export const adminFormSchema = yup.object({
 	title: yup.string().required(AdminForm.Form.ErrorMessages.TitleMandatory),
 	description: yup.string(),
 	privacyDisclaimer: yup.string(),
+	isOpen: yup.boolean(),
 	bannerImage: yup
 		.mixed<File>()
 		.nullable()

@@ -1,4 +1,4 @@
-import { Alert, Avatar, Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { Alert, Avatar, Box, Button, Chip, FormControl, FormControlLabel, Grid, Switch, TextField, Typography } from "@mui/material";
 import { IForm, ISection } from "../../../models/form.models";
 import styles from "../../../App.module.scss";
 import { STRINGS } from "../../../consts/strings.consts";
@@ -27,6 +27,7 @@ import { SectionEditor } from "./SectionEditor";
 import { SectionModal } from "../modals/SectionModal";
 import { FilePicker } from "../input/filePicker";
 import { sortSections } from "../../../utils/forms.utils";
+import { CopyUrlButton } from "./CopyUrlButton";
 
 const FormPage = STRINGS.Pages.AdminForm;
 
@@ -39,6 +40,7 @@ interface IFormEditorProps {
 interface IFormData {
 	title: string;
 	description?: string | undefined;
+	isOpen?: boolean;
 	bannerImage?: File | undefined | null;
 	privacyAttachment?: File | undefined | null;
 	privacyDisclaimer?: string | undefined;
@@ -123,6 +125,13 @@ export function FormEditor(props: IFormEditorProps) {
 		});
 	}
 
+	const onIsOpenChange = (isOpen: boolean): void => {
+		setForm({
+			...form,
+			isOpen
+		});
+	}
+
 	const onSectionMove = (fromIndex: number, toIndex: number): void => {
 		setForm((prevForm) => {
 			let newSections = [...prevForm.sections];
@@ -144,6 +153,7 @@ export function FormEditor(props: IFormEditorProps) {
 			...form,
 			title: data.title,
 			description: data?.description ?? '',
+			isOpen: data.isOpen ?? false,
 			sections: form.sections,
 			bannerImage: data?.bannerImage ?? null,
 			privacyAttachment: data?.privacyAttachment ?? null,
@@ -166,12 +176,11 @@ export function FormEditor(props: IFormEditorProps) {
 					type="submit"
 					disabled={isLoading}>
 					<SaveIcon />&nbsp;{STRINGS.Save}
-				</Button>
+				</Button>&nbsp;
+				<CopyUrlButton formSlug={form.slug} />
 			</Box>
 		</Box>
-		<div>
-			[TODO] add open/close state<br />
-		</div>
+
 		<Grid container spacing={2} className={styles.formContainer}>
 
 			<Grid size={{ xs: 12, md: 6 }}>
@@ -186,6 +195,23 @@ export function FormEditor(props: IFormEditorProps) {
 					helperText={errors.title?.message}
 					defaultValue={form.title} />
 
+				<Box component="div" className={`${styles.section}`}>
+					<FormControl className={`${styles.isOpenLabel}`} >
+						<FormControlLabel control={
+							<Switch
+								{...register("isOpen")}
+								defaultChecked={form?.isOpen}
+								onChange={(_, checked) => onIsOpenChange(checked)} />}
+							label={FormPage.Registrations} />
+
+						{
+							form.isOpen
+								? <Chip label={STRINGS.OpenPlural} color="success" variant="filled" />
+								: <Chip label={STRINGS.ClosedPlural} color="error" variant="filled" />
+						}
+					</FormControl>
+				</Box>
+
 				<div className={styles.section}>
 					<Controller
 						name='bannerImage'
@@ -193,7 +219,7 @@ export function FormEditor(props: IFormEditorProps) {
 						render={({ field }) => {
 
 							const previewImage = field?.value ? URL.createObjectURL(field.value) : null;
-							console.log("Preview image", previewImage);
+
 							return (
 								<>
 									<ImagePicker
@@ -202,11 +228,14 @@ export function FormEditor(props: IFormEditorProps) {
 										image={field?.value ?? null}
 										onChange={onImageChange} />
 
-
-									<div className={styles.image}>
-										<img src={previewImage ?? bannerImageUrl ?? undefined} />
-									</div>
-
+									{
+										(previewImage || bannerImageUrl) &&
+										<div className={styles.image}
+											style={{
+												backgroundImage: `url(${previewImage ?? bannerImageUrl})`
+											}}>
+										</div>
+									}
 								</>
 							)
 						}} />
@@ -253,13 +282,14 @@ export function FormEditor(props: IFormEditorProps) {
 					<Controller
 						name='privacyAttachment'
 						control={control}
-						render={({ field }) => (
-							<FilePicker
-								fieldLabel={FormPage.Form.PrivacyAttachment}
-								fileUrl={fileUrl}
-								file={field?.value ?? null}
-								onChange={onFileChange} />
-						)} />
+						render={({ field }) => {
+							const filePreview = field?.value ? URL.createObjectURL(field.value) : null;
+							return <FilePicker
+									fieldLabel={FormPage.Form.PrivacyAttachment}
+									fileUrl={filePreview ?? fileUrl}
+									file={field?.value ?? null}
+									onChange={onFileChange} />
+						}} />
 				</div>
 			</Grid>
 			<Grid size={{ xs: 12, md: 6 }}>
@@ -279,16 +309,16 @@ export function FormEditor(props: IFormEditorProps) {
 					form.sections
 						.sort(sortSections)
 						.map((s, idx) =>
-						<SectionEditor
-							section={s}
-							onChange={handleSectionUpdate}
+							<SectionEditor
+								section={s}
+								onChange={handleSectionUpdate}
 								onRemove={handleRemoveSection}
-								onSectionMove={onSectionMove }
-							isFirst={idx === 0}
-							isLast={idx === form.sections.length - 1}
-							idx={idx}
-							key={idx} />
-					)
+								onSectionMove={onSectionMove}
+								isFirst={idx === 0}
+								isLast={idx === form.sections.length - 1}
+								idx={idx}
+								key={idx} />
+						)
 				}
 			</Grid>
 		</Grid>

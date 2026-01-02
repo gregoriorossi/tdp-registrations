@@ -42,6 +42,7 @@ export default class FormsService {
 		formData.append('description', form?.description ?? '');
 		formData.append('sections', JSON.stringify(form?.sections));
 		formData.append('privacyDisclaimer', form?.privacyDisclaimer ?? '');
+		formData.append('isOpen', form?.isOpen ? 'true' : 'false');
 
 
 		if (form?.bannerImage) {

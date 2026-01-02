@@ -29,9 +29,9 @@ export type Styles = {
   'fullWidth': string;
   'greenIcon': string;
   'header': string;
-  'headerContainer': string;
   'image': string;
   'imagePicker': string;
+  'isOpenLabel': string;
   'loginPage': string;
   'logo': string;
   'logoSpin': string;

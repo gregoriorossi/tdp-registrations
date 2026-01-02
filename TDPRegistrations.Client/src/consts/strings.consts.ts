@@ -59,7 +59,7 @@ export const STRINGS = {
 					FileTooLarge: 'Il file supera 5MB'
 				},
 				Image: 'Scegli un\'immagine di copertina',
-				PrivacyAttachment: 'Carica un documento',
+				PrivacyAttachment: 'Carica un documento per la privacy',
 				NoSections: 'Nessuna sezione definita per questa form',
 				EditFormSectionTitle: 'Costruisci la tua form',
 				NewSection: 'Nuova sezione',
@@ -67,7 +67,8 @@ export const STRINGS = {
 				SectionsSectionTitle: 'Sezioni e campi',
 				InformationSectionTitle: 'Informazioni',
 				NewField: 'Nuovo campo',
-				ClickToCopy: 'Clicca per copiare',
+				GetPublicUrl: 'Copia l\'url',
+				ClickToCopy: 'Clicca qui per copiare',
 				UrlCopied: 'Url copiato negli appunti!'
 			},
 			SectionEditor: {
@@ -118,6 +119,7 @@ export const STRINGS = {
 	Cancel: 'Cancella',
 	Create: 'Crea',
 	Delete: 'Elimina',
+	Document: 'Documento',
 	Save: 'Salva',
 	OpenPlural: 'Aperte',
 	ClosedPlural: 'Chiuse',

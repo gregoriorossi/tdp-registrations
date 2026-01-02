@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { AdminPageWrapper } from "./AdminPageWrapper";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Errors } from "../../consts/errors.consts";
 import React from "react";
-import { Alert, Box, Chip, CircularProgress, Tab, Tabs, Typography } from "@mui/material";
+import { Alert, Box, CircularProgress, Tab, Tabs } from "@mui/material";
 import { Routes } from "../../consts/routes.consts";
 import styles from "../../App.module.scss";
 import { useFormById, useUpdateForm } from "../../queries/forms.queries";
@@ -12,7 +12,6 @@ import { STRINGS } from "../../consts/strings.consts";
 import { IUpdateFormRequest } from "../../models/api.models";
 import FilesService from "../../services/files.service";
 import { FormEditor } from "../../components/admin/form/FormEditor";
-import { CopyUrlButton } from "../../components/admin/form/CopyUrlButton";
 const FormPage = STRINGS.Pages.AdminForm;
 
 export function AdminFormPage() {
@@ -48,18 +47,6 @@ export function AdminFormPage() {
 		<AdminPageWrapper
 			className={styles.adminFormPage}
 			title={form.title}>
-
-			<Box component="div" className={styles.actionsBar}>
-				<Typography component="h3" className={styles.section}>
-					<b>{FormPage.Registrations} &nbsp;</b>{
-						form.isOpen
-							? <Chip label={STRINGS.OpenPlural} color="success" variant="filled" />
-							: <Chip label={STRINGS.ClosedPlural} color="error" variant="filled" />
-					}
-				</Typography>
-
-				<CopyUrlButton formSlug={form.slug} />
-			</Box>
 
 			<Box>
 				<Tabs value={tabValue}
